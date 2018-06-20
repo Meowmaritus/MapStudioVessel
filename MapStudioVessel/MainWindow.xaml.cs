@@ -1,6 +1,11 @@
 ﻿using MahApps.Metro.Controls;
 using MeowDSIO;
 using MeowDSIO.DataFiles;
+using MeowDSIO.DataTypes.MSB;
+using MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST;
+using MeowDSIO.DataTypes.MSB.MODEL_PARAM_ST;
+using MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST;
+using MeowDSIO.DataTypes.MSB.POINT_PARAM_ST;
 using MeowDSIO.DataTypes.PARAM;
 using MeowDSIO.DataTypes.PARAMDEF;
 using Microsoft.Win32;
@@ -333,6 +338,20 @@ namespace MeowsBetterParamEditor
             if (TabsPrimary.SelectedItem == TabModels)
             {
                 PARAMDATA.CURRENT_LIST = SelectedMsb.Models;
+
+                if (TabModels_Tabs.SelectedItem == TabModelsCharacters)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Characters;
+                else if (TabModels_Tabs.SelectedItem == TabModelsCollisions)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Collisions;
+                else if (TabModels_Tabs.SelectedItem == TabModelsMapPieces)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.MapPieces;
+                else if (TabModels_Tabs.SelectedItem == TabModelsNavimeshes)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Navimeshes;
+                else if (TabModels_Tabs.SelectedItem == TabModelsObjects)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Objects;
+                else if (TabModels_Tabs.SelectedItem == TabModelsPlayers)
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Players;
+
             }
             else if (TabsPrimary.SelectedItem == TabEvents)
             {
@@ -402,6 +421,11 @@ namespace MeowsBetterParamEditor
             UPDATE_DATA_GRID();
         }
 
+        private void TabModels_Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UPDATE_DATA_GRID();
+        }
+
         private void TabEvents_Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UPDATE_DATA_GRID();
@@ -415,6 +439,254 @@ namespace MeowsBetterParamEditor
         private void TabParts_Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UPDATE_DATA_GRID();
+        }
+
+        private void MSB_DATA_GRID_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        {
+            if (SelectedMsb == null)
+                return;
+
+            if (TabsPrimary.SelectedItem == TabEvents)
+            {
+                int nextEventIndex = SelectedMsb?.Events.GetNextIndex() ?? 0;
+
+                if (TabEvents_Tabs.SelectedItem == TabEventsBlackEyeOrbInvasions)
+                {
+                    e.NewItem = new MsbEventBlackEyeOrbInvasion()
+                    {
+                        Name = $"BlackEyeOrbInvasion_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.BlackEyeOrbInvasions)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsBloodMessages)
+                {
+                    e.NewItem = new MsbEventBloodMsg()
+                    {
+                        Name = $"BloodMessage_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.BloodMsg)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsEnvironmentEvents)
+                {
+                    e.NewItem = new MsbEventEnvironment()
+                    {
+                        Name = $"EnvironmentEvent_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Environment)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsGenerators)
+                {
+                    e.NewItem = new MsbEventGenerator()
+                    {
+                        Name = $"Generator_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Generators)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsLights)
+                {
+                    e.NewItem = new MsbEventLight()
+                    {
+                        Name = $"Light_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Lights)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsMapOffsets)
+                {
+                    e.NewItem = new MsbEventMapOffset()
+                    {
+                        Name = $"MapOffset_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.MapOffset)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsNavimeshes)
+                {
+                    e.NewItem = new MsbEventNavimesh()
+                    {
+                        Name = $"Navimesh_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Navimesh)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsObjActs)
+                {
+                    e.NewItem = new MsbEventObjAct()
+                    {
+                        Name = $"ObjAct_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.ObjActs)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsSFX)
+                {
+                    e.NewItem = new MsbEventSFX()
+                    {
+                        Name = $"SFX_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.SFX)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsSounds)
+                {
+                    e.NewItem = new MsbEventSound()
+                    {
+                        Name = $"Sound_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Sounds)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsSpawnPoints)
+                {
+                    e.NewItem = new MsbEventSpawnPoint()
+                    {
+                        Name = $"SpawnPoint_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.SpawnPoints)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsTreasures)
+                {
+                    e.NewItem = new MsbEventTreasure()
+                    {
+                        Name = $"Treasure_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.Treasures)
+                    };
+                }
+                else if (TabEvents_Tabs.SelectedItem == TabEventsWindSFX)
+                {
+                    e.NewItem = new MsbEventWindSFX()
+                    {
+                        Name = $"WindSFX_{nextEventIndex}",
+                        Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.WindSFX)
+                    };
+                }
+
+                (e.NewItem as MsbEventBase).EventIndex = nextEventIndex;
+            }
+            else if (TabsPrimary.SelectedItem == TabModels)
+            {
+                if (TabModels_Tabs.SelectedItem == TabModelsMapPieces)
+                {
+                    e.NewItem = new MsbModelMapPiece()
+                    {
+                        Name = "m0000B0",
+                        PlaceholderModel = $@"N:\FRPG\data\Model\map\{PARAMDATA.MSBs.Where(x => x.Value == SelectedMsb).First().FancyDisplayName}\sib\m0000B0.sib",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.MapPiece)
+                    };
+                }
+                else if (TabModels_Tabs.SelectedItem == TabModelsObjects)
+                {
+                    e.NewItem = new MsbModelObject()
+                    {
+                        Name = "o0500",
+                        PlaceholderModel = @"N:\FRPG\data\Model\obj\o0500\sib\o0500.sib",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.Object)
+                    };
+                }
+                else if (TabModels_Tabs.SelectedItem == TabModelsCharacters)
+                {
+                    e.NewItem = new MsbModelCharacter()
+                    {
+                        Name = "c4100",
+                        PlaceholderModel = @"N:\FRPG\data\Model\chr\c4100\sib\c4100.sib",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.Character)
+                    };
+                }
+                else if (TabModels_Tabs.SelectedItem == TabModelsPlayers)
+                {
+                    e.NewItem = new MsbModelPlayer()
+                    {
+                        Name = "c0000",
+                        PlaceholderModel = @"N:\FRPG\data\Model\chr\c0000\sib\c0000.SIB",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.Player)
+                    };
+                }
+                else if (TabModels_Tabs.SelectedItem == TabModelsCollisions)
+                {
+                    e.NewItem = new MsbModelCollision()
+                    {
+                        Name = "h0000B0",
+                        PlaceholderModel = $@"N:\FRPG\data\Model\map\{PARAMDATA.MSBs.Where(x => x.Value == SelectedMsb).First().FancyDisplayName}\hkxwin\h0000B0.hkxwin",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.Collision)
+                    };
+                }
+                else if (TabModels_Tabs.SelectedItem == TabModelsNavimeshes)
+                {
+                    e.NewItem = new MsbModelNavimesh()
+                    {
+                        Name = "n0000B0",
+                        PlaceholderModel = $@"N:\FRPG\data\Model\map\{PARAMDATA.MSBs.Where(x => x.Value == SelectedMsb).First().FancyDisplayName}\navimesh\n0000B0.sib",
+                        InstanceCount = 1,
+                        Index = SelectedMsb.Models.GetNextIndex(MeowDSIO.DataTypes.MSB.ModelParamSubtype.Navimesh)
+                    };
+                }
+            }
+            else if (TabsPrimary.SelectedItem == TabRegions)
+            {
+                var newRegionIndex = SelectedMsb.Regions.GetNextIndex();
+
+                if (TabRegions_Tabs.SelectedItem == TabRegionsPoints)
+                    e.NewItem = new MsbRegionPoint() { Name = $"Point_{newRegionIndex}", Index = newRegionIndex };
+                else if (TabRegions_Tabs.SelectedItem == TabRegionsSpheres)
+                    e.NewItem = new MsbRegionSphere() { Name = $"Sphere_{newRegionIndex}", Index = newRegionIndex };
+                else if (TabRegions_Tabs.SelectedItem == TabRegionsCylinders)
+                    e.NewItem = new MsbRegionCylinder() { Name = $"Cylinder_{newRegionIndex}", Index = newRegionIndex };
+                else if (TabRegions_Tabs.SelectedItem == TabRegionsBoxes)
+                    e.NewItem = new MsbRegionBox() { Name = $"Box_{newRegionIndex}", Index = newRegionIndex };
+            }
+            else if (TabsPrimary.SelectedItem == TabParts)
+            {
+                var nextPartsIndex = 0;
+
+                if (TabParts_Tabs.SelectedItem == TabPartsCollisions)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Collisions);
+                    e.NewItem = new MsbPartsCollision() { Name = $"Collision_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsMapPieces)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.MapPieces);
+                    e.NewItem = new MsbPartsMapPiece() { Name = $"MapPiece_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsNavimeshes)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Navimeshes);
+                    e.NewItem = new MsbPartsNavimesh() { Name = $"Navimesh_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsNPCs)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.NPCs);
+                    e.NewItem = new MsbPartsNPC() { Name = $"NPC_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsObjects)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Objects);
+                    e.NewItem = new MsbPartsObject() { Name = $"Object_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsPlayers)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Players);
+                    e.NewItem = new MsbPartsPlayer() { Name = $"Player_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedCollisions)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedCollisions);
+                    e.NewItem = new MsbPartsCollisionUnused() { Name = $"UnusedCollision_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedNPCs)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedNPCs);
+                    e.NewItem = new MsbPartsNPCUnused() { Name = $"UnusedNPC_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedObjects)
+                {
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedObjects);
+                    e.NewItem = new MsbPartsObjectUnused() { Name = $"UnusedObject_{nextPartsIndex}", Index = nextPartsIndex };
+                }
+            }
+
+
+
+
         }
     }
 }

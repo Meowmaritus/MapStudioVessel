@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace MeowDSIO.DataTypes.MSB.MODEL_PARAM_ST
 {
-    public class MsbModel : MsbStruct
+    public abstract class MsbModelBase : MsbStruct
     {
         public string Name { get; set; } = null;
-        public ModelParamSubtype ModelType { get; set; } = ModelParamSubtype.MapPiece;
+
+        internal ModelParamSubtype ModelType => GetSubtypeValue();
+
+        protected abstract ModelParamSubtype GetSubtypeValue();
+
         public string PlaceholderModel { get; set; } = null;
         public int Index { get; set; } = 0;
         public int InstanceCount { get; set; } = 0;
@@ -20,7 +24,7 @@ namespace MeowDSIO.DataTypes.MSB.MODEL_PARAM_ST
         protected override void InternalRead(DSBinaryReader bin)
         {
             Name = bin.ReadMsbString();
-            ModelType = (ModelParamSubtype)bin.ReadInt32();
+            bin.AssertInt32((int)ModelType);
             Index = bin.ReadInt32();
             PlaceholderModel = bin.ReadMsbString();
             InstanceCount = bin.ReadInt32();

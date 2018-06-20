@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Selen.Wpf.SystemStyles;component/Styles.xaml"/>
                 <ResourceDictionary Source="Styles/MetroLuaTabs.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <sys:String x:Key="Version">MapStudio Vessel - Version 0.000000000000000001</sys:String>
+            <sys:String x:Key="Version">MapStudio Vessel - Version 0.9</sys:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

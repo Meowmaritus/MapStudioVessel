@@ -15,7 +15,7 @@ namespace MeowsBetterParamEditor
         {
             get
             {
-                return Key;
+                return Key.Replace(".msb", "");
                 //try
                 //{
                 //    return FancyDisplayNameCache[this];

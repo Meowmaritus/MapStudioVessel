@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:MeowsBetterParamEditor"
     mc:Ignorable="d"
-    Title="About ParamVessel" 
+    Title="About MapStudio Vessel" 
     Width="439.332" 
     Height="256" 
     ResizeMode="NoResize" 
@@ -50,7 +50,7 @@
                         Created by Meowmaritus
                     </Paragraph>
                     <Paragraph Margin="8">
-                        Special thanks to Wulf2k9
+                        Special thanks to Wulf2k9 and River Nyxx
                     </Paragraph>
                     <Paragraph>
                         <TextBlock TextWrapping="WrapWithOverflow">
@@ -64,13 +64,14 @@
                     <Paragraph
                         Padding="0,24,0,16"
                         >
-                        <Run Text="Donate to Meowmaritus:"/>
+                        <Run Text="Donate to Meowmaritus:" FontSize="8"/>
                         <Hyperlink 
                             x:Name="DonateHyperlink"
                             IsEnabled="True"
                             NavigateUri="https://www.paypal.me/Meowmaritus"
                             RequestNavigate="DonateHyperlink_RequestNavigate"
                             Foreground="PaleGreen"
+                            FontSize="8"
                             >
                             https://www.paypal.me/Meowmaritus
                         </Hyperlink>
