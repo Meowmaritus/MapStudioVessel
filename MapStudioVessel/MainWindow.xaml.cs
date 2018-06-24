@@ -35,6 +35,8 @@ namespace MeowsBetterParamEditor
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private FindWindow FIND = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -687,6 +689,27 @@ namespace MeowsBetterParamEditor
 
 
 
+        }
+
+        private void CmdFind_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (FIND == null || !FIND.IsVisible);
+        }
+
+        private void CmdFind_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (FIND == null || !FIND.IsVisible)
+            {
+                FIND = new FindWindow();
+                FIND.MsbDataContext = PARAMDATA;
+
+                if (MainTabs.SelectedValue != null)
+                    FIND.CurrentMsb = (MainTabs.SelectedItem as MSBRef);
+                else
+                    FIND.CurrentMsb = null;
+
+                FIND.Show();
+            }
         }
     }
 }

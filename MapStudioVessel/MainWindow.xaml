@@ -29,10 +29,17 @@
             CanExecute="CmdSave_CanExecute"
             Executed="CmdSave_Executed"
             />
+        <CommandBinding 
+            x:Name="CmdFind" 
+            Command="ApplicationCommands.Find" 
+            CanExecute="CmdFind_CanExecute"
+            Executed="CmdFind_Executed"
+            />
     </Window.CommandBindings>
 
     <Window.InputBindings>
         <KeyBinding Command="ApplicationCommands.Save" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="ApplicationCommands.Find" Key="F" Modifiers="Ctrl"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -229,12 +236,13 @@
                 </MenuItem>
                 <MenuItem 
                     Header="Edit" 
-                    IsEnabled="False"
-                    Visibility="Collapsed"
-                    />
+                    >
+                    <MenuItem Header="Find..." Command="ApplicationCommands.Find"/>
+                </MenuItem>
                 <MenuItem 
                     Header="Help"
                     IsEnabled="False"
+                    Visibility="Collapsed"
                     >
                     <MenuItem 
                         Header="Param Info..." 
@@ -280,19 +288,19 @@
                 Grid.RowSpan="3"
             >
                 <TabControl
-                x:Name="MainTabs"
-                TabStripPlacement="Right"
-                ItemsSource="{Binding MSBs, NotifyOnTargetUpdated=True}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Margin="0,0,4,0"
-                HorizontalContentAlignment="Left"
-                VerticalContentAlignment="Center"
-                FontSize="12"
-                ItemContainerStyle="{StaticResource ParamTabItemStyle}" 
-                SelectionChanged="MainTabs_SelectionChanged" TargetUpdated="MainTabs_TargetUpdated"
+                    x:Name="MainTabs"
+                    TabStripPlacement="Right"
+                    ItemsSource="{Binding MSBs, NotifyOnTargetUpdated=True}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Margin="0,0,4,0"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    FontSize="12"
+                    ItemContainerStyle="{StaticResource ParamTabItemStyle}" 
+                    SelectionChanged="MainTabs_SelectionChanged" TargetUpdated="MainTabs_TargetUpdated"
                 
-                >
+                    >
 
                     <TabControl.ItemTemplate>
                         <DataTemplate>
@@ -305,29 +313,6 @@
                                     HorizontalAlignment="Left"
                                     FontSize="12"
                                     />
-                                <!--<TextBlock 
-                                Text="{Binding BNDName}"
-                                TextAlignment="Right"
-                                HorizontalAlignment="Right"
-                                Foreground="White"
-                                    FontSize="9"
-                                    VerticalAlignment="Center"
-                                    FontStyle="Italic"
-                                >
-
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-
-                                            <Setter Property="Opacity" Value="0.5"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="FontWeight" Value="Bold">
-                                                    <Setter Property="Opacity" Value="1.0"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-
-                                </TextBlock>-->
                             </Grid>
                         </DataTemplate>
                     </TabControl.ItemTemplate>

@@ -21,6 +21,20 @@ namespace MeowsBetterParamEditor
 {
     public class MainDataContext : INotifyPropertyChanged
     {
+        private IEnumerable<MsbSearchResult> _currentSearchResults = new List<MsbSearchResult>();
+        public IEnumerable<MsbSearchResult> CurrentSearchResults
+        {
+            get => _currentSearchResults;
+            set
+            {
+                if (_currentSearchResults != value)
+                {
+                    _currentSearchResults = value;
+                    NotifyPropertyChanged(nameof(CurrentSearchResults));
+                }
+            }
+        }
+
         private UserConfig _config = new UserConfig();
         public UserConfig Config
         {

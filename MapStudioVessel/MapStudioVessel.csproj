@@ -128,11 +128,19 @@
     <Compile Include="CsvHelper.cs" />
     <Compile Include="CustomDataGrid.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FindWindow.xaml.cs">
+      <DependentUpon>FindWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IOHelper.cs" />
+    <Compile Include="MsbSearchResult.cs" />
     <Compile Include="SecondaryTabType.cs" />
     <Compile Include="TabControlEx.cs" />
     <Compile Include="UserConfig.cs" />
     <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FindWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
