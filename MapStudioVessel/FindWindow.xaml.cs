@@ -89,7 +89,7 @@ namespace MeowsBetterParamEditor
             //    Console.WriteLine();
             //}
 
-            void CheckAddResult(string fieldValue)
+            void CheckAddResult(string fieldValue, object rowObj)
             {
                 //DEBUG_WriteCurrent();
                 //Console.WriteLine($"Checking {fieldValue}");
@@ -105,7 +105,8 @@ namespace MeowsBetterParamEditor
                         SecondaryTab = Current.SubTab,
                         Row = Current.Row,
                         PropertyName = Current.Property,
-                        PropertyValue = fieldValue
+                        PropertyValue = fieldValue,
+                        ActualRow = rowObj
                     });
                 }
             }
@@ -129,7 +130,7 @@ namespace MeowsBetterParamEditor
                     foreach (var p in properties)
                     {
                         Current.Property = p.Key;
-                        CheckAddResult(p.Value);
+                        CheckAddResult(p.Value, item);
                     }
                 }
             }
@@ -143,8 +144,8 @@ namespace MeowsBetterParamEditor
 
             CheckList<MsbEventLight>("Events", "Lights", msb.Value.Events.Lights, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
             CheckList<MsbEventSound>("Events", "Sounds", msb.Value.Events.Sounds, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventSFX>("Events", "SFXs", msb.Value.Events.SFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventWindSFX>("Events", "Wind SFXs", msb.Value.Events.WindSFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
+            CheckList<MsbEventSFX>("Events", "SFX", msb.Value.Events.SFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
+            CheckList<MsbEventWindSFX>("Events", "Wind SFX", msb.Value.Events.WindSFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
             CheckList<MsbEventTreasure>("Events", "Treasures", msb.Value.Events.Treasures, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
             CheckList<MsbEventGenerator>("Events", "Generators", msb.Value.Events.Generators, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
             CheckList<MsbEventBloodMsg>("Events", "Blood Messages", msb.Value.Events.BloodMessages, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");

@@ -188,7 +188,7 @@ namespace MeowsBetterParamEditor
 
         public string UserConfigPath => IOHelper.Frankenpath(Environment.CurrentDirectory, CONFIG_FILE);
 
-        public const string CONFIG_FILE = "MapStudioVessel_UserConfig.json";
+        public const string CONFIG_FILE = "MapVessel_UserConfig.json";
 
         private ObservableCollection<MSBRef> _msbs = new ObservableCollection<MSBRef>();
 

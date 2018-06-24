@@ -14,5 +14,6 @@ namespace MeowsBetterParamEditor
         public string Row { get; set; } = null;
         public string PropertyName { get; set; } = null;
         public string PropertyValue { get; set; } = null;
+        public object ActualRow { get; set; } = null;
     }
 }

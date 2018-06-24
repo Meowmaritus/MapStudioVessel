@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:MeowsBetterParamEditor"
     mc:Ignorable="d"
-    Title="About MapStudio Vessel" 
+    Title="About Map Vessel" 
     Width="439.332" 
     Height="256" 
     ResizeMode="NoResize" 

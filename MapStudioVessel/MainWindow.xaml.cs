@@ -708,7 +708,76 @@ namespace MeowsBetterParamEditor
                 else
                     FIND.CurrentMsb = null;
 
+                FIND.SearchResultsDataGrid.SelectionChanged += SearchResultsDataGrid_SelectionChanged;
+
                 FIND.Show();
+            }
+        }
+
+        private void SearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in e.AddedItems)
+            {
+                var r = (MsbSearchResult)item;
+
+                Dispatcher.Invoke(() =>
+                {
+                    MainTabs.SelectedItem = PARAMDATA.MSBs.Where(x => x.FancyDisplayName == r.MsbName).First();
+
+                    void SwitchTabs(TabControl tc, string tabName)
+                    {
+                        foreach (var tab in tc.Items)
+                        {
+                            if (((TabItem)tab).Header.ToString() == tabName)
+                            {
+                                tc.SelectedItem = tab;
+                            }
+                        }
+                    }
+
+                    if (r.PrimaryTab == "MODELS")
+                    {
+                        TabsPrimary.SelectedItem = TabModels;
+                        SwitchTabs(TabModels_Tabs, r.SecondaryTab);
+                    }
+                    else if (r.PrimaryTab == "EVENTS")
+                    {
+                        TabsPrimary.SelectedItem = TabEvents;
+                        SwitchTabs(TabEvents_Tabs, r.SecondaryTab);
+                    }
+                    else if (r.PrimaryTab == "REGIONS")
+                    {
+                        TabsPrimary.SelectedItem = TabRegions;
+                        SwitchTabs(TabRegions_Tabs, r.SecondaryTab);
+                    }
+                    else if (r.PrimaryTab == "PARTS")
+                    {
+                        TabsPrimary.SelectedItem = TabParts;
+                        SwitchTabs(TabParts_Tabs, r.SecondaryTab);
+                    }
+
+                    int columnIndex = -1;
+
+                    for (int i = 0; i < MSB_DATA_GRID.Columns.Count; i++)
+                    {
+                        if (MSB_DATA_GRID.Columns[i].Header.ToString() == r.PropertyName)
+                        {
+                            columnIndex = i;
+                            break;
+                        }
+                    }
+
+                    var selectCell = new DataGridCellInfo(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
+
+                    MSB_DATA_GRID.SelectedCells.Clear();
+                    MSB_DATA_GRID.SelectedCells.Add(selectCell);
+                    MSB_DATA_GRID.ScrollIntoView(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
+
+                });
+
+                
+
+                break;
             }
         }
     }
