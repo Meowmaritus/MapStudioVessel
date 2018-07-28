@@ -18,8 +18,14 @@ namespace MeowDSIO.DataTypes.MSB
 
         public string CollisionName { get; set; } = "";
 
-        public int RegionIndex1 { get; set; } = 0;
+        internal int SolvedRegionIndex { get; set; } = 0;
+
+        public PointParamSubtype RegionType { get; set; } = PointParamSubtype.Points;
+        public int RegionIndex { get; set; } = -1;
+
         public int EventEntityID { get; set; } = 0;
+
+        public int Unknown2 { get; set; } = 0;
 
         //Second Pointer
         protected abstract void SubtypeRead(DSBinaryReader bin);
@@ -43,8 +49,9 @@ namespace MeowDSIO.DataTypes.MSB
             bin.StepInMSB(baseDataOffset);
             {
                 PartIndex1 = bin.ReadInt32();
-                RegionIndex1 = bin.ReadInt32();
+                SolvedRegionIndex = bin.ReadInt32();
                 EventEntityID = bin.ReadInt32();
+                Unknown2 = bin.ReadInt32();
             }
             bin.StepOut();
 
@@ -80,8 +87,9 @@ namespace MeowDSIO.DataTypes.MSB
 
             bin.Replace($"EVENT_PARAM_ST|{Type}|(BASE DATA OFFSET)", bin.MsbOffset);
             bin.Write(PartIndex1);
-            bin.Write(RegionIndex1);
+            bin.Write(SolvedRegionIndex);
             bin.Write(EventEntityID);
+            bin.Write(Unknown2);
 
             //PADDING
             bin.Write((int)0);

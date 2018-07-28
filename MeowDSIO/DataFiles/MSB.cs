@@ -5,6 +5,7 @@ using MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST;
 using MeowDSIO.DataTypes.MSB.POINT_PARAM_ST;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,17 +67,165 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
          */
 
+        private void UnregisterRegionUpdates()
+        {
+            if (Regions != null)
+            {
+                Regions.Points.CollectionChanged -= Points_CollectionChanged;
+                Regions.Boxes.CollectionChanged -= Boxes_CollectionChanged;
+                Regions.Spheres.CollectionChanged -= Spheres_CollectionChanged;
+                Regions.Cylinders.CollectionChanged -= Cylinders_CollectionChanged;
+            }
+        }
+
+        private void RegisterRegionUpdates()
+        {
+            Regions.Points.CollectionChanged += Points_CollectionChanged;
+            Regions.Boxes.CollectionChanged += Boxes_CollectionChanged;
+            Regions.Spheres.CollectionChanged += Spheres_CollectionChanged;
+            Regions.Cylinders.CollectionChanged += Cylinders_CollectionChanged;
+        }
+
+        private void CheckRegionContinuity<T>(PointParamSubtype t, ObservableCollection<T> list)
+            where T : MsbRegionBase
+        {
+            foreach (var ev in Events)
+            {
+                if (ev.RegionIndex < 0)
+                    continue;
+
+                if (ev.RegionType == t)
+                {
+                    var possibleRegionRefs = list.Where(x => x.Index == ev.RegionIndex);
+                    if (possibleRegionRefs.Any())
+                        ev.RegionIndex = list.IndexOf(possibleRegionRefs.First());
+                    else
+                        ev.RegionIndex = -1; //Region no longer exists, so point to -1;
+                }
+            }
+
+            if (t == PointParamSubtype.Points)
+            {
+                foreach (var npc in Parts.NPCs)
+                {
+                    if (npc.MovePointIndex1 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex2 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex3 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex4 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
+                    }
+                }
+
+                foreach (var npc in Parts.UnusedNPCs)
+                {
+                    if (npc.MovePointIndex1 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex2 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex3 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
+                    }
+
+                    if (npc.MovePointIndex4 >= 0)
+                    {
+                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
+                        if (possibleRegionRefs.Any())
+                            npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
+                        else
+                            npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
+                    }
+                }
+            }
+
+            
+
+            int i = 0;
+            foreach (var r in list)
+            {
+                r.Index = i++;
+            }
+        }
+
+        private void Cylinders_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CheckRegionContinuity(PointParamSubtype.Cylinders, Regions.Cylinders);
+        }
+
+        private void Spheres_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CheckRegionContinuity(PointParamSubtype.Spheres, Regions.Spheres);
+        }
+
+        private void Boxes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CheckRegionContinuity(PointParamSubtype.Boxes, Regions.Boxes);
+        }
+
+        private void Points_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CheckRegionContinuity(PointParamSubtype.Points, Regions.Points);
+        }
+
         protected override void Read(DSBinaryReader bin, IProgress<(int, int)> prog)
         {
             Unknown1 = bin.ReadInt32();
 
-
+            UnregisterRegionUpdates();
 
             Models = new MsbModelList();
             Events = new MsbEventList();
             Regions = new MsbRegionList();
             Parts = new MsbPartsList();
-            
+
+            RegisterRegionUpdates();
 
             MsbSectorFormat currentSectorFormat = MsbSectorFormat.NONE;
 
@@ -233,22 +382,22 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                 switch (regionType)
                                 {
                                     case PointParamSubtype.Points:
-                                        var newMRP = new MsbRegionPoint();
+                                        var newMRP = new MsbRegionPoint(Regions);
                                         newMRP.Read(bin);
                                         Regions.Points.Add(newMRP);
                                         break;
                                     case PointParamSubtype.Spheres:
-                                        var newMRS = new MsbRegionSphere();
+                                        var newMRS = new MsbRegionSphere(Regions);
                                         newMRS.Read(bin);
                                         Regions.Spheres.Add(newMRS);
                                         break;
                                     case PointParamSubtype.Cylinders:
-                                        var newMRC = new MsbRegionCylinder();
+                                        var newMRC = new MsbRegionCylinder(Regions);
                                         newMRC.Read(bin);
                                         Regions.Cylinders.Add(newMRC);
                                         break;
                                     case PointParamSubtype.Boxes:
-                                        var newMRB = new MsbRegionBox();
+                                        var newMRB = new MsbRegionBox(Regions);
                                         newMRB.Read(bin);
                                         Regions.Boxes.Add(newMRB);
                                         break;
@@ -364,6 +513,60 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
             foreach (var thing in Events.ObjActs)
                 thing.PartName2 = Parts.NameOf(thing.PartIndex2);
+
+            foreach (var thing in Events.GlobalList)
+            {
+                if (thing.SolvedRegionIndex >= 0)
+                {
+                    var region = Regions.GlobalList[thing.SolvedRegionIndex];
+
+                    if (region.Type == PointParamSubtype.Points)
+                    {
+                        thing.RegionType = PointParamSubtype.Points;
+                        thing.RegionIndex = Regions.Points.IndexOf(region as MsbRegionPoint);
+                    }
+                    else if (region.Type == PointParamSubtype.Boxes)
+                    {
+                        thing.RegionType = PointParamSubtype.Boxes;
+                        thing.RegionIndex = Regions.Boxes.IndexOf(region as MsbRegionBox);
+                    }
+                    else if (region.Type == PointParamSubtype.Spheres)
+                    {
+                        thing.RegionType = PointParamSubtype.Spheres;
+                        thing.RegionIndex = Regions.Spheres.IndexOf(region as MsbRegionSphere);
+                    }
+                    else if (region.Type == PointParamSubtype.Cylinders)
+                    {
+                        thing.RegionType = PointParamSubtype.Cylinders;
+                        thing.RegionIndex = Regions.Cylinders.IndexOf(region as MsbRegionCylinder);
+                    }
+                }
+                
+            }
+
+            foreach (var thing in Parts.NPCs)
+            {
+                if (thing.SolvedMovePointIndex1 >= 0)
+                    thing.MovePointIndex1 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex1] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex2 >= 0)
+                    thing.MovePointIndex2 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex2] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex3 >= 0)
+                    thing.MovePointIndex3 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex3] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex4 >= 0)
+                    thing.MovePointIndex4 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex4] as MsbRegionPoint);
+            }
+
+            foreach (var thing in Parts.UnusedNPCs)
+            {
+                if (thing.SolvedMovePointIndex1 >= 0)
+                    thing.MovePointIndex1 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex1] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex2 >= 0)
+                    thing.MovePointIndex2 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex2] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex3 >= 0)
+                    thing.MovePointIndex3 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex3] as MsbRegionPoint);
+                if (thing.SolvedMovePointIndex4 >= 0)
+                    thing.MovePointIndex4 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex4] as MsbRegionPoint);
+            }
         }
 
         protected override void Write(DSBinaryWriter bin, IProgress<(int, int)> prog)
@@ -392,6 +595,64 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
             foreach (var thing in Events.ObjActs)
                 thing.PartIndex2 = Parts.IndexOf(thing.PartName2);
+
+            var globalRegionList = Regions.GlobalList;
+
+            foreach (var thing in Events.GlobalList)
+            {
+                if (thing.SolvedRegionIndex >= 0)
+                {
+                    if (thing.RegionIndex >= 0)
+                    {
+                        if (thing.RegionType == PointParamSubtype.Points)
+                        {
+                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Points[thing.RegionIndex]);
+                        }
+                        else if (thing.RegionType == PointParamSubtype.Boxes)
+                        {
+                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Boxes[thing.RegionIndex]);
+                        }
+                        else if (thing.RegionType == PointParamSubtype.Spheres)
+                        {
+                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Spheres[thing.RegionIndex]);
+                        }
+                        else if (thing.RegionType == PointParamSubtype.Cylinders)
+                        {
+                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Cylinders[thing.RegionIndex]);
+                        }
+                    }
+                    else
+                    {
+                        thing.SolvedRegionIndex = -1;
+                    }
+                    
+                }
+
+            }
+
+            foreach (var thing in Parts.NPCs)
+            {
+                if (thing.MovePointIndex1 >= 0)
+                    thing.SolvedMovePointIndex1 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex1]);
+                if (thing.MovePointIndex2 >= 0)
+                    thing.SolvedMovePointIndex2 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex2]);
+                if (thing.MovePointIndex3 >= 0)
+                    thing.SolvedMovePointIndex3 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex3]);
+                if (thing.MovePointIndex4 >= 0)
+                    thing.SolvedMovePointIndex4 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex4]);
+            }
+
+            foreach (var thing in Parts.UnusedNPCs)
+            {
+                if (thing.MovePointIndex1 >= 0)
+                    thing.SolvedMovePointIndex1 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex1]);
+                if (thing.MovePointIndex2 >= 0)
+                    thing.SolvedMovePointIndex2 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex2]);
+                if (thing.MovePointIndex3 >= 0)
+                    thing.SolvedMovePointIndex3 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex3]);
+                if (thing.MovePointIndex4 >= 0)
+                    thing.SolvedMovePointIndex4 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex4]);
+            }
 
             bin.Write(Unknown1);
 

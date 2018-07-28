@@ -26,10 +26,15 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         public int UNK4 { get; set; } = 0;
         public int UNK5 { get; set; } = 0;
 
-        public short UNK6 { get; set; } = 0;
-        public short UNK7 { get; set; } = 0;
-        public short UNK8 { get; set; } = 0;
-        public short UNK9 { get; set; } = 0;
+        internal short SolvedMovePointIndex1 { get; set; } = -1;
+        internal short SolvedMovePointIndex2 { get; set; } = -1;
+        internal short SolvedMovePointIndex3 { get; set; } = -1;
+        internal short SolvedMovePointIndex4 { get; set; } = -1;
+
+        public short MovePointIndex1 { get; set; } = -1;
+        public short MovePointIndex2 { get; set; } = -1;
+        public short MovePointIndex3 { get; set; } = -1;
+        public short MovePointIndex4 { get; set; } = -1;
 
         public int UNK10 { get; set; } = 0;
         public int UNK11 { get; set; } = 0;
@@ -62,10 +67,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             UNK4 = bin.ReadInt32();
             UNK5 = bin.ReadInt32();
 
-            UNK6 = bin.ReadInt16();
-            UNK7 = bin.ReadInt16();
-            UNK8 = bin.ReadInt16();
-            UNK9 = bin.ReadInt16();
+            SolvedMovePointIndex1 = bin.ReadInt16();
+            SolvedMovePointIndex2 = bin.ReadInt16();
+            SolvedMovePointIndex3 = bin.ReadInt16();
+            SolvedMovePointIndex4 = bin.ReadInt16();
 
             UNK10 = bin.ReadInt32();
             UNK11 = bin.ReadInt32();
@@ -92,10 +97,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(UNK4);
             bin.Write(UNK5);
 
-            bin.Write(UNK6);
-            bin.Write(UNK7);
-            bin.Write(UNK8);
-            bin.Write(UNK9);
+            bin.Write(SolvedMovePointIndex1);
+            bin.Write(SolvedMovePointIndex2);
+            bin.Write(SolvedMovePointIndex3);
+            bin.Write(SolvedMovePointIndex4);
 
             bin.Write(UNK10);
             bin.Write(UNK11);

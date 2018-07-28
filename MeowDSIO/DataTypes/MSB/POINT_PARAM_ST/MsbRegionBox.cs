@@ -15,6 +15,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         public float Height { get; set; } = 1;
         public int EventEntityID { get; set; } = -1;
 
+        public MsbRegionBox(MsbRegionList parentList)
+        {
+            this.Index = parentList.Count;
+        }
+
         internal override (int, int, int) GetOffsetDeltas()
         {
             return (4, 8, 20);

@@ -268,9 +268,27 @@ namespace MeowsBetterParamEditor
             e.CanExecute = true;
         }
 
+        private bool CheckSave()
+        {
+            return true;
+            //foreach (var msb in PARAMDATA.MSBs)
+            //{
+            //    var list = msb.Value.Regions.GlobalList;
+
+            //    for (int i = 0; i < list.Count; i++)
+            //    foreach (var r in msb.Value.Regions.GlobalList)
+            //    {
+
+            //    }
+            //}
+        }
+
         private async void CmdSave_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            await PARAMDATA.SaveInOtherThread(SetSavingMode);
+            if (CheckSave())
+            {
+                await PARAMDATA.SaveInOtherThread(SetSavingMode);
+            }
         }
 
         private void MainTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -627,13 +645,13 @@ namespace MeowsBetterParamEditor
                 var newRegionIndex = SelectedMsb.Regions.GetNextIndex();
 
                 if (TabRegions_Tabs.SelectedItem == TabRegionsPoints)
-                    e.NewItem = new MsbRegionPoint() { Name = $"Point_{newRegionIndex}", Index = newRegionIndex };
+                    e.NewItem = new MsbRegionPoint(SelectedMsb.Regions) { Name = $"Point_{newRegionIndex}" };
                 else if (TabRegions_Tabs.SelectedItem == TabRegionsSpheres)
-                    e.NewItem = new MsbRegionSphere() { Name = $"Sphere_{newRegionIndex}", Index = newRegionIndex };
+                    e.NewItem = new MsbRegionSphere(SelectedMsb.Regions) { Name = $"Sphere_{newRegionIndex}" };
                 else if (TabRegions_Tabs.SelectedItem == TabRegionsCylinders)
-                    e.NewItem = new MsbRegionCylinder() { Name = $"Cylinder_{newRegionIndex}", Index = newRegionIndex };
+                    e.NewItem = new MsbRegionCylinder(SelectedMsb.Regions) { Name = $"Cylinder_{newRegionIndex}" };
                 else if (TabRegions_Tabs.SelectedItem == TabRegionsBoxes)
-                    e.NewItem = new MsbRegionBox() { Name = $"Box_{newRegionIndex}", Index = newRegionIndex };
+                    e.NewItem = new MsbRegionBox(SelectedMsb.Regions) { Name = $"Box_{newRegionIndex}" };
             }
             else if (TabsPrimary.SelectedItem == TabParts)
             {
@@ -818,6 +836,153 @@ namespace MeowsBetterParamEditor
                     break;
                 }
             }
+
+            if (TabsPrimary.SelectedItem == TabEvents)
+            {
+                foreach (var c in MSB_DATA_GRID.Columns)
+                {
+                    if (c.Header.ToString().ToUpper() == "COLLISIONNAME")
+                    {
+                        c.DisplayIndex = 3;
+                        break;
+                    }
+                }
+
+                foreach (var c in MSB_DATA_GRID.Columns)
+                {
+                    if (c.Header.ToString().ToUpper() == "UX18")
+                    {
+                        c.DisplayIndex = 4;
+                        break;
+                    }
+                }
+
+                foreach (var c in MSB_DATA_GRID.Columns)
+                {
+                    if (c.Header.ToString().ToUpper() == "REGIONINDEX1")
+                    {
+                        c.DisplayIndex = 5;
+                        break;
+                    }
+                }
+
+                foreach (var c in MSB_DATA_GRID.Columns)
+                {
+                    if (c.Header.ToString().ToUpper() == "UNKNOWN2")
+                    {
+                        c.DisplayIndex = 6;
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        private void MSB_DATA_GRID_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                if (MSB_DATA_GRID.SelectedItem == null && MSB_DATA_GRID.SelectedItems.Count == 0)
+                {
+                    return;
+                }
+
+                var isMulti = (MSB_DATA_GRID.SelectedItems.Count > 1);
+
+                var userChoice = MessageBox.Show($"Are you sure you want to delete " +
+                    $"the {(isMulti ? MSB_DATA_GRID.SelectedItems.Count.ToString() + " " : "")}" +
+                    $"selected row{(isMulti ? "s" : "")}?\nThis cannot be undone.\n" +
+                    $"Any references to the selected row{(isMulti ? "s" : "")} " +
+                    $"will be removed automatically.", 
+                    $"Delete Row{(isMulti ? "s" : "")}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (userChoice != MessageBoxResult.Yes)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                void removeItem(object item)
+                {
+                    if (TabsPrimary.SelectedItem == TabRegions)
+                    {
+                        if (TabRegions_Tabs.SelectedItem == TabRegionsPoints)
+                            SelectedMsb.Regions.Points.Remove(item as MsbRegionPoint);
+                        else if (TabRegions_Tabs.SelectedItem == TabRegionsSpheres)
+                            SelectedMsb.Regions.Spheres.Remove(item as MsbRegionSphere);
+                        else if (TabRegions_Tabs.SelectedItem == TabRegionsCylinders)
+                            SelectedMsb.Regions.Cylinders.Remove(item as MsbRegionCylinder);
+                        else if (TabRegions_Tabs.SelectedItem == TabRegionsBoxes)
+                            SelectedMsb.Regions.Boxes.Remove(item as MsbRegionBox);
+                    }
+                    else if (TabsPrimary.SelectedItem == TabModels)
+                    {
+                        var modelToRemove = item as MsbModelBase;
+
+                        foreach (var thing in SelectedMsb.Parts)
+                        {
+                            if (thing.ModelName == modelToRemove.Name)
+                            {
+                                thing.ModelName = "";
+                            }
+                        }
+
+                        if (TabModels_Tabs.SelectedItem == TabModelsCharacters)
+                            SelectedMsb.Models.Characters.Remove(item as MsbModelCharacter);
+                        else if (TabModels_Tabs.SelectedItem == TabModelsCollisions)
+                            SelectedMsb.Models.Collisions.Remove(item as MsbModelCollision);
+                        else if (TabModels_Tabs.SelectedItem == TabModelsMapPieces)
+                            SelectedMsb.Models.MapPieces.Remove(item as MsbModelMapPiece);
+                        else if (TabModels_Tabs.SelectedItem == TabModelsNavimeshes)
+                            SelectedMsb.Models.Navimeshes.Remove(item as MsbModelNavimesh);
+                        else if (TabModels_Tabs.SelectedItem == TabModelsObjects)
+                            SelectedMsb.Models.Objects.Remove(item as MsbModelObject);
+                        else if (TabModels_Tabs.SelectedItem == TabModelsPlayers)
+                            SelectedMsb.Models.Players.Remove(item as MsbModelPlayer);
+                    }
+                }
+
+                void overrideDelete(bool observableCollection)
+                {
+                    e.Handled = true;
+
+                    if (isMulti)
+                    {
+                        if (observableCollection)
+                        {
+                            while (MSB_DATA_GRID.SelectedItems.Count > 0)
+                            {
+                                removeItem(MSB_DATA_GRID.SelectedItems[0]);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var thingToDelete in MSB_DATA_GRID.SelectedItems)
+                            {
+                                removeItem(thingToDelete);
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        removeItem(MSB_DATA_GRID.SelectedItem);
+                    }
+
+                    MSB_DATA_GRID.Items.Refresh();
+                }
+
+                if (TabsPrimary.SelectedItem == TabRegions)
+                {
+                    overrideDelete(observableCollection: true);
+                }
+                else if (TabsPrimary.SelectedItem == TabModels)
+                {
+                    overrideDelete(observableCollection: false);
+                }
+
+            }
+
         }
     }
 }

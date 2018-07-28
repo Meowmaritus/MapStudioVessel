@@ -10,7 +10,9 @@ namespace MeowDSIO.DataTypes.MSB
     {
         public string Name { get; set; } = "";
         public int Ux04 { get; set; } = 0;
-        public int Index { get; set; } = 0;
+        internal int SolvedIndex { get; set; } = 0;
+
+        public int Index { get; internal set; } = -1;
 
         public float PosX { get; set; } = 0;
         public float PosY { get; set; } = 0;
@@ -39,7 +41,7 @@ namespace MeowDSIO.DataTypes.MSB
         {
             Name = bin.ReadMsbString();
             Ux04 = bin.ReadInt32();
-            Index = bin.ReadInt32();
+            SolvedIndex = bin.ReadInt32();
             bin.AssertInt32((int)Type);
 
             PosX = bin.ReadSingle();
@@ -70,7 +72,7 @@ namespace MeowDSIO.DataTypes.MSB
         {
             bin.Placeholder($"POINT_PARAM_ST|{Type}|{nameof(Name)}");
             bin.Write(Ux04);
-            bin.Write(Index);
+            bin.Write(SolvedIndex);
             bin.Write((int)Type);
 
             bin.Write(PosX);
