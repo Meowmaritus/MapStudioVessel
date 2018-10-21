@@ -35,9 +35,10 @@ namespace MeowDSIO.DataTypes.MSB
         public string NameOf(int index)
         {
             if (index == -1)
-            {
                 return "";
-            }
+            else if (index >= GlobalList.Count)
+                return $"[INVALID REGION INDEX: {index}]";
+
             return GlobalList[index].Name;
         }
 

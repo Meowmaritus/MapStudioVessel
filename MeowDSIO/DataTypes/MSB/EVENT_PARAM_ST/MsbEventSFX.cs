@@ -8,6 +8,11 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 {
     public class MsbEventSFX : MsbEventBase
     {
+        internal override void DebugPushUnknownFieldReport_Subtype(out string subtypeName, Dictionary<string, object> dict)
+        {
+            subtypeName = "SFX";
+        }
+
         public int SfxID { get; set; } = 0;
 
         protected override EventParamSubtype GetSubtypeValue()

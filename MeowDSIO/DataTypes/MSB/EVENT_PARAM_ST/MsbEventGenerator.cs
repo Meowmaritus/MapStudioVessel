@@ -8,6 +8,36 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 {
     public class MsbEventGenerator : MsbEventBase
     {
+        internal override void DebugPushUnknownFieldReport_Subtype(out string subtypeName, Dictionary<string, object> dict)
+        {
+            subtypeName = "Generator";
+
+            dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
+            dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
+            dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
+            dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
+            dict.Add(nameof(SUB_CONST_5), SUB_CONST_5);
+            dict.Add(nameof(SUB_CONST_6), SUB_CONST_6);
+            dict.Add(nameof(SUB_CONST_7), SUB_CONST_7);
+
+            dict.Add(nameof(SUB_CONST_8), SUB_CONST_8);
+            dict.Add(nameof(SUB_CONST_9), SUB_CONST_9);
+            dict.Add(nameof(SUB_CONST_10), SUB_CONST_10);
+            dict.Add(nameof(SUB_CONST_11), SUB_CONST_11);
+            dict.Add(nameof(SUB_CONST_12), SUB_CONST_12);
+            dict.Add(nameof(SUB_CONST_13), SUB_CONST_13);
+            dict.Add(nameof(SUB_CONST_14), SUB_CONST_14);
+            dict.Add(nameof(SUB_CONST_15), SUB_CONST_15);
+            dict.Add(nameof(SUB_CONST_16), SUB_CONST_16);
+            dict.Add(nameof(SUB_CONST_17), SUB_CONST_17);
+            dict.Add(nameof(SUB_CONST_18), SUB_CONST_18);
+            dict.Add(nameof(SUB_CONST_19), SUB_CONST_19);
+            dict.Add(nameof(SUB_CONST_20), SUB_CONST_20);
+            dict.Add(nameof(SUB_CONST_21), SUB_CONST_21);
+            dict.Add(nameof(SUB_CONST_22), SUB_CONST_22);
+            dict.Add(nameof(SUB_CONST_23), SUB_CONST_23);
+        }
+
         public short MaxNum { get; set; } = 0;
         public short LimitNum { get; set; } = 0;
         public short MinGenNum { get; set; } = 0;
@@ -15,13 +45,15 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         public float MinInterval { get; set; } = 0;
         public float MaxInterval { get; set; } = 0;
         public int InitialSpawnNum { get; set; } = 0;
-        public int SUx14 { get; set; } = 0;
-        public int SUx18 { get; set; } = 0;
-        public int SUx1C { get; set; } = 0;
-        public int SUx20 { get; set; } = 0;
-        public int SUx24 { get; set; } = 0;
-        public int SUx28 { get; set; } = 0;
-        public int SUx2C { get; set; } = 0;
+
+        internal int SUB_CONST_1 { get; set; } = 0;
+        internal int SUB_CONST_2 { get; set; } = 0;
+        internal int SUB_CONST_3 { get; set; } = 0;
+        internal int SUB_CONST_4 { get; set; } = 0;
+        internal int SUB_CONST_5 { get; set; } = 0;
+        internal int SUB_CONST_6 { get; set; } = 0;
+        internal int SUB_CONST_7 { get; set; } = 0;
+
         internal int InternalSpawnPoint1 { get; set; } = -1;
         internal int InternalSpawnPoint2 { get; set; } = -1;
         internal int InternalSpawnPoint3 { get; set; } = -1;
@@ -96,22 +128,22 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         public string SpawnPart31 { get; set; } = MiscUtil.BAD_REF;
         public string SpawnPart32 { get; set; } = MiscUtil.BAD_REF;
 
-        public int SUxC0 { get; set; } = 0;
-        public int SUxC4 { get; set; } = 0;
-        public int SUxC8 { get; set; } = 0;
-        public int SUxCC { get; set; } = 0;
-        public int SUxD0 { get; set; } = 0;
-        public int SUxD4 { get; set; } = 0;
-        public int SUxD8 { get; set; } = 0;
-        public int SUxDC { get; set; } = 0;
-        public int SUxE0 { get; set; } = 0;
-        public int SUxE4 { get; set; } = 0;
-        public int SUxE8 { get; set; } = 0;
-        public int SUxEC { get; set; } = 0;
-        public int SUxF0 { get; set; } = 0;
-        public int SUxF4 { get; set; } = 0;
-        public int SUxF8 { get; set; } = 0;
-        public int SUxFC { get; set; } = 0;
+        internal int SUB_CONST_8 { get; set; } = 0;
+        internal int SUB_CONST_9 { get; set; } = 0;
+        internal int SUB_CONST_10 { get; set; } = 0;
+        internal int SUB_CONST_11 { get; set; } = 0;
+        internal int SUB_CONST_12 { get; set; } = 0;
+        internal int SUB_CONST_13 { get; set; } = 0;
+        internal int SUB_CONST_14 { get; set; } = 0;
+        internal int SUB_CONST_15 { get; set; } = 0;
+        internal int SUB_CONST_16 { get; set; } = 0;
+        internal int SUB_CONST_17 { get; set; } = 0;
+        internal int SUB_CONST_18 { get; set; } = 0;
+        internal int SUB_CONST_19 { get; set; } = 0;
+        internal int SUB_CONST_20 { get; set; } = 0;
+        internal int SUB_CONST_21 { get; set; } = 0;
+        internal int SUB_CONST_22 { get; set; } = 0;
+        internal int SUB_CONST_23 { get; set; } = 0;
 
         protected override EventParamSubtype GetSubtypeValue()
         {
@@ -127,13 +159,13 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             MinInterval = bin.ReadSingle();
             MaxInterval = bin.ReadSingle();
             InitialSpawnNum = bin.ReadInt32();
-            SUx14 = bin.ReadInt32();
-            SUx18 = bin.ReadInt32();
-            SUx1C = bin.ReadInt32();
-            SUx20 = bin.ReadInt32();
-            SUx24 = bin.ReadInt32();
-            SUx28 = bin.ReadInt32();
-            SUx2C = bin.ReadInt32();
+            SUB_CONST_1 = bin.ReadInt32();
+            SUB_CONST_2 = bin.ReadInt32();
+            SUB_CONST_3 = bin.ReadInt32();
+            SUB_CONST_4 = bin.ReadInt32();
+            SUB_CONST_5 = bin.ReadInt32();
+            SUB_CONST_6 = bin.ReadInt32();
+            SUB_CONST_7 = bin.ReadInt32();
 
             InternalSpawnPoint1  = bin.ReadInt32();
             InternalSpawnPoint2  = bin.ReadInt32();
@@ -172,22 +204,22 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             InternalSpawnPart31  = bin.ReadInt32();
             InternalSpawnPart32 = bin.ReadInt32();
 
-            SUxC0 = bin.ReadInt32();
-            SUxC4 = bin.ReadInt32();
-            SUxC8 = bin.ReadInt32();
-            SUxCC = bin.ReadInt32();
-            SUxD0 = bin.ReadInt32();
-            SUxD4 = bin.ReadInt32();
-            SUxD8 = bin.ReadInt32();
-            SUxDC = bin.ReadInt32();
-            SUxE0 = bin.ReadInt32();
-            SUxE4 = bin.ReadInt32();
-            SUxE8 = bin.ReadInt32();
-            SUxEC = bin.ReadInt32();
-            SUxF0 = bin.ReadInt32();
-            SUxF4 = bin.ReadInt32();
-            SUxF8 = bin.ReadInt32();
-            SUxFC = bin.ReadInt32();
+            SUB_CONST_8 = bin.ReadInt32();
+            SUB_CONST_9 = bin.ReadInt32();
+            SUB_CONST_10 = bin.ReadInt32();
+            SUB_CONST_11 = bin.ReadInt32();
+            SUB_CONST_12 = bin.ReadInt32();
+            SUB_CONST_13 = bin.ReadInt32();
+            SUB_CONST_14 = bin.ReadInt32();
+            SUB_CONST_15 = bin.ReadInt32();
+            SUB_CONST_16 = bin.ReadInt32();
+            SUB_CONST_17 = bin.ReadInt32();
+            SUB_CONST_18 = bin.ReadInt32();
+            SUB_CONST_19 = bin.ReadInt32();
+            SUB_CONST_20 = bin.ReadInt32();
+            SUB_CONST_21 = bin.ReadInt32();
+            SUB_CONST_22 = bin.ReadInt32();
+            SUB_CONST_23 = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -199,13 +231,13 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(MinInterval);
             bin.Write(MaxInterval);
             bin.Write(InitialSpawnNum);
-            bin.Write(SUx14);
-            bin.Write(SUx18);
-            bin.Write(SUx1C);
-            bin.Write(SUx20);
-            bin.Write(SUx24);
-            bin.Write(SUx28);
-            bin.Write(SUx2C);
+            bin.Write(SUB_CONST_1);
+            bin.Write(SUB_CONST_2);
+            bin.Write(SUB_CONST_3);
+            bin.Write(SUB_CONST_4);
+            bin.Write(SUB_CONST_5);
+            bin.Write(SUB_CONST_6);
+            bin.Write(SUB_CONST_7);
 
             bin.Write(InternalSpawnPoint1);
             bin.Write(InternalSpawnPoint2);
@@ -244,22 +276,22 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(InternalSpawnPart31);
             bin.Write(InternalSpawnPart32);
 
-            bin.Write(SUxC0);
-            bin.Write(SUxC4);
-            bin.Write(SUxC8);
-            bin.Write(SUxCC);
-            bin.Write(SUxD0);
-            bin.Write(SUxD4);
-            bin.Write(SUxD8);
-            bin.Write(SUxDC);
-            bin.Write(SUxE0);
-            bin.Write(SUxE4);
-            bin.Write(SUxE8);
-            bin.Write(SUxEC);
-            bin.Write(SUxF0);
-            bin.Write(SUxF4);
-            bin.Write(SUxF8);
-            bin.Write(SUxFC);
+            bin.Write(SUB_CONST_8);
+            bin.Write(SUB_CONST_9);
+            bin.Write(SUB_CONST_10);
+            bin.Write(SUB_CONST_11);
+            bin.Write(SUB_CONST_12);
+            bin.Write(SUB_CONST_13);
+            bin.Write(SUB_CONST_14);
+            bin.Write(SUB_CONST_15);
+            bin.Write(SUB_CONST_16);
+            bin.Write(SUB_CONST_17);
+            bin.Write(SUB_CONST_18);
+            bin.Write(SUB_CONST_19);
+            bin.Write(SUB_CONST_20);
+            bin.Write(SUB_CONST_21);
+            bin.Write(SUB_CONST_22);
+            bin.Write(SUB_CONST_23);
         }
     }
 }

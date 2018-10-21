@@ -8,6 +8,19 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 {
     public class MsbPartsHit : MsbPartsBase
     {
+        internal override void DebugPushUnknownFieldReport_Subtype(out string subtypeName, Dictionary<string, object> dict)
+        {
+            subtypeName = "Hit";
+
+            dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
+            dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
+            dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
+            dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
+            dict.Add(nameof(SUB_CONST_5), SUB_CONST_5);
+            dict.Add(nameof(SUB_CONST_6), SUB_CONST_6);
+            dict.Add(nameof(SUB_CONST_7), SUB_CONST_7);
+        }
+
         public byte HitFilterID { get; set; } = 0;
         public PartsCollisionSoundSpaceType SoundSpaceType { get; set; } = 0;
 
@@ -29,18 +42,18 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         public short DisableStart { get; set; } = 0;
         public int DisableBonfireID { get; set; } = 0;
 
-        public int UNK1 { get; set; } = 0;
-        public int UNK2 { get; set; } = 0;
-        public int UNK3 { get; set; } = 0;
+        internal int SUB_CONST_1 { get; set; } = -1;
+        internal int SUB_CONST_2 { get; set; } = -1;
+        internal int SUB_CONST_3 { get; set; } = -1;
 
         public int PlayRegionID { get; set; } = 0;
         public short LockCamID1 { get; set; } = 0;
         public short LockCamID2 { get; set; } = 0;
         
-        public int UNK4 { get; set; } = 0;
-        public int UNK5 { get; set; } = 0;
-        public int UNK6 { get; set; } = 0;
-        public int UNK7 { get; set; } = 0;
+        internal int SUB_CONST_4 { get; set; } = 0;
+        internal int SUB_CONST_5 { get; set; } = 0;
+        internal int SUB_CONST_6 { get; set; } = 0;
+        internal int SUB_CONST_7 { get; set; } = 0;
 
         internal override PartsParamSubtype GetSubtypeValue()
         {
@@ -67,18 +80,18 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             DisableStart = bin.ReadInt16();
             DisableBonfireID = bin.ReadInt32();
 
-            UNK1 = bin.ReadInt32();
-            UNK2 = bin.ReadInt32();
-            UNK3 = bin.ReadInt32();
+            SUB_CONST_1 = bin.ReadInt32();
+            SUB_CONST_2 = bin.ReadInt32();
+            SUB_CONST_3 = bin.ReadInt32();
 
             PlayRegionID = bin.ReadInt32();
             LockCamID1 = bin.ReadInt16();
             LockCamID2 = bin.ReadInt16();
             
-            UNK4 = bin.ReadInt32();
-            UNK5 = bin.ReadInt32();
-            UNK6 = bin.ReadInt32();
-            UNK7 = bin.ReadInt32();
+            SUB_CONST_4 = bin.ReadInt32();
+            SUB_CONST_5 = bin.ReadInt32();
+            SUB_CONST_6 = bin.ReadInt32();
+            SUB_CONST_7 = bin.ReadInt32();
         }
 
 
@@ -102,18 +115,18 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(DisableStart);
             bin.Write(DisableBonfireID);
 
-            bin.Write(UNK1);
-            bin.Write(UNK2);
-            bin.Write(UNK3);
+            bin.Write(SUB_CONST_1);
+            bin.Write(SUB_CONST_2);
+            bin.Write(SUB_CONST_3);
 
             bin.Write(PlayRegionID);
             bin.Write(LockCamID1);
             bin.Write(LockCamID2);
 
-            bin.Write(UNK4);
-            bin.Write(UNK5);
-            bin.Write(UNK6);
-            bin.Write(UNK7);
+            bin.Write(SUB_CONST_4);
+            bin.Write(SUB_CONST_5);
+            bin.Write(SUB_CONST_6);
+            bin.Write(SUB_CONST_7);
         }
     }
 }

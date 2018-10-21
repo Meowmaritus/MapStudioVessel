@@ -8,11 +8,85 @@ namespace MeowDSIO.DataTypes.MSB
 {
     public abstract class MsbPartsBase : MsbStruct
     {
+        private static List<string> _baseFieldNames;
+        public static List<string> BaseFieldNames
+        {
+            get
+            {
+                if (_baseFieldNames == null)
+                {
+                    _baseFieldNames = new List<string>
+                    {
+                        nameof(Name),
+                        nameof(Index),
+                        nameof(ModelName),
+                        nameof(PlaceholderModel),
+                        nameof(PosX),
+                        nameof(PosY),
+                        nameof(PosZ),
+
+                        nameof(RotX),
+                        nameof(RotY),
+                        nameof(RotZ),
+
+                        nameof(ScaleX),
+                        nameof(ScaleY),
+                        nameof(ScaleZ),
+
+                        nameof(DrawGroup1),
+                        nameof(DrawGroup2),
+                        nameof(DrawGroup3),
+                        nameof(DrawGroup4),
+
+                        nameof(DispGroup1),
+                        nameof(DispGroup2),
+                        nameof(DispGroup3),
+                        nameof(DispGroup4),
+
+                        nameof(EntityID),
+
+                        nameof(LightID),
+                        nameof(FogID),
+                        nameof(ScatterID),
+                        nameof(LensFlareID),
+                        nameof(ShadowID),
+                        nameof(DofID),
+                        nameof(ToneMapID),
+                        nameof(ToneCorrectID),
+                        nameof(LanternID),
+                        nameof(LodParamID),
+
+                        nameof(IsShadowSrc),
+                        nameof(IsShadowDest),
+                        nameof(IsShadowOnly),
+                        nameof(DrawByReflectCam),
+                        nameof(DrawOnlyReflectCam),
+                        nameof(IsUseDepthBiasFloat),
+                        nameof(DisablePointLightEffect),
+                    };
+                }
+                return _baseFieldNames;
+            }
+        }
+
+        internal abstract void DebugPushUnknownFieldReport_Subtype(out string subtypeName, Dictionary<string, object> dict);
+
+        public void DebugPushUnknownFieldReport(out string basetypeName, out string subtypeName, Dictionary<string, object> dict, Dictionary<string, object> dict_Subtype)
+        {
+            dict.Add(nameof(BASE_CONST_1), BASE_CONST_1);
+            dict.Add(nameof(BASE_CONST_2), BASE_CONST_2);
+            dict.Add(nameof(BASE_CONST_3), BASE_CONST_3);
+            dict.Add(nameof(BASE_CONST_4), BASE_CONST_4);
+
+            DebugPushUnknownFieldReport_Subtype(out string sn, dict_Subtype);
+            basetypeName = "PARTS_PARAM_ST";
+            subtypeName = sn;
+        }
+
         public string Name { get; set; } = "";
         public int Index { get; set; } = 0;
 
-        internal int ModelIndex { get; set; } = 0;
-
+        internal int i_ModelName { get; set; } = -1;
         public string ModelName { get; set; }  = "";
 
         public string PlaceholderModel { get; set; } = "";
@@ -39,7 +113,7 @@ namespace MeowDSIO.DataTypes.MSB
         public int DispGroup3 { get; set; } = 0;
         public int DispGroup4 { get; set; } = 0;
 
-        public int Ux60 { get; set; } = 0;
+        internal int BASE_CONST_1 { get; set; } = 0;
 
         //BASE DATA
 
@@ -54,7 +128,9 @@ namespace MeowDSIO.DataTypes.MSB
         public sbyte ToneCorrectID { get; set; } = 0;
         public sbyte LanternID { get; set; } = 0;
         public sbyte LodParamID { get; set; } = 0;
-        internal byte UNK01 { get; set; }
+
+        internal byte BASE_CONST_2 { get; set; }
+
         public bool IsShadowSrc { get; set; } = false;
         public bool IsShadowDest { get; set; } = false;
         public bool IsShadowOnly { get; set; } = false;
@@ -63,8 +139,8 @@ namespace MeowDSIO.DataTypes.MSB
         public bool IsUseDepthBiasFloat { get; set; } = false;
         public bool DisablePointLightEffect { get; set; } = false;
 
-        internal byte UNK02 { get; set; }
-        internal byte UNK03 { get; set; }
+        internal byte BASE_CONST_3 { get; set; }
+        internal byte BASE_CONST_4 { get; set; }
 
         protected abstract void SubtypeRead(DSBinaryReader bin);
         protected abstract void SubtypeWrite(DSBinaryWriter bin);
@@ -78,7 +154,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.AssertInt32((int)Type);
 
             Index = bin.ReadInt32();
-            ModelIndex = bin.ReadInt32();
+            i_ModelName = bin.ReadInt32();
 
             PlaceholderModel = bin.ReadMsbString();
 
@@ -107,7 +183,7 @@ namespace MeowDSIO.DataTypes.MSB
             int baseDataOffset = bin.ReadInt32();
             int subtypeDataOffset = bin.ReadInt32();
 
-            Ux60 = bin.ReadInt32();
+            BASE_CONST_1 = bin.ReadInt32();
 
             bin.StepInMSB(baseDataOffset);
             {
@@ -122,7 +198,7 @@ namespace MeowDSIO.DataTypes.MSB
                 ToneCorrectID = bin.ReadSByte();
                 LanternID = bin.ReadSByte();
                 LodParamID = bin.ReadSByte();
-                UNK01 = bin.ReadByte();
+                BASE_CONST_2 = bin.ReadByte();
                 IsShadowSrc = bin.ReadBoolean();
                 IsShadowDest = bin.ReadBoolean();
                 IsShadowOnly = bin.ReadBoolean();
@@ -131,8 +207,8 @@ namespace MeowDSIO.DataTypes.MSB
                 IsUseDepthBiasFloat = bin.ReadBoolean();
                 DisablePointLightEffect = bin.ReadBoolean();
                 
-                UNK02 = bin.ReadByte();
-                UNK03 = bin.ReadByte();
+                BASE_CONST_3 = bin.ReadByte();
+                BASE_CONST_4 = bin.ReadByte();
 
             }
             bin.StepOut();
@@ -151,7 +227,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write((int)Type);
 
             bin.Write(Index);
-            bin.Write(ModelIndex);
+            bin.Write(i_ModelName);
 
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(PlaceholderModel)}");
 
@@ -180,7 +256,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|(BASE DATA OFFSET)");
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|(SUBTYPE DATA OFFSET)");
 
-            bin.Write(Ux60);
+            bin.Write(BASE_CONST_1);
 
             int nameByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(Name);
             int placeholderModelByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(PlaceholderModel);
@@ -217,7 +293,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write(ToneCorrectID);
             bin.Write(LanternID);
             bin.Write(LodParamID);
-            bin.Write(UNK01);
+            bin.Write(BASE_CONST_2);
             bin.Write(IsShadowSrc);
             bin.Write(IsShadowDest);
             bin.Write(IsShadowOnly);
@@ -226,8 +302,8 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write(IsUseDepthBiasFloat);
             bin.Write(DisablePointLightEffect);
             
-            bin.Write(UNK02);
-            bin.Write(UNK03);
+            bin.Write(BASE_CONST_3);
+            bin.Write(BASE_CONST_4);
 
 
 

@@ -23,6 +23,84 @@ namespace MeowDSIO.DataFiles
 
     public class MSB : DataFile
     {
+        public Dictionary<string, Dictionary<string, List<object>>> DebugGenerateUnknownFieldReport(
+            string mapNameToIncludeInFieldNameNullForNoMapName = null, 
+            bool includeBases = true, 
+            bool includeSubtypes = true)
+        {
+            //<StructName, <FieldName, ValueList>>
+            var MAIN_DICT = new Dictionary<string, Dictionary<string, List<object>>>();
+
+            void RegisterDebugReportData(string structName, Dictionary<string, object> basetypeReport, Dictionary<string, object> subtypeReport)
+            {
+                if (!MAIN_DICT.ContainsKey(structName))
+                {
+                    MAIN_DICT.Add(structName, new Dictionary<string, List<object>>());
+                }
+
+                if (includeBases)
+                {
+                    foreach (var kvp in basetypeReport)
+                    {
+                        if (!MAIN_DICT[structName].ContainsKey(kvp.Key))
+                            MAIN_DICT[structName].Add(kvp.Key, new List<object>());
+
+                        if (!MAIN_DICT[structName][kvp.Key].Contains(kvp.Value))
+                        {
+                            if (mapNameToIncludeInFieldNameNullForNoMapName != null)
+                                MAIN_DICT[structName][kvp.Key].Add($"[{mapNameToIncludeInFieldNameNullForNoMapName}] {(kvp.Value.ToString())}");
+                            else
+                                MAIN_DICT[structName][kvp.Key].Add(kvp.Value);
+                        }
+                    }
+                }
+
+                if (includeSubtypes)
+                {
+                    foreach (var kvp in subtypeReport)
+                    {
+                        if (!MAIN_DICT[structName].ContainsKey(kvp.Key))
+                            MAIN_DICT[structName].Add(kvp.Key, new List<object>());
+
+                        if (!MAIN_DICT[structName][kvp.Key].Contains(kvp.Value))
+                        {
+                            if (mapNameToIncludeInFieldNameNullForNoMapName != null)
+                                MAIN_DICT[structName][kvp.Key].Add($"[{mapNameToIncludeInFieldNameNullForNoMapName}] {(kvp.Value.ToString())}");
+                            else
+                                MAIN_DICT[structName][kvp.Key].Add(kvp.Value);
+                        }
+                    }
+                }
+            }
+
+            foreach (var thing in Events.GlobalList)
+            {
+                var baseReport = new Dictionary<string, object>();
+                var subtypeReport = new Dictionary<string, object>();
+                thing.DebugPushUnknownFieldReport(out string basetypeName, out string subtypeName, baseReport, subtypeReport);
+                RegisterDebugReportData($"{basetypeName}::{subtypeName}", baseReport, subtypeReport);
+            }
+
+            foreach (var thing in Parts.GlobalList)
+            {
+                var baseReport = new Dictionary<string, object>();
+                var subtypeReport = new Dictionary<string, object>();
+                thing.DebugPushUnknownFieldReport(out string basetypeName, out string subtypeName, baseReport, subtypeReport);
+                RegisterDebugReportData($"{basetypeName}::{subtypeName}", baseReport, subtypeReport);
+            }
+
+            foreach (var thing in Regions.GlobalList)
+            {
+                var baseReport = new Dictionary<string, object>();
+                var subtypeReport = new Dictionary<string, object>();
+                thing.DebugPushUnknownFieldReport(out string basetypeName, out string subtypeName, baseReport, subtypeReport);
+                RegisterDebugReportData($"{basetypeName}::{subtypeName}", baseReport, subtypeReport);
+            }
+
+            return MAIN_DICT;
+        }
+
+
         public int Unknown1;
 
         public MsbModelList Models = new MsbModelList();
@@ -520,7 +598,7 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
 
             foreach (var part in Parts.GlobalList)
-                part.ModelName = Models.NameOf(part.ModelIndex);
+                part.ModelName = Models.NameOf(part.i_ModelName);
 
             foreach (var ev in Events.GlobalList)
                 ev.Part = Parts.NameOf(ev.i_Part);
@@ -639,7 +717,7 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             var LIST_PARTS = Parts.GlobalList;
 
             foreach (var part in Parts.GlobalList)
-                part.ModelIndex = Models.IndexOf(part.ModelName);
+                part.i_ModelName = Models.IndexOf(part.ModelName);
 
             foreach (var ev in Events.GlobalList)
                 ev.i_Part = Parts.IndexOf(ev.Part);

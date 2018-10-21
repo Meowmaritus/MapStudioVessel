@@ -70,18 +70,20 @@ namespace MeowDSIO.DataTypes.MSB
         public string NameOf(int index)
         {
             if (index == -1)
-            {
                 return "";
-            }
+            else if (index >= GlobalList.Count)
+                return $"[INVALID GLOBAL EVENT INDEX: {index}]";
+
             return GlobalList[index].Name;
         }
 
         public string EnvLightMapSpotNameOf(int index)
         {
             if (index == -1)
-            {
                 return "";
-            }
+            else if (index >= EnvLightMapSpot.Count)
+                return $"[INVALID LOCAL ENVIRONMENT EVENT INDEX: {index}]";
+
             return EnvLightMapSpot[index].Name;
         }
 

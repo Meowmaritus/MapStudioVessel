@@ -8,15 +8,28 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 {
     public class MsbPartsConnectHit : MsbPartsBase
     {
-        internal byte UNK1 { get; set; } = 0;
-        internal byte UNK2 { get; set; } = 0;
-        internal byte UNK3 { get; set; } = 0;
-        internal byte UNK4 { get; set; } = 0;
+        internal override void DebugPushUnknownFieldReport_Subtype(out string subtypeName, Dictionary<string, object> dict)
+        {
+            subtypeName = "ConnectHit";
+
+            dict.Add(nameof(SubUnk1), SubUnk1);
+            dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
+            dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
+            dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
+            dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
+            dict.Add(nameof(SUB_CONST_5), SUB_CONST_5);
+        }
+
+        public byte SubUnk1 { get; set; } = 0;
+
+        internal byte SUB_CONST_1 { get; set; } = 0;
+        internal byte SUB_CONST_2 { get; set; } = 0;
+        internal byte SUB_CONST_3 { get; set; } = 0;
 
         public string MapName { get; set; } = "?MeowDSIO_MsbPartsConnectHit_MapName?";
 
-        internal int UNK7 { get; set; } = 0;
-        internal int UNK8 { get; set; } = 0;
+        internal int SUB_CONST_4 { get; set; } = 0;
+        internal int SUB_CONST_5 { get; set; } = 0;
 
         internal override PartsParamSubtype GetSubtypeValue()
         {
@@ -25,10 +38,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            UNK1 = bin.ReadByte();
-            UNK2 = bin.ReadByte();
-            UNK3 = bin.ReadByte();
-            UNK4 = bin.ReadByte();
+            SubUnk1 = bin.ReadByte();
+            SUB_CONST_1 = bin.ReadByte();
+            SUB_CONST_2 = bin.ReadByte();
+            SUB_CONST_3 = bin.ReadByte();
 
             sbyte mapId1 = bin.ReadSByte();
             sbyte mapId2 = bin.ReadSByte();
@@ -67,8 +80,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
             MapName = $"m{mapNamePart1}_{mapNamePart2}_{mapNamePart3}_{mapNamePart4}";
 
-            UNK7 = bin.ReadInt32();
-            UNK8 = bin.ReadInt32();
+            SUB_CONST_4 = bin.ReadInt32();
+            SUB_CONST_5 = bin.ReadInt32();
         }
 
         private void InvalidNameException()
@@ -78,10 +91,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(UNK1);
-            bin.Write(UNK2);
-            bin.Write(UNK3);
-            bin.Write(UNK4);
+            bin.Write(SubUnk1);
+            bin.Write(SUB_CONST_1);
+            bin.Write(SUB_CONST_2);
+            bin.Write(SUB_CONST_3);
 
             sbyte m1 = -1, m2 = -1, m3 = -1, m4 = -1;
 
@@ -160,8 +173,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(m4);
 
 
-            bin.Write(UNK7);
-            bin.Write(UNK8);
+            bin.Write(SUB_CONST_4);
+            bin.Write(SUB_CONST_5);
         }
+
+        
     }
 }
