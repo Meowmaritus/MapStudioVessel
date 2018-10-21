@@ -142,34 +142,34 @@ namespace MeowsBetterParamEditor
             CheckList<MsbModelCollision>("Models", "Collisions", msb.Value.Models.Collisions, x => $"\"{x.Name}\"");
             CheckList<MsbModelNavimesh>("Models", "Navimeshes", msb.Value.Models.Navimeshes, x => $"\"{x.Name}\"");
 
-            CheckList<MsbEventLight>("Events", "Lights", msb.Value.Events.Lights, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventSound>("Events", "Sounds", msb.Value.Events.Sounds, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventSFX>("Events", "SFX", msb.Value.Events.SFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventWindSFX>("Events", "Wind SFX", msb.Value.Events.WindSFXs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventTreasure>("Events", "Treasures", msb.Value.Events.Treasures, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventGenerator>("Events", "Generators", msb.Value.Events.Generators, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventBloodMsg>("Events", "Blood Messages", msb.Value.Events.BloodMessages, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventObjAct>("Events", "ObjActs", msb.Value.Events.ObjActs, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventSpawnPoint>("Events", "Spawn Points", msb.Value.Events.SpawnPoints, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventMapOffset>("Events", "Map Offsets", msb.Value.Events.MapOffsets, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventNavimesh>("Events", "Navimeshes", msb.Value.Events.Navimeshes, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventEnvironment>("Events", "Environment Events", msb.Value.Events.EnvironmentEvents, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
-            CheckList<MsbEventBlackEyeOrbInvasion>("Events", "Black Eye Orb Invasions", msb.Value.Events.BlackEyeOrbInvasion, x => $"\"{x.Name}\" (Event Idx: {x.EventIndex})");
+            CheckList<MsbEventLight>("Events", "Lights", msb.Value.Events.Lights, x => $"\"{x.Name}\"");
+            CheckList<MsbEventSound>("Events", "Sounds", msb.Value.Events.Sounds, x => $"\"{x.Name}\"");
+            CheckList<MsbEventSFX>("Events", "SFX", msb.Value.Events.SFXs, x => $"\"{x.Name}\"");
+            CheckList<MsbEventWindSFX>("Events", "Wind SFX", msb.Value.Events.WindSFXs, x => $"\"{x.Name}\"");
+            CheckList<MsbEventTreasure>("Events", "Treasures", msb.Value.Events.Treasures, x => $"\"{x.Name}\"");
+            CheckList<MsbEventGenerator>("Events", "NPC Generators", msb.Value.Events.Generators, x => $"\"{x.Name}\"");
+            CheckList<MsbEventBloodMsg>("Events", "Messages", msb.Value.Events.BloodMessages, x => $"\"{x.Name}\"");
+            CheckList<MsbEventObjAct>("Events", "ObjActs", msb.Value.Events.ObjActs, x => $"\"{x.Name}\"");
+            CheckList<MsbEventSpawnPoint>("Events", "Spawn Points", msb.Value.Events.SpawnPoints, x => $"\"{x.Name}\"");
+            CheckList<MsbEventMapOffset>("Events", "Map Offsets", msb.Value.Events.MapOffsets, x => $"\"{x.Name}\"");
+            CheckList<MsbEventNavimesh>("Events", "Navimeshes", msb.Value.Events.Navimeshes, x => $"\"{x.Name}\"");
+            CheckList<MsbEventEnvironment>("Events", "Environment", msb.Value.Events.EnvLightMapSpot, x => $"\"{x.Name}\"");
+            CheckList<MsbEventNpcWorldInvitation>("Events", "NPC World Invitations", msb.Value.Events.NpcWorldInvitations, x => $"\"{x.Name}\"");
 
-            CheckList<MsbRegionPoint>("Regions", "Points", msb.Value.Regions.Points, x => $"\"{x.Name}\" (Idx: {x.Index})");
-            CheckList<MsbRegionSphere>("Regions", "Spheres", msb.Value.Regions.Spheres, x => $"\"{x.Name}\" (Idx: {x.Index})");
-            CheckList<MsbRegionCylinder>("Regions", "Cylinders", msb.Value.Regions.Cylinders, x => $"\"{x.Name}\" (Idx: {x.Index})");
-            CheckList<MsbRegionBox>("Regions", "Boxes", msb.Value.Regions.Boxes, x => $"\"{x.Name}\" (Idx: {x.Index})");
+            CheckList<MsbRegionPoint>("Regions", "Points", msb.Value.Regions.Points, x => $"\"{x.Name}\"");
+            CheckList<MsbRegionSphere>("Regions", "Spheres", msb.Value.Regions.Spheres, x => $"\"{x.Name}\"");
+            CheckList<MsbRegionCylinder>("Regions", "Cylinders", msb.Value.Regions.Cylinders, x => $"\"{x.Name}\"");
+            CheckList<MsbRegionBox>("Regions", "Boxes", msb.Value.Regions.Boxes, x => $"\"{x.Name}\"");
 
             CheckList<MsbPartsMapPiece>("Parts", "Map Pieces", msb.Value.Parts.MapPieces, x => $"\"{x.Name}\"");
             CheckList<MsbPartsObject>("Parts", "Objects", msb.Value.Parts.Objects, x => $"\"{x.Name}\"");
             CheckList<MsbPartsNPC>("Parts", "NPCs", msb.Value.Parts.NPCs, x => $"\"{x.Name}\"");
             CheckList<MsbPartsPlayer>("Parts", "Players", msb.Value.Parts.Players, x => $"\"{x.Name}\"");
-            CheckList<MsbPartsCollision>("Parts", "Collisions", msb.Value.Parts.Collisions, x => $"\"{x.Name}\"");
+            CheckList<MsbPartsHit>("Parts", "Collisions", msb.Value.Parts.Hits, x => $"\"{x.Name}\"");
             CheckList<MsbPartsNavimesh>("Parts", "Navimeshes", msb.Value.Parts.Navimeshes, x => $"\"{x.Name}\"");
-            CheckList<MsbPartsObjectUnused>("Parts", "Unused Objects", msb.Value.Parts.UnusedObjects, x => $"\"{x.Name}\"");
-            CheckList<MsbPartsNPCUnused>("Parts", "Unused NPCs", msb.Value.Parts.UnusedNPCs, x => $"\"{x.Name}\"");
-            CheckList<MsbPartsCollisionUnused>("Parts", "Unused Collisions", msb.Value.Parts.UnusedCollisions, x => $"\"{x.Name}\"");
+            CheckList<MsbPartsObjectDummy>("Parts", "Dummy Objects", msb.Value.Parts.DummyObjects, x => $"\"{x.Name}\"");
+            CheckList<MsbPartsNPCDummy>("Parts", "Dummy NPCs", msb.Value.Parts.DummyNPCs, x => $"\"{x.Name}\"");
+            CheckList<MsbPartsConnectHit>("Parts", "Map Connections", msb.Value.Parts.ConnectHits, x => $"\"{x.Name}\"");
 
             return resultsList;
         }

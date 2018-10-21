@@ -8,10 +8,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 {
     public class MsbPartsPlayer : MsbPartsBase
     {
-        public int UNK1 { get; set; } = 0;
-        public int UNK2 { get; set; } = 0;
-        public int UNK3 { get; set; } = 0;
-        public int UNK4 { get; set; } = 0;
+        internal int UNK1 { get; set; } = 0;
+        internal int UNK2 { get; set; } = 0;
+        internal int UNK3 { get; set; } = 0;
+        internal int UNK4 { get; set; } = 0;
 
         internal override PartsParamSubtype GetSubtypeValue()
         {

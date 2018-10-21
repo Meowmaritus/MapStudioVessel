@@ -8,11 +8,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
 {
     public class MsbRegionCylinder : MsbRegionBase
     {
-        public int UNK1 { get; set; } = 0;
-        public int UNK2 { get; set; } = 0;
+        internal int UNK1 { get; set; } = 0;
+        internal int UNK2 { get; set; } = 0;
         public float Radius { get; set; } = 1;
         public float Height { get; set; } = 2;
-        public int EventEntityID { get; set; } = -1;
+        public int EntityID { get; set; } = -1;
 
         public MsbRegionCylinder(MsbRegionList parentList)
         {
@@ -35,7 +35,7 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
             UNK2 = bin.ReadInt32();
             Radius = bin.ReadSingle();
             Height = bin.ReadSingle();
-            EventEntityID = bin.ReadInt32();
+            EntityID = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -44,7 +44,7 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
             bin.Write(UNK2);
             bin.Write(Radius);
             bin.Write(Height);
-            bin.Write(EventEntityID);
+            bin.Write(EntityID);
         }
     }
 }

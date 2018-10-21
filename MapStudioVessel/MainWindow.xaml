@@ -418,14 +418,14 @@
                             <TabItem x:Name="TabEventsSFX" Header="SFX"/>
                             <TabItem x:Name="TabEventsWindSFX" Header="Wind SFX"/>
                             <TabItem x:Name="TabEventsTreasures" Header="Treasures"/>
-                            <TabItem x:Name="TabEventsGenerators" Header="Generators"/>
-                            <TabItem x:Name="TabEventsBloodMessages" Header="Blood Messages"/>
+                            <TabItem x:Name="TabEventsGenerators" Header="NPC Generators"/>
+                            <TabItem x:Name="TabEventsBloodMessages" Header="Messages"/>
                             <TabItem x:Name="TabEventsObjActs" Header="ObjActs"/>
                             <TabItem x:Name="TabEventsSpawnPoints" Header="Spawn Points"/>
                             <TabItem x:Name="TabEventsMapOffsets" Header="Map Offsets"/>
                             <TabItem x:Name="TabEventsNavimeshes" Header="Navimeshes"/>
-                            <TabItem x:Name="TabEventsEnvironmentEvents" Header="Environment Events"/>
-                            <TabItem x:Name="TabEventsBlackEyeOrbInvasions" Header="Black Eye Orb Invasions"/>
+                            <TabItem x:Name="TabEventsEnvironmentEvents" Header="Environment"/>
+                            <TabItem x:Name="TabEventsBlackEyeOrbInvasions" Header="NPC World Invitations"/>
                         </local:TabControlEx>
                     </ScrollViewer>
                 </TabItem>
@@ -508,9 +508,9 @@
                         <TabItem x:Name="TabPartsPlayers" Header="Players"/>
                         <TabItem x:Name="TabPartsCollisions" Header="Collisions"/>
                         <TabItem x:Name="TabPartsNavimeshes" Header="Navimeshes"/>
-                        <TabItem x:Name="TabPartsUnusedObjects" Header="Unused Objects"/>
-                        <TabItem x:Name="TabPartsUnusedNPCs" Header="Unused NPCs"/>
-                        <TabItem x:Name="TabPartsUnusedCollisions" Header="Unused Collisions"/>
+                        <TabItem x:Name="TabPartsUnusedObjects" Header="Dummy Objects"/>
+                        <TabItem x:Name="TabPartsUnusedNPCs" Header="Dummy NPCs"/>
+                        <TabItem x:Name="TabPartsUnusedCollisions" Header="Map Connections"/>
                     </local:TabControlEx>
                 </TabItem>
 

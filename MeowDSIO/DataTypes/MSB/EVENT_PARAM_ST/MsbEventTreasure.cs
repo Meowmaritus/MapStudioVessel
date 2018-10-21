@@ -10,7 +10,8 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
     {
         //public int SUx00 { get; set; } = 0;
         public int SUx04 { get; set; } = 0;
-        public int PartIndex2 { get; set; } = 0;
+        internal int i_AttachObj { get; set; } = 0;
+        public string AttachObj = MiscUtil.BAD_REF;
         public int ItemLot1 { get; set; } = 0;
         public int SUx0C { get; set; } = 0;
         public int ItemLot2 { get; set; } = 0;
@@ -32,7 +33,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             //SUx00 = bin.ReadInt32();
             SUx04 = bin.ReadInt32();
-            PartIndex2 = bin.ReadInt32();
+            i_AttachObj = bin.ReadInt32();
             ItemLot1 = bin.ReadInt32();
             SUx0C = bin.ReadInt32();
             ItemLot2 = bin.ReadInt32();
@@ -50,7 +51,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             //bin.Write(SUx00);
             bin.Write(SUx04);
-            bin.Write(PartIndex2);
+            bin.Write(i_AttachObj);
             bin.Write(ItemLot1);
             bin.Write(SUx0C);
             bin.Write(ItemLot2);

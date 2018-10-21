@@ -8,7 +8,8 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 {
     public class MsbEventNavimesh : MsbEventBase
     {
-        public int RegionIndex2 { get; set; } = 0;
+        public int i_NvmRegion { get; set; } = 0;
+        public string NvmRegion { get; set; } = MiscUtil.BAD_REF;
         public int SUx04 { get; set; } = 0;
         public int SUx08 { get; set; } = 0;
         public int SUx0C { get; set; } = 0;
@@ -20,7 +21,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            RegionIndex2 = bin.ReadInt32();
+            i_NvmRegion = bin.ReadInt32();
             SUx04 = bin.ReadInt32();
             SUx08 = bin.ReadInt32();
             SUx0C = bin.ReadInt32();
@@ -28,7 +29,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(RegionIndex2);
+            bin.Write(i_NvmRegion);
             bin.Write(SUx04);
             bin.Write(SUx08);
             bin.Write(SUx0C);

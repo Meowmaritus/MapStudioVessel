@@ -8,40 +8,40 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 {
     public class MsbPartsNPC : MsbPartsBase
     {
-        public int UNK1 { get; set; } = 0;
-        public int UNK2 { get; set; } = 0;
+        internal int UNK1 { get; set; } = 0;
+        internal int UNK2 { get; set; } = 0;
 
         public int ThinkParamID { get; set; } = 0;
         public int NPCParamID { get; set; } = 0;
         public int TalkID { get; set; } = 0;
 
-        public int UNK3 { get; set; } = 0;
+        public short UNK3A { get; set; } = 0;
+        public short UNK3B { get; set; } = 0;
 
         public int CharaInitID { get; set; } = 0;
 
-        internal int PartIndex { get; set; } = 0;
+        internal int i_HitName { get; set; } = 0;
+        public string HitName { get; set; } = MiscUtil.BAD_REF;
 
-        public string CollisionName { get; set; } = "";
-
-        public int UNK4 { get; set; } = 0;
-        public int UNK5 { get; set; } = 0;
+        internal int UNK4 { get; set; } = 0;
+        internal int UNK5 { get; set; } = 0;
 
         internal short SolvedMovePointIndex1 { get; set; } = -1;
         internal short SolvedMovePointIndex2 { get; set; } = -1;
         internal short SolvedMovePointIndex3 { get; set; } = -1;
         internal short SolvedMovePointIndex4 { get; set; } = -1;
 
-        public short MovePointIndex1 { get; set; } = -1;
-        public short MovePointIndex2 { get; set; } = -1;
-        public short MovePointIndex3 { get; set; } = -1;
-        public short MovePointIndex4 { get; set; } = -1;
+        public string MovePoint1 { get; set; } = "";
+        public string MovePoint2 { get; set; } = "";
+        public string MovePoint3 { get; set; } = "";
+        public string MovePoint4 { get; set; } = "";
 
-        public int UNK10 { get; set; } = 0;
-        public int UNK11 { get; set; } = 0;
+        internal int UNK10 { get; set; } = 0;
+        internal int UNK11 { get; set; } = 0;
 
         public int InitAnimID { get; set; } = 0;
 
-        public int UNK12 { get; set; } = 0;
+        public int m17_Butterfly_Anim_Unk { get; set; } = 0;
 
 
 
@@ -59,10 +59,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             NPCParamID = bin.ReadInt32();
             TalkID = bin.ReadInt32();
 
-            UNK3 = bin.ReadInt32();
+            UNK3A = bin.ReadInt16();
+            UNK3B = bin.ReadInt16();
 
             CharaInitID = bin.ReadInt32();
-            PartIndex = bin.ReadInt32();
+            i_HitName = bin.ReadInt32();
 
             UNK4 = bin.ReadInt32();
             UNK5 = bin.ReadInt32();
@@ -77,7 +78,7 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
             InitAnimID = bin.ReadInt32();
 
-            UNK12 = bin.ReadInt32();
+            m17_Butterfly_Anim_Unk = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -89,10 +90,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(NPCParamID);
             bin.Write(TalkID);
 
-            bin.Write(UNK3);
+            bin.Write(UNK3A);
+            bin.Write(UNK3B);
 
             bin.Write(CharaInitID);
-            bin.Write(PartIndex);
+            bin.Write(i_HitName);
 
             bin.Write(UNK4);
             bin.Write(UNK5);
@@ -107,7 +109,7 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
             bin.Write(InitAnimID);
 
-            bin.Write(UNK12);
+            bin.Write(m17_Butterfly_Anim_Unk);
         }
     }
 }

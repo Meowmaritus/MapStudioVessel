@@ -12,7 +12,7 @@ namespace MeowDSIO.DataTypes.MSB
         public int Ux04 { get; set; } = 0;
         internal int SolvedIndex { get; set; } = 0;
 
-        public int Index { get; internal set; } = -1;
+        public int Index { get; set; } = -1;
 
         public float PosX { get; set; } = 0;
         public float PosY { get; set; } = 0;

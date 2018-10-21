@@ -10,9 +10,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
     {
         public int UNK1 { get; set; } = 0;
 
-        internal int PartIndex { get; set; } = 0;
-
-        public string CollisionName { get; set; } = "";
+        internal int i_PartName { get; set; } = 0;
+        public string PartName { get; set; } = MiscUtil.BAD_REF;
 
         public int UNK2 { get; set; } = 0;
 
@@ -31,7 +30,7 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         protected override void SubtypeRead(DSBinaryReader bin)
         {
             UNK1 = bin.ReadInt32();
-            PartIndex = bin.ReadInt32();
+            i_PartName = bin.ReadInt32();
             UNK2 = bin.ReadInt32();
 
             UNK3 = bin.ReadInt16();
@@ -45,7 +44,7 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(UNK1);
-            bin.Write(PartIndex);
+            bin.Write(i_PartName);
             bin.Write(UNK2);
 
             bin.Write(UNK3);

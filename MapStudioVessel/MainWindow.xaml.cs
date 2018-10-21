@@ -238,7 +238,7 @@ namespace MeowsBetterParamEditor
         {
             PARAMDATA.LoadConfig();
 
-            if (!string.IsNullOrWhiteSpace(PARAMDATA.Config?.InterrootPath))
+            if (!string.IsNullOrWhiteSpace(PARAMDATA.Config?.InterrootPath) && CheckInterrootDirValid(PARAMDATA.Config?.InterrootPath))
             {
                 await PARAMDATA.LoadParamsInOtherThread(SetLoadingMode);
             }
@@ -376,11 +376,11 @@ namespace MeowsBetterParamEditor
             else if (TabsPrimary.SelectedItem == TabEvents)
             {
                 if (TabEvents_Tabs.SelectedItem == TabEventsBlackEyeOrbInvasions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.BlackEyeOrbInvasion;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.NpcWorldInvitations;
                 else if (TabEvents_Tabs.SelectedItem == TabEventsBloodMessages)
                     PARAMDATA.CURRENT_LIST = SelectedMsb.Events.BloodMessages;
                 else if (TabEvents_Tabs.SelectedItem == TabEventsEnvironmentEvents)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.EnvironmentEvents;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.EnvLightMapSpot;
                 else if (TabEvents_Tabs.SelectedItem == TabEventsGenerators)
                     PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Generators;
                 else if (TabEvents_Tabs.SelectedItem == TabEventsLights)
@@ -416,7 +416,7 @@ namespace MeowsBetterParamEditor
             else if (TabsPrimary.SelectedItem == TabParts)
             {
                 if (TabParts_Tabs.SelectedItem == TabPartsCollisions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Collisions;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Hits;
                 else if (TabParts_Tabs.SelectedItem == TabPartsMapPieces)
                     PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.MapPieces;
                 else if (TabParts_Tabs.SelectedItem == TabPartsNavimeshes)
@@ -428,11 +428,11 @@ namespace MeowsBetterParamEditor
                 else if (TabParts_Tabs.SelectedItem == TabPartsPlayers)
                     PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Players;
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedCollisions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.UnusedCollisions;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.ConnectHits;
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedNPCs)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.UnusedNPCs;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyNPCs;
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedObjects)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.UnusedObjects;
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyObjects;
             }
         }
 
@@ -472,7 +472,7 @@ namespace MeowsBetterParamEditor
 
                 if (TabEvents_Tabs.SelectedItem == TabEventsBlackEyeOrbInvasions)
                 {
-                    e.NewItem = new MsbEventBlackEyeOrbInvasion()
+                    e.NewItem = new MsbEventNpcWorldInvitation()
                     {
                         Name = $"BlackEyeOrbInvasion_{nextEventIndex}",
                         Index = SelectedMsb.Events.GetNextIndex(EventParamSubtype.BlackEyeOrbInvasions)
@@ -659,8 +659,8 @@ namespace MeowsBetterParamEditor
 
                 if (TabParts_Tabs.SelectedItem == TabPartsCollisions)
                 {
-                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Collisions);
-                    e.NewItem = new MsbPartsCollision() { Name = $"Collision_{nextPartsIndex}", Index = nextPartsIndex };
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.Hits);
+                    e.NewItem = new MsbPartsHit() { Name = $"Collision_{nextPartsIndex}", Index = nextPartsIndex };
                 }
                 else if (TabParts_Tabs.SelectedItem == TabPartsMapPieces)
                 {
@@ -689,18 +689,18 @@ namespace MeowsBetterParamEditor
                 }
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedCollisions)
                 {
-                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedCollisions);
-                    e.NewItem = new MsbPartsCollisionUnused() { Name = $"UnusedCollision_{nextPartsIndex}", Index = nextPartsIndex };
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.ConnectHits);
+                    e.NewItem = new MsbPartsConnectHit() { Name = $"UnusedCollision_{nextPartsIndex}", Index = nextPartsIndex };
                 }
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedNPCs)
                 {
-                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedNPCs);
-                    e.NewItem = new MsbPartsNPCUnused() { Name = $"UnusedNPC_{nextPartsIndex}", Index = nextPartsIndex };
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.DummyNPCs);
+                    e.NewItem = new MsbPartsNPCDummy() { Name = $"UnusedNPC_{nextPartsIndex}", Index = nextPartsIndex };
                 }
                 else if (TabParts_Tabs.SelectedItem == TabPartsUnusedObjects)
                 {
-                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.UnusedObjects);
-                    e.NewItem = new MsbPartsObjectUnused() { Name = $"UnusedObject_{nextPartsIndex}", Index = nextPartsIndex };
+                    nextPartsIndex = SelectedMsb.Parts.GetNextIndex(PartsParamSubtype.DummyObjects);
+                    e.NewItem = new MsbPartsObjectDummy() { Name = $"UnusedObject_{nextPartsIndex}", Index = nextPartsIndex };
                 }
             }
 
@@ -801,80 +801,80 @@ namespace MeowsBetterParamEditor
 
         private void MSB_DATA_GRID_AutoGeneratedColumns(object sender, EventArgs e)
         {
-            foreach (var c in MSB_DATA_GRID.Columns)
-            {
-                if (c.Header.ToString().ToUpper() == "INDEX")
-                {
-                    c.DisplayIndex = 0;
-                    break;
-                }
-            }
+            //foreach (var c in MSB_DATA_GRID.Columns)
+            //{
+            //    if (c.Header.ToString().ToUpper() == "INDEX")
+            //    {
+            //        c.DisplayIndex = 0;
+            //        break;
+            //    }
+            //}
 
-            foreach (var c in MSB_DATA_GRID.Columns)
-            {
-                if (c.Header.ToString().ToUpper() == "NAME")
-                {
-                    c.DisplayIndex = 1;
-                    break;
-                }
-            }
+            //foreach (var c in MSB_DATA_GRID.Columns)
+            //{
+            //    if (c.Header.ToString().ToUpper() == "NAME")
+            //    {
+            //        c.DisplayIndex = 1;
+            //        break;
+            //    }
+            //}
 
-            foreach (var c in MSB_DATA_GRID.Columns)
-            {
-                if (c.Header.ToString().ToUpper() == "EVENTINDEX")
-                {
-                    c.DisplayIndex = 1;
-                    break;
-                }
-            }
+            //foreach (var c in MSB_DATA_GRID.Columns)
+            //{
+            //    if (c.Header.ToString().ToUpper() == "EVENTINDEX")
+            //    {
+            //        c.DisplayIndex = 1;
+            //        break;
+            //    }
+            //}
 
-            foreach (var c in MSB_DATA_GRID.Columns)
-            {
-                if (c.Header.ToString().ToUpper() == "EVENTENTITYID")
-                {
-                    c.DisplayIndex = 2;
-                    break;
-                }
-            }
+            //foreach (var c in MSB_DATA_GRID.Columns)
+            //{
+            //    if (c.Header.ToString().ToUpper() == "EVENTENTITYID")
+            //    {
+            //        c.DisplayIndex = 2;
+            //        break;
+            //    }
+            //}
 
-            if (TabsPrimary.SelectedItem == TabEvents)
-            {
-                foreach (var c in MSB_DATA_GRID.Columns)
-                {
-                    if (c.Header.ToString().ToUpper() == "COLLISIONNAME")
-                    {
-                        c.DisplayIndex = 3;
-                        break;
-                    }
-                }
+            //if (TabsPrimary.SelectedItem == TabEvents)
+            //{
+            //    foreach (var c in MSB_DATA_GRID.Columns)
+            //    {
+            //        if (c.Header.ToString().ToUpper() == "COLLISIONNAME")
+            //        {
+            //            c.DisplayIndex = 3;
+            //            break;
+            //        }
+            //    }
 
-                foreach (var c in MSB_DATA_GRID.Columns)
-                {
-                    if (c.Header.ToString().ToUpper() == "UX18")
-                    {
-                        c.DisplayIndex = 4;
-                        break;
-                    }
-                }
+            //    foreach (var c in MSB_DATA_GRID.Columns)
+            //    {
+            //        if (c.Header.ToString().ToUpper() == "UX18")
+            //        {
+            //            c.DisplayIndex = 4;
+            //            break;
+            //        }
+            //    }
 
-                foreach (var c in MSB_DATA_GRID.Columns)
-                {
-                    if (c.Header.ToString().ToUpper() == "REGIONINDEX1")
-                    {
-                        c.DisplayIndex = 5;
-                        break;
-                    }
-                }
+            //    foreach (var c in MSB_DATA_GRID.Columns)
+            //    {
+            //        if (c.Header.ToString().ToUpper() == "REGIONINDEX1")
+            //        {
+            //            c.DisplayIndex = 5;
+            //            break;
+            //        }
+            //    }
 
-                foreach (var c in MSB_DATA_GRID.Columns)
-                {
-                    if (c.Header.ToString().ToUpper() == "UNKNOWN2")
-                    {
-                        c.DisplayIndex = 6;
-                        break;
-                    }
-                }
-            }
+            //    foreach (var c in MSB_DATA_GRID.Columns)
+            //    {
+            //        if (c.Header.ToString().ToUpper() == "UNKNOWN2")
+            //        {
+            //            c.DisplayIndex = 6;
+            //            break;
+            //        }
+            //    }
+            //}
 
         }
 

@@ -86,132 +86,134 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             Regions.Cylinders.CollectionChanged += Cylinders_CollectionChanged;
         }
 
-        private void CheckRegionContinuity<T>(PointParamSubtype t, ObservableCollection<T> list)
-            where T : MsbRegionBase
-        {
-            foreach (var ev in Events)
-            {
-                if (ev.RegionIndex < 0)
-                    continue;
+        //private void CheckRegionContinuity<T>(PointParamSubtype t, ObservableCollection<T> list)
+        //    where T : MsbRegionBase
+        //{
+        //    foreach (var ev in Events)
+        //    {
+        //        ev.Region 
 
-                if (ev.RegionType == t)
-                {
-                    var possibleRegionRefs = list.Where(x => x.Index == ev.RegionIndex);
-                    if (possibleRegionRefs.Any())
-                        ev.RegionIndex = list.IndexOf(possibleRegionRefs.First());
-                    else
-                        ev.RegionIndex = -1; //Region no longer exists, so point to -1;
-                }
-            }
+        //        if (ev.RegionIndex < 0)
+        //            continue;
 
-            if (t == PointParamSubtype.Points)
-            {
-                foreach (var npc in Parts.NPCs)
-                {
-                    if (npc.MovePointIndex1 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
-                    }
+        //        if (ev.RegionType == t)
+        //        {
+        //            var possibleRegionRefs = list.Where(x => x.Index == ev.RegionIndex);
+        //            if (possibleRegionRefs.Any())
+        //                ev.RegionIndex = list.IndexOf(possibleRegionRefs.First());
+        //            else
+        //                ev.RegionIndex = -1; //Region no longer exists, so point to -1;
+        //        }
+        //    }
 
-                    if (npc.MovePointIndex2 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
-                    }
+        //    if (t == PointParamSubtype.Points)
+        //    {
+        //        foreach (var npc in Parts.NPCs)
+        //        {
+        //            if (npc.MovePointIndex1 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
+        //            }
 
-                    if (npc.MovePointIndex3 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
-                    }
+        //            if (npc.MovePointIndex2 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
+        //            }
 
-                    if (npc.MovePointIndex4 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
-                    }
-                }
+        //            if (npc.MovePointIndex3 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
+        //            }
 
-                foreach (var npc in Parts.UnusedNPCs)
-                {
-                    if (npc.MovePointIndex1 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
-                    }
+        //            if (npc.MovePointIndex4 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
+        //            }
+        //        }
 
-                    if (npc.MovePointIndex2 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
-                    }
+        //        foreach (var npc in Parts.UnusedNPCs)
+        //        {
+        //            if (npc.MovePointIndex1 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex1);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex1 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex1 = -1; //Region no longer exists, so point to -1;
+        //            }
 
-                    if (npc.MovePointIndex3 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
-                    }
+        //            if (npc.MovePointIndex2 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex2);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex2 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex2 = -1; //Region no longer exists, so point to -1;
+        //            }
 
-                    if (npc.MovePointIndex4 >= 0)
-                    {
-                        var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
-                        if (possibleRegionRefs.Any())
-                            npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
-                        else
-                            npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
-                    }
-                }
-            }
+        //            if (npc.MovePointIndex3 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex3);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex3 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex3 = -1; //Region no longer exists, so point to -1;
+        //            }
+
+        //            if (npc.MovePointIndex4 >= 0)
+        //            {
+        //                var possibleRegionRefs = list.Where(x => x.Index == npc.MovePointIndex4);
+        //                if (possibleRegionRefs.Any())
+        //                    npc.MovePointIndex4 = (short)list.IndexOf(possibleRegionRefs.First());
+        //                else
+        //                    npc.MovePointIndex4 = -1; //Region no longer exists, so point to -1;
+        //            }
+        //        }
+        //    }
 
             
 
-            int i = 0;
-            foreach (var r in list)
-            {
-                r.Index = i++;
-            }
-        }
+        //    int i = 0;
+        //    foreach (var r in list)
+        //    {
+        //        r.Index = i++;
+        //    }
+        //}
 
         private void Cylinders_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            CheckRegionContinuity(PointParamSubtype.Cylinders, Regions.Cylinders);
+            //CheckRegionContinuity(PointParamSubtype.Cylinders, Regions.Cylinders);
         }
 
         private void Spheres_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            CheckRegionContinuity(PointParamSubtype.Spheres, Regions.Spheres);
+            //CheckRegionContinuity(PointParamSubtype.Spheres, Regions.Spheres);
         }
 
         private void Boxes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            CheckRegionContinuity(PointParamSubtype.Boxes, Regions.Boxes);
+            //CheckRegionContinuity(PointParamSubtype.Boxes, Regions.Boxes);
         }
 
         private void Points_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            CheckRegionContinuity(PointParamSubtype.Points, Regions.Points);
+            //CheckRegionContinuity(PointParamSubtype.Points, Regions.Points);
         }
 
         protected override void Read(DSBinaryReader bin, IProgress<(int, int)> prog)
@@ -305,9 +307,9 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                 switch (eventType)
                                 {
                                     case EventParamSubtype.BlackEyeOrbInvasions:
-                                        var newMEBEOI = new MsbEventBlackEyeOrbInvasion();
+                                        var newMEBEOI = new MsbEventNpcWorldInvitation();
                                         newMEBEOI.Read(bin);
-                                        Events.BlackEyeOrbInvasion.Add(newMEBEOI);
+                                        Events.NpcWorldInvitations.Add(newMEBEOI);
                                         break;
                                     case EventParamSubtype.BloodMsg:
                                         var newMEBM = new MsbEventBloodMsg();
@@ -317,7 +319,7 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                     case EventParamSubtype.Environment:
                                         var newMEE = new MsbEventEnvironment();
                                         newMEE.Read(bin);
-                                        Events.EnvironmentEvents.Add(newMEE);
+                                        Events.EnvLightMapSpot.Add(newMEE);
                                         break;
                                     case EventParamSubtype.Generators:
                                         var newMEG = new MsbEventGenerator();
@@ -414,10 +416,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
                                 switch (partsType)
                                 {
-                                    case PartsParamSubtype.Collisions:
-                                        var newMPC = new MsbPartsCollision();
+                                    case PartsParamSubtype.Hits:
+                                        var newMPC = new MsbPartsHit();
                                         newMPC.Read(bin);
-                                        Parts.Collisions.Add(newMPC);
+                                        Parts.Hits.Add(newMPC);
                                         break;
                                     case PartsParamSubtype.MapPieces:
                                         var newMPMP = new MsbPartsMapPiece();
@@ -444,20 +446,20 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                         newMPP.Read(bin);
                                         Parts.Players.Add(newMPP);
                                         break;
-                                    case PartsParamSubtype.UnusedCollisions:
-                                        var newMPUC = new MsbPartsCollisionUnused();
+                                    case PartsParamSubtype.ConnectHits:
+                                        var newMPUC = new MsbPartsConnectHit();
                                         newMPUC.Read(bin);
-                                        Parts.UnusedCollisions.Add(newMPUC);
+                                        Parts.ConnectHits.Add(newMPUC);
                                         break;
-                                    case PartsParamSubtype.UnusedNPCs:
-                                        var newMPUNPC = new MsbPartsNPCUnused();
+                                    case PartsParamSubtype.DummyNPCs:
+                                        var newMPUNPC = new MsbPartsNPCDummy();
                                         newMPUNPC.Read(bin);
-                                        Parts.UnusedNPCs.Add(newMPUNPC);
+                                        Parts.DummyNPCs.Add(newMPUNPC);
                                         break;
-                                    case PartsParamSubtype.UnusedObjects:
-                                        var newMPUO = new MsbPartsObjectUnused();
+                                    case PartsParamSubtype.DummyObjects:
+                                        var newMPUO = new MsbPartsObjectDummy();
                                         newMPUO.Read(bin);
-                                        Parts.UnusedObjects.Add(newMPUO);
+                                        Parts.DummyObjects.Add(newMPUO);
                                         break;
                                 }
 
@@ -493,79 +495,140 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             }
             while (true); //Maybe double check here so it doesnt keep reading on dumb files
 
+            bool hasRegionNameConflicts = true;
+            do
+            {
+                hasRegionNameConflicts = false;
+                foreach (var region in Regions.GlobalList)
+                {
+                    var allRegionsWithThisName = Regions.GlobalList
+                        .Where(x => x.Name == region.Name)
+                        .ToList();
+
+                    if (allRegionsWithThisName.Count > 1)
+                    {
+                        hasRegionNameConflicts = true;
+                        int dupeNum = 0;
+                        foreach (var regionWithConflictingName in allRegionsWithThisName)
+                        {
+                            regionWithConflictingName.Name += $" (Duplicate {(++dupeNum)})";
+                        }
+                    }
+                }
+            }
+            while (hasRegionNameConflicts);
+
+
             foreach (var part in Parts.GlobalList)
                 part.ModelName = Models.NameOf(part.ModelIndex);
 
             foreach (var ev in Events.GlobalList)
-                ev.CollisionName = Parts.NameOf(ev.PartIndex1);
+                ev.Part = Parts.NameOf(ev.i_Part);
 
             foreach (var thing in Parts.NPCs)
-                thing.CollisionName = Parts.NameOf(thing.PartIndex);
+                thing.HitName = Parts.NameOf(thing.i_HitName);
 
-            foreach (var thing in Parts.UnusedNPCs)
-                thing.CollisionName = Parts.NameOf(thing.PartIndex);
+            foreach (var thing in Parts.DummyNPCs)
+                thing.HitName = Parts.NameOf(thing.i_HitName);
 
             foreach (var thing in Parts.Objects)
-                thing.CollisionName = Parts.NameOf(thing.PartIndex);
+                thing.PartName = Parts.NameOf(thing.i_PartName);
 
-            foreach (var thing in Parts.UnusedObjects)
-                thing.CollisionName = Parts.NameOf(thing.PartIndex);
+            foreach (var thing in Parts.DummyObjects)
+                thing.PartName = Parts.NameOf(thing.i_PartName);
 
             foreach (var thing in Events.ObjActs)
-                thing.PartName2 = Parts.NameOf(thing.PartIndex2);
+                thing.ObjName = Parts.NameOf(thing.i_ObjName);
 
             foreach (var thing in Events.GlobalList)
             {
-                if (thing.SolvedRegionIndex >= 0)
+                if (thing.i_Region >= 0)
                 {
-                    var region = Regions.GlobalList[thing.SolvedRegionIndex];
-
-                    if (region.Type == PointParamSubtype.Points)
-                    {
-                        thing.RegionType = PointParamSubtype.Points;
-                        thing.RegionIndex = Regions.Points.IndexOf(region as MsbRegionPoint);
-                    }
-                    else if (region.Type == PointParamSubtype.Boxes)
-                    {
-                        thing.RegionType = PointParamSubtype.Boxes;
-                        thing.RegionIndex = Regions.Boxes.IndexOf(region as MsbRegionBox);
-                    }
-                    else if (region.Type == PointParamSubtype.Spheres)
-                    {
-                        thing.RegionType = PointParamSubtype.Spheres;
-                        thing.RegionIndex = Regions.Spheres.IndexOf(region as MsbRegionSphere);
-                    }
-                    else if (region.Type == PointParamSubtype.Cylinders)
-                    {
-                        thing.RegionType = PointParamSubtype.Cylinders;
-                        thing.RegionIndex = Regions.Cylinders.IndexOf(region as MsbRegionCylinder);
-                    }
+                    thing.Region = Regions.NameOf(thing.i_Region);
                 }
                 
             }
 
             foreach (var thing in Parts.NPCs)
             {
-                if (thing.SolvedMovePointIndex1 >= 0)
-                    thing.MovePointIndex1 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex1] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex2 >= 0)
-                    thing.MovePointIndex2 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex2] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex3 >= 0)
-                    thing.MovePointIndex3 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex3] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex4 >= 0)
-                    thing.MovePointIndex4 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex4] as MsbRegionPoint);
+                thing.MovePoint1 = Regions.NameOf(thing.SolvedMovePointIndex1);
+                thing.MovePoint2 = Regions.NameOf(thing.SolvedMovePointIndex2);
+                thing.MovePoint3 = Regions.NameOf(thing.SolvedMovePointIndex3);
+                thing.MovePoint4 = Regions.NameOf(thing.SolvedMovePointIndex4);
             }
 
-            foreach (var thing in Parts.UnusedNPCs)
+            foreach (var thing in Parts.DummyNPCs)
             {
-                if (thing.SolvedMovePointIndex1 >= 0)
-                    thing.MovePointIndex1 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex1] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex2 >= 0)
-                    thing.MovePointIndex2 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex2] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex3 >= 0)
-                    thing.MovePointIndex3 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex3] as MsbRegionPoint);
-                if (thing.SolvedMovePointIndex4 >= 0)
-                    thing.MovePointIndex4 = (short)Regions.Points.IndexOf(Regions.GlobalList[thing.SolvedMovePointIndex4] as MsbRegionPoint);
+                thing.MovePoint1 = Regions.NameOf(thing.SolvedMovePointIndex1);
+                thing.MovePoint2 = Regions.NameOf(thing.SolvedMovePointIndex2);
+                thing.MovePoint3 = Regions.NameOf(thing.SolvedMovePointIndex3);
+                thing.MovePoint4 = Regions.NameOf(thing.SolvedMovePointIndex4);
+            }
+
+            foreach (var thing in Events.Generators)
+            {
+                thing.SpawnPoint1 = Regions.NameOf(thing.InternalSpawnPoint1);
+                thing.SpawnPoint2 = Regions.NameOf(thing.InternalSpawnPoint2);
+                thing.SpawnPoint3 = Regions.NameOf(thing.InternalSpawnPoint3);
+                thing.SpawnPoint4 = Regions.NameOf(thing.InternalSpawnPoint4);
+
+                thing.SpawnPart1 = Parts.NameOf(thing.InternalSpawnPart1);
+                thing.SpawnPart2 = Parts.NameOf(thing.InternalSpawnPart2);
+                thing.SpawnPart3 = Parts.NameOf(thing.InternalSpawnPart3);
+                thing.SpawnPart4 = Parts.NameOf(thing.InternalSpawnPart4);
+                thing.SpawnPart5 = Parts.NameOf(thing.InternalSpawnPart5);
+                thing.SpawnPart6 = Parts.NameOf(thing.InternalSpawnPart6);
+                thing.SpawnPart7 = Parts.NameOf(thing.InternalSpawnPart7);
+                thing.SpawnPart8 = Parts.NameOf(thing.InternalSpawnPart8);
+                thing.SpawnPart9 = Parts.NameOf(thing.InternalSpawnPart9);
+                thing.SpawnPart10 = Parts.NameOf(thing.InternalSpawnPart10);
+                thing.SpawnPart11 = Parts.NameOf(thing.InternalSpawnPart11);
+                thing.SpawnPart12 = Parts.NameOf(thing.InternalSpawnPart12);
+                thing.SpawnPart13 = Parts.NameOf(thing.InternalSpawnPart13);
+                thing.SpawnPart14 = Parts.NameOf(thing.InternalSpawnPart14);
+                thing.SpawnPart15 = Parts.NameOf(thing.InternalSpawnPart15);
+                thing.SpawnPart16 = Parts.NameOf(thing.InternalSpawnPart16);
+                thing.SpawnPart17 = Parts.NameOf(thing.InternalSpawnPart17);
+                thing.SpawnPart18 = Parts.NameOf(thing.InternalSpawnPart18);
+                thing.SpawnPart19 = Parts.NameOf(thing.InternalSpawnPart19);
+                thing.SpawnPart20 = Parts.NameOf(thing.InternalSpawnPart20);
+                thing.SpawnPart21 = Parts.NameOf(thing.InternalSpawnPart21);
+                thing.SpawnPart22 = Parts.NameOf(thing.InternalSpawnPart22);
+                thing.SpawnPart23 = Parts.NameOf(thing.InternalSpawnPart23);
+                thing.SpawnPart24 = Parts.NameOf(thing.InternalSpawnPart24);
+                thing.SpawnPart25 = Parts.NameOf(thing.InternalSpawnPart25);
+                thing.SpawnPart26 = Parts.NameOf(thing.InternalSpawnPart26);
+                thing.SpawnPart27 = Parts.NameOf(thing.InternalSpawnPart27);
+                thing.SpawnPart28 = Parts.NameOf(thing.InternalSpawnPart28);
+                thing.SpawnPart29 = Parts.NameOf(thing.InternalSpawnPart29);
+                thing.SpawnPart30 = Parts.NameOf(thing.InternalSpawnPart30);
+                thing.SpawnPart31 = Parts.NameOf(thing.InternalSpawnPart31);
+                thing.SpawnPart32 = Parts.NameOf(thing.InternalSpawnPart32);
+            }
+
+            foreach (var thing in Events.Treasures)
+            {
+                thing.AttachObj = Parts.NameOf(thing.i_AttachObj);
+            }
+
+            foreach (var thing in Events.Navimeshes)
+            {
+                thing.NvmRegion = Parts.NameOf(thing.i_NvmRegion);
+            }
+
+            foreach (var thing in Parts.Hits)
+            {
+                thing.EnvLightMapSpot = Events.EnvLightMapSpotNameOf(thing.i_EnvLightMapSpot);
+            }
+
+            foreach (var thing in Events.NpcWorldInvitations)
+            {
+                thing.SpawnPoint = Regions.NameOf(thing.i_SpawnPoint);
+            }
+
+            foreach (var thing in Events.SpawnPoints)
+            {
+                thing.SpawnPoint = Regions.NameOf(thing.i_SpawnPoint);
             }
         }
 
@@ -579,79 +642,107 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 part.ModelIndex = Models.IndexOf(part.ModelName);
 
             foreach (var ev in Events.GlobalList)
-                ev.PartIndex1 = Parts.IndexOf(ev.CollisionName);
+                ev.i_Part = Parts.IndexOf(ev.Part);
 
             foreach (var thing in Parts.NPCs)
-                thing.PartIndex = Parts.IndexOf(thing.CollisionName);
+                thing.i_HitName = Parts.IndexOf(thing.HitName);
 
-            foreach (var thing in Parts.UnusedNPCs)
-                thing.PartIndex = Parts.IndexOf(thing.CollisionName);
+            foreach (var thing in Parts.DummyNPCs)
+                thing.i_HitName = Parts.IndexOf(thing.HitName);
 
             foreach (var thing in Parts.Objects)
-                thing.PartIndex = Parts.IndexOf(thing.CollisionName);
+                thing.i_PartName = Parts.IndexOf(thing.PartName);
 
-            foreach (var thing in Parts.UnusedObjects)
-                thing.PartIndex = Parts.IndexOf(thing.CollisionName);
+            foreach (var thing in Parts.DummyObjects)
+                thing.i_PartName = Parts.IndexOf(thing.PartName);
 
             foreach (var thing in Events.ObjActs)
-                thing.PartIndex2 = Parts.IndexOf(thing.PartName2);
-
-            var globalRegionList = Regions.GlobalList;
+                thing.i_ObjName = Parts.IndexOf(thing.ObjName);
 
             foreach (var thing in Events.GlobalList)
-            {
-                if (thing.SolvedRegionIndex >= 0)
-                {
-                    if (thing.RegionIndex >= 0)
-                    {
-                        if (thing.RegionType == PointParamSubtype.Points)
-                        {
-                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Points[thing.RegionIndex]);
-                        }
-                        else if (thing.RegionType == PointParamSubtype.Boxes)
-                        {
-                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Boxes[thing.RegionIndex]);
-                        }
-                        else if (thing.RegionType == PointParamSubtype.Spheres)
-                        {
-                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Spheres[thing.RegionIndex]);
-                        }
-                        else if (thing.RegionType == PointParamSubtype.Cylinders)
-                        {
-                            thing.SolvedRegionIndex = globalRegionList.IndexOf(Regions.Cylinders[thing.RegionIndex]);
-                        }
-                    }
-                    else
-                    {
-                        thing.SolvedRegionIndex = -1;
-                    }
-                    
-                }
-
-            }
+                thing.i_Region = Regions.IndexOf(thing.Region);
+            
 
             foreach (var thing in Parts.NPCs)
             {
-                if (thing.MovePointIndex1 >= 0)
-                    thing.SolvedMovePointIndex1 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex1]);
-                if (thing.MovePointIndex2 >= 0)
-                    thing.SolvedMovePointIndex2 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex2]);
-                if (thing.MovePointIndex3 >= 0)
-                    thing.SolvedMovePointIndex3 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex3]);
-                if (thing.MovePointIndex4 >= 0)
-                    thing.SolvedMovePointIndex4 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex4]);
+                thing.SolvedMovePointIndex1 = (short)Regions.IndexOf(thing.MovePoint1);
+                thing.SolvedMovePointIndex2 = (short)Regions.IndexOf(thing.MovePoint2);
+                thing.SolvedMovePointIndex3 = (short)Regions.IndexOf(thing.MovePoint3);
+                thing.SolvedMovePointIndex4 = (short)Regions.IndexOf(thing.MovePoint4);
             }
 
-            foreach (var thing in Parts.UnusedNPCs)
+            foreach (var thing in Parts.DummyNPCs)
             {
-                if (thing.MovePointIndex1 >= 0)
-                    thing.SolvedMovePointIndex1 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex1]);
-                if (thing.MovePointIndex2 >= 0)
-                    thing.SolvedMovePointIndex2 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex2]);
-                if (thing.MovePointIndex3 >= 0)
-                    thing.SolvedMovePointIndex3 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex3]);
-                if (thing.MovePointIndex4 >= 0)
-                    thing.SolvedMovePointIndex4 = (short)globalRegionList.IndexOf(Regions.Points[thing.MovePointIndex4]);
+                thing.SolvedMovePointIndex1 = (short)Regions.IndexOf(thing.MovePoint1);
+                thing.SolvedMovePointIndex2 = (short)Regions.IndexOf(thing.MovePoint2);
+                thing.SolvedMovePointIndex3 = (short)Regions.IndexOf(thing.MovePoint3);
+                thing.SolvedMovePointIndex4 = (short)Regions.IndexOf(thing.MovePoint4);
+            }
+
+            foreach (var thing in Events.Generators)
+            {
+                thing.InternalSpawnPoint1 = Regions.IndexOf(thing.SpawnPoint1);
+                thing.InternalSpawnPoint2 = Regions.IndexOf(thing.SpawnPoint2);
+                thing.InternalSpawnPoint3 = Regions.IndexOf(thing.SpawnPoint3);
+                thing.InternalSpawnPoint4 = Regions.IndexOf(thing.SpawnPoint4);
+
+                thing.InternalSpawnPart1 =   Parts.IndexOf(thing.SpawnPart1 );
+                thing.InternalSpawnPart2 =   Parts.IndexOf(thing.SpawnPart2 );
+                thing.InternalSpawnPart3 =   Parts.IndexOf(thing.SpawnPart3 );
+                thing.InternalSpawnPart4 =   Parts.IndexOf(thing.SpawnPart4 );
+                thing.InternalSpawnPart5 =   Parts.IndexOf(thing.SpawnPart5 );
+                thing.InternalSpawnPart6 =   Parts.IndexOf(thing.SpawnPart6 );
+                thing.InternalSpawnPart7 =   Parts.IndexOf(thing.SpawnPart7 );
+                thing.InternalSpawnPart8 =   Parts.IndexOf(thing.SpawnPart8 );
+                thing.InternalSpawnPart9 =   Parts.IndexOf(thing.SpawnPart9 );
+                thing.InternalSpawnPart10 =  Parts.IndexOf(thing.SpawnPart10);
+                thing.InternalSpawnPart11 =  Parts.IndexOf(thing.SpawnPart11);
+                thing.InternalSpawnPart12 =  Parts.IndexOf(thing.SpawnPart12);
+                thing.InternalSpawnPart13 =  Parts.IndexOf(thing.SpawnPart13);
+                thing.InternalSpawnPart14 =  Parts.IndexOf(thing.SpawnPart14);
+                thing.InternalSpawnPart15 =  Parts.IndexOf(thing.SpawnPart15);
+                thing.InternalSpawnPart16 =  Parts.IndexOf(thing.SpawnPart16);
+                thing.InternalSpawnPart17 =  Parts.IndexOf(thing.SpawnPart17);
+                thing.InternalSpawnPart18 =  Parts.IndexOf(thing.SpawnPart18);
+                thing.InternalSpawnPart19 =  Parts.IndexOf(thing.SpawnPart19);
+                thing.InternalSpawnPart20 =  Parts.IndexOf(thing.SpawnPart20);
+                thing.InternalSpawnPart21  = Parts.IndexOf(thing.SpawnPart21);
+                thing.InternalSpawnPart22 =  Parts.IndexOf(thing.SpawnPart22);
+                thing.InternalSpawnPart23 =  Parts.IndexOf(thing.SpawnPart23);
+                thing.InternalSpawnPart24 =  Parts.IndexOf(thing.SpawnPart24);
+                thing.InternalSpawnPart25 =  Parts.IndexOf(thing.SpawnPart25);
+                thing.InternalSpawnPart26 =  Parts.IndexOf(thing.SpawnPart26);
+                thing.InternalSpawnPart27 =  Parts.IndexOf(thing.SpawnPart27);
+                thing.InternalSpawnPart28 =  Parts.IndexOf(thing.SpawnPart28);
+                thing.InternalSpawnPart29 =  Parts.IndexOf(thing.SpawnPart29);
+                thing.InternalSpawnPart30 =  Parts.IndexOf(thing.SpawnPart30);
+                thing.InternalSpawnPart31 =  Parts.IndexOf(thing.SpawnPart31);
+                thing.InternalSpawnPart32 =  Parts.IndexOf(thing.SpawnPart32);
+            }
+
+            foreach (var thing in Events.Treasures)
+            {
+                thing.i_AttachObj = Parts.IndexOf(thing.AttachObj);
+            }
+
+            foreach (var thing in Events.Navimeshes)
+            {
+                thing.i_NvmRegion = Parts.IndexOf(thing.NvmRegion);
+            }
+
+            foreach (var thing in Parts.Hits)
+            {
+                thing.i_EnvLightMapSpot = (short)Events.EnvLightMapSpotIndexOf(thing.EnvLightMapSpot);
+            }
+
+            foreach (var thing in Events.NpcWorldInvitations)
+            {
+                thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
+            }
+
+            foreach (var thing in Events.SpawnPoints)
+            {
+                thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
             }
 
             bin.Write(Unknown1);

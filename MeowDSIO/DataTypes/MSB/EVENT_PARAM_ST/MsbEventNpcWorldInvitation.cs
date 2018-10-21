@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 {
-    public class MsbEventBlackEyeOrbInvasion : MsbEventBase
+    public class MsbEventNpcWorldInvitation : MsbEventBase
     {
-        public int NPCHostEventEntityID { get; set; } = 0;
-        public int InvasionEventEntityID { get; set; } = 0;
-        public int InvasionRegionIndex { get; set; } = 0;
+        public int NPCHostEntityID { get; set; } = 0;
+        public int EventFlagID { get; set; } = 0;
+        internal int i_SpawnPoint { get; set; } = 0;
+        public string SpawnPoint { get; set; } = MiscUtil.BAD_REF;
         public int SUx0C { get; set; } = 0;
 
         protected override EventParamSubtype GetSubtypeValue()
@@ -20,17 +21,17 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            NPCHostEventEntityID = bin.ReadInt32();
-            InvasionEventEntityID = bin.ReadInt32();
-            InvasionRegionIndex = bin.ReadInt32();
+            NPCHostEntityID = bin.ReadInt32();
+            EventFlagID = bin.ReadInt32();
+            i_SpawnPoint = bin.ReadInt32();
             SUx0C = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(NPCHostEventEntityID);
-            bin.Write(InvasionEventEntityID);
-            bin.Write(InvasionRegionIndex);
+            bin.Write(NPCHostEntityID);
+            bin.Write(EventFlagID);
+            bin.Write(i_SpawnPoint);
             bin.Write(SUx0C);
         }
     }

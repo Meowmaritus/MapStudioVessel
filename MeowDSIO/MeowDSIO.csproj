@@ -109,7 +109,7 @@
     <Compile Include="DataTypes\LUAINFO\LUAINFOHeader.cs" />
     <Compile Include="DataTypes\LUAINFO\ScriptRef.cs" />
     <Compile Include="DataTypes\LUAGNL\StringRef.cs" />
-    <Compile Include="DataTypes\MSB\EVENT_PARAM_ST\MsbEventBlackEyeOrbInvasion.cs" />
+    <Compile Include="DataTypes\MSB\EVENT_PARAM_ST\MsbEventNpcWorldInvitation.cs" />
     <Compile Include="DataTypes\MSB\EVENT_PARAM_ST\MsbEventBloodMsg.cs" />
     <Compile Include="DataTypes\MSB\EVENT_PARAM_ST\MsbEventEnvironment.cs" />
     <Compile Include="DataTypes\MSB\EVENT_PARAM_ST\MsbEventGenerator.cs" />
@@ -138,14 +138,14 @@
     <Compile Include="DataTypes\MSB\MsbRegionBase.cs" />
     <Compile Include="DataTypes\MSB\MsbRegionList.cs" />
     <Compile Include="DataTypes\MSB\MsbStruct.cs" />
-    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsCollision.cs" />
-    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsCollisionUnused.cs" />
+    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsHit.cs" />
+    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsConnectHit.cs" />
     <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsMapPiece.cs" />
     <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsNavimesh.cs" />
     <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsNPC.cs" />
-    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsNPCUnused.cs" />
+    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsNPCDummy.cs" />
     <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsObject.cs" />
-    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsObjectUnused.cs" />
+    <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsObjectDummy.cs" />
     <Compile Include="DataTypes\MSB\PARTS_PARAM_ST\MsbPartsPlayer.cs" />
     <Compile Include="DataTypes\MSB\POINT_PARAM_ST\MsbRegionBox.cs" />
     <Compile Include="DataTypes\MSB\POINT_PARAM_ST\MsbRegionCylinder.cs" />

@@ -8,9 +8,9 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
 {
     public class MsbRegionPoint : MsbRegionBase
     {
-        public int UNK1 { get; set; } = 0;
-        public int UNK2 { get; set; } = 0;
-        public int EventEntityID { get; set; } = -1;
+        internal int UNK1 { get; set; } = 0;
+        internal int UNK2 { get; set; } = 0;
+        public int EntityID { get; set; } = -1;
 
         public MsbRegionPoint(MsbRegionList parentList)
         {
@@ -31,14 +31,14 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         {
             UNK1 = bin.ReadInt32();
             UNK2 = bin.ReadInt32();
-            EventEntityID = bin.ReadInt32();
+            EntityID = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(UNK1);
             bin.Write(UNK2);
-            bin.Write(EventEntityID);
+            bin.Write(EntityID);
         }
     }
 }
