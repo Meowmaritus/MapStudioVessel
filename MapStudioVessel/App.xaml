@@ -29,7 +29,7 @@
             
             
 
-            <sys:String x:Key="Version">Map Vessel - Version 1.7</sys:String>
+            <sys:String x:Key="Version">Map Vessel - Version 1.8</sys:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
