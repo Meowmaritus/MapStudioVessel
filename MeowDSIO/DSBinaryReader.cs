@@ -435,5 +435,16 @@ namespace MeowDSIO
 
             return result;
         }
+
+        public override bool ReadBoolean()
+        {
+            byte val = ReadByte();
+            if (val == 0)
+                return false;
+            else if (val == 1)
+                return true;
+            else
+                throw new Exception($"Unexpected bool value: {val}");
+        }
     }
 }

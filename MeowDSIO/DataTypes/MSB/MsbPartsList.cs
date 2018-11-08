@@ -52,15 +52,15 @@ namespace MeowDSIO.DataTypes.MSB
 
         public MsbPartsBase this[int index] { get => GlobalList[index]; set => GlobalList[index] = value; }
 
-        public string NameOf(int index)
-        {
-            if (index == -1)
-                return "";
-            else if (index >= GlobalList.Count)
-                return $"[INVALID PART INDEX: {index}]";
+        //public string NameOf(int index)
+        //{
+        //    if (index == -1)
+        //        return "";
+        //    else if (index >= GlobalList.Count)
+        //        return $"[INVALID PART INDEX: {index}]";
 
-            return GlobalList[index].Name;
-        }
+        //    return GlobalList[index].Name;
+        //}
 
         public int GetNextIndex(PartsParamSubtype type)
         {

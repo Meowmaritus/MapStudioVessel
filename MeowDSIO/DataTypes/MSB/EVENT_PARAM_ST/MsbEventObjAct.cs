@@ -20,7 +20,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         internal int i_ObjName { get; set; } = 0;
         public string ObjName { get; set; } = MiscUtil.BAD_REF;
 
-        public short ParameterID { get; set; } = 0;
+        public short ObjActParamEntryID { get; set; } = 0;
 
         public short SubUnk1 { get; set; } = 0;
 
@@ -35,7 +35,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             ObjActEntityID = bin.ReadInt32();
             i_ObjName = bin.ReadInt32();
-            ParameterID = bin.ReadInt16();
+            ObjActParamEntryID = bin.ReadInt16();
             SubUnk1 = bin.ReadInt16();
             EventFlagID = bin.ReadInt32();
         }
@@ -44,7 +44,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             bin.Write(ObjActEntityID);
             bin.Write(i_ObjName);
-            bin.Write(ParameterID);
+            bin.Write(ObjActParamEntryID);
             bin.Write(SubUnk1);
             bin.Write(EventFlagID);
         }

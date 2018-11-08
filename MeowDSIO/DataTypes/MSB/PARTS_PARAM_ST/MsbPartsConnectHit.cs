@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
@@ -96,82 +97,24 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(SUB_CONST_2);
             bin.Write(SUB_CONST_3);
 
-            sbyte m1 = -1, m2 = -1, m3 = -1, m4 = -1;
-
-            string[] mapNameParts = MapName
-                .Substring(1)
-                .Split('_')
-                .Select(x => x.ToUpper())
-                .ToArray();
-
-            if (mapNameParts.Length != 4)
+            Match match = Regex.Match(MapName.ToLower(), @"^m(\d\d|xx)_(\d\d|xx)_(\d\d|xx)_(\d\d|xx)$");
+            if (!match.Success)
                 InvalidNameException();
 
-            if (mapNameParts[0].Length != 2
-                || mapNameParts[1].Length != 2
-                || mapNameParts[2].Length != 2
-                || mapNameParts[3].Length != 2
-                )
-            {
-                InvalidNameException();
-            }
+            string ms1 = match.Groups[1].Value.ToUpper();
+            string ms2 = match.Groups[2].Value.ToUpper();
+            string ms3 = match.Groups[3].Value.ToUpper();
+            string ms4 = match.Groups[4].Value.ToUpper();
 
-            try
-            {
-                if (mapNameParts[0] == "XX")
-                {
-                    m1 = -1;
-                }
-                else
-                {
-                    m1 = (sbyte)(int.Parse(mapNameParts[0]));
-                    if (m1 < 0)
-                        InvalidNameException();
-                }
-
-                if (mapNameParts[1] == "XX")
-                {
-                    m2 = -1;
-                }
-                else
-                {
-                    m2 = (sbyte)(int.Parse(mapNameParts[1]));
-                    if (m2 < 0)
-                        InvalidNameException();
-                }
-
-                if (mapNameParts[2] == "XX")
-                {
-                    m3 = -1;
-                }
-                else
-                {
-                    m3 = (sbyte)(int.Parse(mapNameParts[2]));
-                    if (m3 < 0)
-                        InvalidNameException();
-                }
-
-                if (mapNameParts[3] == "XX")
-                {
-                    m4 = -1;
-                }
-                else
-                {
-                    m4 = (sbyte)(int.Parse(mapNameParts[3]));
-                    if (m4 < 0)
-                        InvalidNameException();
-                }
-            }
-            catch
-            {
-                InvalidNameException();
-            }
+            sbyte m1 = (sbyte)(ms1 == "XX" ? -1 : sbyte.Parse(ms1));
+            sbyte m2 = (sbyte)(ms2 == "XX" ? -1 : sbyte.Parse(ms2));
+            sbyte m3 = (sbyte)(ms3 == "XX" ? -1 : sbyte.Parse(ms3));
+            sbyte m4 = (sbyte)(ms4 == "XX" ? -1 : sbyte.Parse(ms4));
 
             bin.Write(m1);
             bin.Write(m2);
             bin.Write(m3);
             bin.Write(m4);
-
 
             bin.Write(SUB_CONST_4);
             bin.Write(SUB_CONST_5);

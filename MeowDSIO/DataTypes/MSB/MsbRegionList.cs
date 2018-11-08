@@ -32,15 +32,15 @@ namespace MeowDSIO.DataTypes.MSB
                 indexDict.Add(thing.SolvedIndex, thing);
         }
 
-        public string NameOf(int index)
-        {
-            if (index == -1)
-                return "";
-            else if (index >= GlobalList.Count)
-                return $"[INVALID REGION INDEX: {index}]";
+        //public string NameOf(int index)
+        //{
+        //    if (index == -1)
+        //        return "";
+        //    else if (index >= GlobalList.Count)
+        //        return $"[INVALID REGION INDEX: {index}]";
 
-            return GlobalList[index].Name;
-        }
+        //    return GlobalList[index].Name;
+        //}
 
         public IList<MsbRegionBase> GlobalList => Points.Cast<MsbRegionBase>()
             .Concat(Spheres)

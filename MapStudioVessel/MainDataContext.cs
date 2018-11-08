@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -211,7 +212,15 @@ namespace MeowsBetterParamEditor
                     setIsLoading?.Invoke(true);
                 });
 
-                LoadAllPARAMs();
+                //try
+                //{
+                    LoadAllPARAMs();
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.ToString(), "Exception Encountered During Loading", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
+                
 
                 //Application.Current.Dispatcher.Invoke(() =>
                 //{
@@ -232,6 +241,12 @@ namespace MeowsBetterParamEditor
 
             foreach (var msbFile in Directory.GetFiles(Config.MSBFolder, "*.msb", SearchOption.TopDirectoryOnly))
             {
+                var shortMsbName = MiscUtil.GetFileNameWithoutDirectoryOrExtension(msbFile);
+
+                Match match = Regex.Match(shortMsbName, @"^m(\d\d|xx)_(\d\d|xx)_(\d\d|xx)_(\d\d|xx)$");
+                if (!match.Success)
+                    continue;
+
                 var newMsb = DataFile.LoadFromFile<MSB>(msbFile);
                 UPCOMING_MSBs.Add(new MSBRef(new FileInfo(msbFile).Name, newMsb));
             }

@@ -18,13 +18,15 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
             dict.Add(nameof(SUB_CONST_5), SUB_CONST_5);
             dict.Add(nameof(SUB_CONST_6), SUB_CONST_6);
-            dict.Add(nameof(SubUnk2), SubUnk2);
+            dict.Add(nameof(SUB_CONST_7), SUB_CONST_7);
+            dict.Add(nameof(SUB_CONST_8), SUB_CONST_8);
         }
 
         //public int SUx00 { get; set; } = 0;
         internal int SUB_CONST_1 { get; set; } = 0;
         internal int i_AttachObj { get; set; } = 0;
-        public string AttachObj = MiscUtil.BAD_REF;
+
+        public string AttachObj { get; set; } = MiscUtil.BAD_REF;
 
         public int ItemLot1 { get; set; } = 0;
 
@@ -46,7 +48,10 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         internal int SUB_CONST_6 { get; set; } = -1;
 
-        public int SubUnk2 { get; set; } = 0;
+        public bool InChest { get; set; } = false;
+        public bool StartDisabled { get; set; } = false;
+        internal byte SUB_CONST_7 { get; set; } = 0;
+        internal byte SUB_CONST_8 { get; set; } = 0;
 
         protected override EventParamSubtype GetSubtypeValue()
         {
@@ -68,7 +73,10 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             SUB_CONST_5 = bin.ReadInt32();
             ItemLot5 = bin.ReadInt32();
             SUB_CONST_6 = bin.ReadInt32();
-            SubUnk2 = bin.ReadInt32();
+            InChest = bin.ReadBoolean();
+            StartDisabled = bin.ReadBoolean();
+            SUB_CONST_7 = bin.ReadByte();
+            SUB_CONST_8 = bin.ReadByte();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -86,7 +94,10 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(SUB_CONST_5);
             bin.Write(ItemLot5);
             bin.Write(SUB_CONST_6);
-            bin.Write(SubUnk2);
+            bin.Write(InChest);
+            bin.Write(StartDisabled);
+            bin.Write(SUB_CONST_7);
+            bin.Write(SUB_CONST_8);
         }
     }
 }

@@ -24,15 +24,15 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         public byte HitFilterID { get; set; } = 0;
         public PartsCollisionSoundSpaceType SoundSpaceType { get; set; } = 0;
 
-        public short i_EnvLightMapSpot { get; set; } = 0;
+        internal short i_EnvLightMapSpot { get; set; } = 0;
         public string EnvLightMapSpot { get; set; } = MiscUtil.BAD_REF;
 
         public float ReflectPlaneHeight { get; set; } = 0;
 
-        public int NvmGroup1 { get; set; } = 0;
-        public int NvmGroup2 { get; set; } = 0;
-        public int NvmGroup3 { get; set; } = 0;
-        public int NvmGroup4 { get; set; } = 0;
+        public int NavimeshGroup1 { get; set; } = -1;
+        public int NavimeshGroup2 { get; set; } = -1;
+        public int NavimeshGroup3 { get; set; } = -1;
+        public int NavimeshGroup4 { get; set; } = -1;
 
         public int VagrantID1 { get; set; } = 0;
         public int VagrantID2 { get; set; } = 0;
@@ -67,10 +67,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             i_EnvLightMapSpot = bin.ReadInt16();
             ReflectPlaneHeight = bin.ReadSingle();
 
-            NvmGroup1 = bin.ReadInt32();
-            NvmGroup2 = bin.ReadInt32();
-            NvmGroup3 = bin.ReadInt32();
-            NvmGroup4 = bin.ReadInt32();
+            NavimeshGroup1 = bin.ReadInt32();
+            NavimeshGroup2 = bin.ReadInt32();
+            NavimeshGroup3 = bin.ReadInt32();
+            NavimeshGroup4 = bin.ReadInt32();
 
             VagrantID1 = bin.ReadInt32();
             VagrantID2 = bin.ReadInt32();
@@ -102,10 +102,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(i_EnvLightMapSpot);
             bin.Write(ReflectPlaneHeight);
 
-            bin.Write(NvmGroup1);
-            bin.Write(NvmGroup2);
-            bin.Write(NvmGroup3);
-            bin.Write(NvmGroup4);
+            bin.Write(NavimeshGroup1);
+            bin.Write(NavimeshGroup2);
+            bin.Write(NavimeshGroup3);
+            bin.Write(NavimeshGroup4);
 
             bin.Write(VagrantID1);
             bin.Write(VagrantID2);

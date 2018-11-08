@@ -5,6 +5,7 @@
                     xmlns:meow="clr-namespace:MeowsBetterParamEditor">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Selen.Wpf.Core;component/Resources.xaml"/>
+        <ResourceDictionary Source="LightThemeColors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type TabControl}" x:Key="{x:Type TabControl}">
         <Style.Resources>
@@ -47,7 +48,7 @@
                                     <Setter Property="Background" Value="Transparent"/>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="{StaticResource BorderBrushSelected}"/>
+                                    <Setter Property="Background" Value="{StaticResource TextBoxBackgroundSelected}"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="true">
                                     <Setter Property="Background" Value="{StaticResource BackgroundSelected}"/>

@@ -62,15 +62,15 @@ namespace MeowDSIO.DataTypes.MSB
             return GlobalList.IndexOf(matches.First());
         }
 
-        public string NameOf(int index)
-        {
-            if (index == -1)
-                return "";
-            else if (index >= GlobalList.Count)
-                return $"[INVALID MODEL INDEX: {index}]";
+        //public string NameOf(int index)
+        //{
+        //    if (index == -1)
+        //        return "";
+        //    else if (index >= GlobalList.Count)
+        //        return $"[INVALID MODEL INDEX: {index}]";
 
-            return GlobalList[index].Name;
-        }
+        //    return GlobalList[index].Name;
+        //}
 
         public int GetNextIndex(ModelParamSubtype type)
         {

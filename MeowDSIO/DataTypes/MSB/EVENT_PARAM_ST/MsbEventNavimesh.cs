@@ -17,7 +17,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
         }
 
-        public int i_NvmRegion { get; set; } = 0;
+        internal int i_NvmRegion { get; set; } = 0;
         public string NvmRegion { get; set; } = MiscUtil.BAD_REF;
 
         internal int SUB_CONST_1 { get; set; } = 0;

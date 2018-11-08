@@ -67,15 +67,15 @@ namespace MeowDSIO.DataTypes.MSB
 
         public MsbEventBase this[int index] { get => GlobalList[index]; set => GlobalList[index] = value; }
 
-        public string NameOf(int index)
-        {
-            if (index == -1)
-                return "";
-            else if (index >= GlobalList.Count)
-                return $"[INVALID GLOBAL EVENT INDEX: {index}]";
+        //public string NameOf(int index)
+        //{
+        //    if (index == -1)
+        //        return "";
+        //    else if (index >= GlobalList.Count)
+        //        return $"[INVALID GLOBAL EVENT INDEX: {index}]";
 
-            return GlobalList[index].Name;
-        }
+        //    return GlobalList[index].Name;
+        //}
 
         public string EnvLightMapSpotNameOf(int index)
         {

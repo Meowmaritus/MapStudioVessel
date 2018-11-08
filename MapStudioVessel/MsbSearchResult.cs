@@ -15,5 +15,16 @@ namespace MeowsBetterParamEditor
         public string PropertyName { get; set; } = null;
         public string PropertyValue { get; set; } = null;
         public object ActualRow { get; set; } = null;
+
+        public override string ToString()
+        {
+            return $"{nameof(MsbName)}: \"{MsbName}\"" +
+                $"\n{nameof(PrimaryTab)}: \"{PrimaryTab}\"" +
+                $"\n{nameof(SecondaryTab)}: \"{SecondaryTab}\"" +
+                $"\n{nameof(Row)}: \"{Row}\"" +
+                $"\n{nameof(PropertyName)}: \"{PropertyName}\"" +
+                $"\n{nameof(PropertyValue)}: \"{PropertyValue}\"" +
+                $"\n{nameof(ActualRow)}: \"{ActualRow.ToString()}\"\n";
+        }
     }
 }

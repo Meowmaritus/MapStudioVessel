@@ -12,11 +12,24 @@
                 <ResourceDictionary Source="Styles/DarkScrollBars.xaml" />
                 <ResourceDictionary Source="Styles/DarkMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>-->
+
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/LightThemeColors.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Selen.Wpf.SystemStyles;component/Styles.xaml"/>
+                <ResourceDictionary Source="Styles/LightThemeColors.xaml"/>
                 <ResourceDictionary Source="Styles/MetroLuaTabs.xaml"/>
+                <ResourceDictionary Source="Styles/DataGridStyles.xaml"/>
+                <ResourceDictionary Source="Styles/GroupCheckBoxStyle.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
-            <sys:String x:Key="Version">Map Vessel - Version 1.5</sys:String>
+
+            
+            <!-- !!!!!LIGHT THEME BELOW!!!!! -->
+            
+            
+            
+
+            <sys:String x:Key="Version">Map Vessel - Version 1.7</sys:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

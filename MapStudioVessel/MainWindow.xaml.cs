@@ -10,6 +10,7 @@ using MeowDSIO.DataTypes.PARAM;
 using MeowDSIO.DataTypes.PARAMDEF;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -48,6 +49,9 @@ namespace MeowsBetterParamEditor
             Title += " - !DARK SOULS REMASTERED VERSION!";
 #endif
         }
+
+        private Dictionary<IEnumerable, double> TAB_SCROLLS_H = new Dictionary<IEnumerable, double>();
+        private Dictionary<IEnumerable, double> TAB_SCROLLS_V = new Dictionary<IEnumerable, double>();
 
         private void SetLoadingMode(bool isLoading)
         {
@@ -399,93 +403,176 @@ namespace MeowsBetterParamEditor
             about.ShowDialog();
         }
 
+        private static T GetVisualChild<T>(DependencyObject parent) where T : Visual
+        {
+            T child = default(T);
+
+            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < numVisuals; i++)
+            {
+                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
+                child = v as T;
+                if (child == null)
+                {
+                    child = GetVisualChild<T>(v);
+                }
+                if (child != null)
+                {
+                    break;
+                }
+            }
+            return child;
+        }
+
+        private void StoreTabScroll()
+        {
+            if (PARAMDATA.CURRENT_LIST == null)
+                return;
+
+            ScrollViewer sv = GetVisualChild<ScrollViewer>(MSB_DATA_GRID);
+
+            if (!TAB_SCROLLS_H.ContainsKey(PARAMDATA.CURRENT_LIST))
+                TAB_SCROLLS_H.Add(PARAMDATA.CURRENT_LIST, sv.HorizontalOffset);
+            else
+                TAB_SCROLLS_H[PARAMDATA.CURRENT_LIST] = sv.HorizontalOffset;
+
+            if (!TAB_SCROLLS_V.ContainsKey(PARAMDATA.CURRENT_LIST))
+                TAB_SCROLLS_V.Add(PARAMDATA.CURRENT_LIST, sv.VerticalOffset);
+            else
+                TAB_SCROLLS_V[PARAMDATA.CURRENT_LIST] = sv.VerticalOffset;
+        }
+
+        private void LoadTabScroll()
+        {
+            if (PARAMDATA.CURRENT_LIST == null)
+                return;
+
+            ScrollViewer sv = GetVisualChild<ScrollViewer>(MSB_DATA_GRID);
+
+            if (TAB_SCROLLS_H.ContainsKey(PARAMDATA.CURRENT_LIST))
+            {
+                sv.ScrollToHorizontalOffset(TAB_SCROLLS_H[PARAMDATA.CURRENT_LIST]);
+            }
+            else
+            {
+                sv.ScrollToHorizontalOffset(0);
+            }
+
+            if (TAB_SCROLLS_V.ContainsKey(PARAMDATA.CURRENT_LIST))
+            {
+                sv.ScrollToVerticalOffset(TAB_SCROLLS_V[PARAMDATA.CURRENT_LIST]);
+            }
+            else
+            {
+                sv.ScrollToVerticalOffset(0);
+            }
+        }
+
         public void UPDATE_DATA_GRID()
         {
-            if (SelectedMsb == null)
+            Dispatcher.Invoke(new Action(() =>
             {
-                PARAMDATA.CURRENT_LIST = null;
-                return;
-            }
+                StoreTabScroll();
 
-            if (TabsPrimary.SelectedItem == TabModels)
-            {
-                PARAMDATA.CURRENT_LIST = SelectedMsb.Models;
+                //DisableHexColumns();
 
-                if (TabModels_Tabs.SelectedItem == TabModelsCharacters)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Characters;
-                else if (TabModels_Tabs.SelectedItem == TabModelsCollisions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Collisions;
-                else if (TabModels_Tabs.SelectedItem == TabModelsMapPieces)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.MapPieces;
-                else if (TabModels_Tabs.SelectedItem == TabModelsNavimeshes)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Navimeshes;
-                else if (TabModels_Tabs.SelectedItem == TabModelsObjects)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Objects;
-                else if (TabModels_Tabs.SelectedItem == TabModelsPlayers)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Players;
+                if (SelectedMsb == null)
+                {
+                    PARAMDATA.CURRENT_LIST = null;
+                    return;
+                }
 
-            }
-            else if (TabsPrimary.SelectedItem == TabEvents)
-            {
-                if (TabEvents_Tabs.SelectedItem == TabEventsBlackEyeOrbInvasions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.NpcWorldInvitations;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsBloodMessages)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.BloodMessages;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsEnvironmentEvents)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.EnvLightMapSpot;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsGenerators)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Generators;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsLights)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Lights;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsMapOffsets)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.MapOffsets;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsNavimeshes)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Navimeshes;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsObjActs)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.ObjActs;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsSFX)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.SFXs;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsSounds)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Sounds;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsSpawnPoints)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.SpawnPoints;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsTreasures)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Treasures;
-                else if (TabEvents_Tabs.SelectedItem == TabEventsWindSFX)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Events.WindSFXs;
-            }
-            else if (TabsPrimary.SelectedItem == TabRegions)
-            {
-                if (TabRegions_Tabs.SelectedItem == TabRegionsPoints)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Points;
-                else if (TabRegions_Tabs.SelectedItem == TabRegionsSpheres)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Spheres;
-                else if (TabRegions_Tabs.SelectedItem == TabRegionsCylinders)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Cylinders;
-                else if (TabRegions_Tabs.SelectedItem == TabRegionsBoxes)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Boxes;
-            }
-            else if (TabsPrimary.SelectedItem == TabParts)
-            {
-                if (TabParts_Tabs.SelectedItem == TabPartsCollisions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Hits;
-                else if (TabParts_Tabs.SelectedItem == TabPartsMapPieces)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.MapPieces;
-                else if (TabParts_Tabs.SelectedItem == TabPartsNavimeshes)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Navimeshes;
-                else if (TabParts_Tabs.SelectedItem == TabPartsNPCs)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.NPCs;
-                else if (TabParts_Tabs.SelectedItem == TabPartsObjects)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Objects;
-                else if (TabParts_Tabs.SelectedItem == TabPartsPlayers)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Players;
-                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedCollisions)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.ConnectHits;
-                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedNPCs)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyNPCs;
-                else if (TabParts_Tabs.SelectedItem == TabPartsUnusedObjects)
-                    PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyObjects;
-            }
+                if (TabsPrimary.SelectedItem == TabModels)
+                {
+                    PARAMDATA.CURRENT_LIST = SelectedMsb.Models;
+
+                    if (TabModels_Tabs.SelectedItem == TabModelsCharacters)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Characters;
+                    else if (TabModels_Tabs.SelectedItem == TabModelsCollisions)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Collisions;
+                    else if (TabModels_Tabs.SelectedItem == TabModelsMapPieces)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.MapPieces;
+                    else if (TabModels_Tabs.SelectedItem == TabModelsNavimeshes)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Navimeshes;
+                    else if (TabModels_Tabs.SelectedItem == TabModelsObjects)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Objects;
+                    else if (TabModels_Tabs.SelectedItem == TabModelsPlayers)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Models.Players;
+
+                }
+                else if (TabsPrimary.SelectedItem == TabEvents)
+                {
+                    if (TabEvents_Tabs.SelectedItem == TabEventsBlackEyeOrbInvasions)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.NpcWorldInvitations;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsBloodMessages)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.BloodMessages;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsEnvironmentEvents)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.EnvLightMapSpot;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsGenerators)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Generators;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsLights)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Lights;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsMapOffsets)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.MapOffsets;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsNavimeshes)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Navimeshes;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsObjActs)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.ObjActs;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsSFX)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.SFXs;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsSounds)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Sounds;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsSpawnPoints)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.SpawnPoints;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsTreasures)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.Treasures;
+                    else if (TabEvents_Tabs.SelectedItem == TabEventsWindSFX)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Events.WindSFXs;
+                }
+                else if (TabsPrimary.SelectedItem == TabRegions)
+                {
+                    if (TabRegions_Tabs.SelectedItem == TabRegionsPoints)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Points;
+                    else if (TabRegions_Tabs.SelectedItem == TabRegionsSpheres)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Spheres;
+                    else if (TabRegions_Tabs.SelectedItem == TabRegionsCylinders)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Cylinders;
+                    else if (TabRegions_Tabs.SelectedItem == TabRegionsBoxes)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Regions.Boxes;
+                }
+                else if (TabsPrimary.SelectedItem == TabParts)
+                {
+                    //EnableHexColumns_DrawGroup();
+                    //EnableHexColumns_DispGroup();
+
+                    if (TabParts_Tabs.SelectedItem == TabPartsCollisions)
+                    {
+                        //EnableHexColumns_NaviMeshGroup();
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Hits;
+                    }
+                    else if (TabParts_Tabs.SelectedItem == TabPartsMapPieces)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.MapPieces;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsNavimeshes)
+                    {
+                        //EnableHexColumns_NaviMeshGroup();
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Navimeshes;
+                    }
+                    else if (TabParts_Tabs.SelectedItem == TabPartsNPCs)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.NPCs;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsObjects)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Objects;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsPlayers)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.Players;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsUnusedCollisions)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.ConnectHits;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsUnusedNPCs)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyNPCs;
+                    else if (TabParts_Tabs.SelectedItem == TabPartsUnusedObjects)
+                        PARAMDATA.CURRENT_LIST = SelectedMsb.Parts.DummyObjects;
+                }
+            }));
+
+
         }
 
         private void TabsPrimary_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -771,6 +858,7 @@ namespace MeowsBetterParamEditor
             if (FIND == null || !FIND.IsVisible)
             {
                 FIND = new FindWindow();
+                FIND.Owner = this;
                 FIND.MsbDataContext = PARAMDATA;
 
                 if (MainTabs.SelectedValue != null)
@@ -784,195 +872,98 @@ namespace MeowsBetterParamEditor
             }
         }
 
+        private void GoToMsbSearchResult(MsbSearchResult r)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                //try
+                //{
+                MainTabs.SelectedItem = PARAMDATA.MSBs.Where(x => x.FancyDisplayName.ToUpper() == r.MsbName.ToUpper()).First();
+
+                void SwitchTabs(TabControl tc, string tabName)
+                {
+                    bool foundTab = false;
+                    foreach (var tab in tc.Items)
+                    {
+                        if (((TabItem)tab).Header.ToString().ToUpper() == tabName.ToUpper())
+                        {
+                            tc.SelectedItem = tab;
+                            foundTab = true;
+                            break;
+                        }
+                    }
+                    if (!foundTab)
+                    {
+                        throw new Exception($"Unable to find tab. Info:\n{r.ToString()}");
+                    }
+                }
+
+                if (r.PrimaryTab == "MODELS")
+                {
+                    TabsPrimary.SelectedItem = TabModels;
+                    SwitchTabs(TabModels_Tabs, r.SecondaryTab);
+                }
+                else if (r.PrimaryTab == "EVENTS")
+                {
+                    TabsPrimary.SelectedItem = TabEvents;
+                    SwitchTabs(TabEvents_Tabs, r.SecondaryTab);
+                }
+                else if (r.PrimaryTab == "REGIONS")
+                {
+                    TabsPrimary.SelectedItem = TabRegions;
+                    SwitchTabs(TabRegions_Tabs, r.SecondaryTab);
+                }
+                else if (r.PrimaryTab == "PARTS")
+                {
+                    TabsPrimary.SelectedItem = TabParts;
+                    SwitchTabs(TabParts_Tabs, r.SecondaryTab);
+                }
+
+                int columnIndex = -1;
+                bool foundColumn = false;
+                for (int i = 0; i < MSB_DATA_GRID.Columns.Count; i++)
+                {
+                    if (MSB_DATA_GRID.Columns[i].Header.ToString().ToUpper() == r.PropertyName.ToUpper())
+                    {
+                        columnIndex = i;
+                        foundColumn = true;
+                        break;
+                    }
+                }
+
+                if (!foundColumn)
+                {
+                    throw new Exception($"Unable to find column. Info:\n{r.ToString()}");
+                }
+
+                var selectCell = new DataGridCellInfo(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
+
+                MSB_DATA_GRID.SelectedCells.Clear();
+                MSB_DATA_GRID.SelectedCells.Add(selectCell);
+                MSB_DATA_GRID.ScrollIntoView(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
+                //}
+                //catch
+                //{
+                //    System.Threading.Thread.Sleep(250);
+                //    GoToMsbSearchResult(r);
+                //}
+                
+
+            });
+
+        }
+
         private void SearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (var item in e.AddedItems)
             {
                 var r = (MsbSearchResult)item;
 
-                Dispatcher.Invoke(() =>
-                {
-                    MainTabs.SelectedItem = PARAMDATA.MSBs.Where(x => x.FancyDisplayName == r.MsbName).First();
 
-                    void SwitchTabs(TabControl tc, string tabName)
-                    {
-                        foreach (var tab in tc.Items)
-                        {
-                            if (((TabItem)tab).Header.ToString() == tabName)
-                            {
-                                tc.SelectedItem = tab;
-                            }
-                        }
-                    }
-
-                    if (r.PrimaryTab == "MODELS")
-                    {
-                        TabsPrimary.SelectedItem = TabModels;
-                        SwitchTabs(TabModels_Tabs, r.SecondaryTab);
-                    }
-                    else if (r.PrimaryTab == "EVENTS")
-                    {
-                        TabsPrimary.SelectedItem = TabEvents;
-                        SwitchTabs(TabEvents_Tabs, r.SecondaryTab);
-                    }
-                    else if (r.PrimaryTab == "REGIONS")
-                    {
-                        TabsPrimary.SelectedItem = TabRegions;
-                        SwitchTabs(TabRegions_Tabs, r.SecondaryTab);
-                    }
-                    else if (r.PrimaryTab == "PARTS")
-                    {
-                        TabsPrimary.SelectedItem = TabParts;
-                        SwitchTabs(TabParts_Tabs, r.SecondaryTab);
-                    }
-
-                    int columnIndex = -1;
-
-                    for (int i = 0; i < MSB_DATA_GRID.Columns.Count; i++)
-                    {
-                        if (MSB_DATA_GRID.Columns[i].Header.ToString() == r.PropertyName)
-                        {
-                            columnIndex = i;
-                            break;
-                        }
-                    }
-
-                    var selectCell = new DataGridCellInfo(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
-
-                    MSB_DATA_GRID.SelectedCells.Clear();
-                    MSB_DATA_GRID.SelectedCells.Add(selectCell);
-                    MSB_DATA_GRID.ScrollIntoView(r.ActualRow, MSB_DATA_GRID.Columns[columnIndex]);
-
-                });
-
-                
+                GoToMsbSearchResult(r);
 
                 break;
             }
-        }
-
-        private void MSB_DATA_GRID_AutoGeneratedColumns(object sender, EventArgs e)
-        {
-            //List<string> baseColumnNames = new List<string>();
-
-            //if (TabsPrimary.SelectedItem == TabModels)
-            //{
-            //    baseColumnNames = MsbModelBase.BaseFieldNames;
-            //}
-            //else if (TabsPrimary.SelectedItem == TabEvents)
-            //{
-            //    baseColumnNames = MsbEventBase.BaseFieldNames;
-            //}
-            //else if (TabsPrimary.SelectedItem == TabParts)
-            //{
-            //    baseColumnNames = MsbPartsBase.BaseFieldNames;
-            //}
-            //else if (TabsPrimary.SelectedItem == TabRegions)
-            //{
-            //    baseColumnNames = MsbRegionBase.BaseFieldNames;
-            //}
-
-            //List<DataGridColumn> BaseColumnsFromLastToFirst = new List<DataGridColumn>();
-
-            //for (int i = 0; i < baseColumnNames.Count; i++)
-            //{
-            //    BaseColumnsFromLastToFirst.Add(MSB_DATA_GRID.Columns[MSB_DATA_GRID.Columns.Count - 1 - i]);
-            //}
-
-            //for (int i = 0; i < BaseColumnsFromLastToFirst.Count; i++)
-            //{
-            //    BaseColumnsFromLastToFirst[i].DisplayIndex = 0;
-            //}
-
-            //foreach (var c in MSB_DATA_GRID.Columns)
-            //{
-            //    int columnIndex = baseColumnNames.IndexOf(c.Header.ToString());
-            //    if (columnIndex >= 0)
-            //    {
-            //        c.DisplayIndex = columnIndex;
-            //    }
-            //}
-
-
-
-
-
-
-            //foreach (var c in MSB_DATA_GRID.Columns)
-            //{
-            //    if (c.Header.ToString().ToUpper() == "INDEX")
-            //    {
-            //        c.DisplayIndex = 0;
-            //        break;
-            //    }
-            //}
-
-            //foreach (var c in MSB_DATA_GRID.Columns)
-            //{
-            //    if (c.Header.ToString().ToUpper() == "NAME")
-            //    {
-            //        c.DisplayIndex = 1;
-            //        break;
-            //    }
-            //}
-
-            //foreach (var c in MSB_DATA_GRID.Columns)
-            //{
-            //    if (c.Header.ToString().ToUpper() == "EVENTINDEX")
-            //    {
-            //        c.DisplayIndex = 1;
-            //        break;
-            //    }
-            //}
-
-            //foreach (var c in MSB_DATA_GRID.Columns)
-            //{
-            //    if (c.Header.ToString().ToUpper() == "EVENTENTITYID")
-            //    {
-            //        c.DisplayIndex = 2;
-            //        break;
-            //    }
-            //}
-
-            //if (TabsPrimary.SelectedItem == TabEvents)
-            //{
-            //    foreach (var c in MSB_DATA_GRID.Columns)
-            //    {
-            //        if (c.Header.ToString().ToUpper() == "COLLISIONNAME")
-            //        {
-            //            c.DisplayIndex = 3;
-            //            break;
-            //        }
-            //    }
-
-            //    foreach (var c in MSB_DATA_GRID.Columns)
-            //    {
-            //        if (c.Header.ToString().ToUpper() == "UX18")
-            //        {
-            //            c.DisplayIndex = 4;
-            //            break;
-            //        }
-            //    }
-
-            //    foreach (var c in MSB_DATA_GRID.Columns)
-            //    {
-            //        if (c.Header.ToString().ToUpper() == "REGIONINDEX1")
-            //        {
-            //            c.DisplayIndex = 5;
-            //            break;
-            //        }
-            //    }
-
-            //    foreach (var c in MSB_DATA_GRID.Columns)
-            //    {
-            //        if (c.Header.ToString().ToUpper() == "UNKNOWN2")
-            //        {
-            //            c.DisplayIndex = 6;
-            //            break;
-            //        }
-            //    }
-            //}
-
         }
 
         private void MSB_DATA_GRID_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1080,6 +1071,81 @@ namespace MeowsBetterParamEditor
 
             }
 
+        }
+
+        private void MSB_DATA_GRID_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            LoadTabScroll();
+        }
+
+        //private void EnableHexColumns_DrawGroup()
+        //{
+        //    HardcodedColumn_LoadIndex(HardcodedColumn_DrawGroup);
+        //    HardcodedColumn_DrawGroup.Visibility = Visibility.Visible;
+        //}
+
+        //private void EnableHexColumns_DispGroup()
+        //{
+        //    HardcodedColumn_LoadIndex(HardcodedColumn_DispGroup);
+        //    HardcodedColumn_DispGroup.Visibility = Visibility.Visible;
+        //}
+
+        //private void EnableHexColumns_NaviMeshGroup()
+        //{
+        //    HardcodedColumn_LoadIndex(HardcodedColumn_NavimeshGroup);
+        //    HardcodedColumn_NavimeshGroup.Visibility = Visibility.Visible;
+        //}
+
+        //private void DisableHexColumns()
+        //{
+        //    HardcodedColumn_DrawGroup.Visibility = Visibility.Collapsed;
+        //    HardcodedColumn_DispGroup.Visibility = Visibility.Collapsed;
+        //    HardcodedColumn_NavimeshGroup.Visibility = Visibility.Collapsed;
+        //}
+
+
+        private Dictionary<DataGridColumn, DataGridColumn> DisplayIndexMap = new Dictionary<DataGridColumn, DataGridColumn>();
+        private void HardcodedColumn_LoadIndex(DataGridColumn c)
+        {
+            if (DisplayIndexMap.ContainsKey(c))
+            {
+                if (DisplayIndexMap[c].DisplayIndex >= 0)
+                  c.DisplayIndex = DisplayIndexMap[c].DisplayIndex;
+            }
+        }
+        private void HardCodedColumn_SaveIndex(DataGridColumn c, DataGridColumn mapTo)
+        {
+            if (!DisplayIndexMap.ContainsKey(c))
+                DisplayIndexMap.Add(c, mapTo);
+            else
+                DisplayIndexMap[c] = mapTo;
+        }
+        private void MSB_DATA_GRID_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName == "Name")
+            {
+                e.Column = null;
+            }
+            else
+            {
+                //if (e.PropertyName == "DrawGroup")
+                //{
+                //    HardCodedColumn_SaveIndex(HardcodedColumn_DrawGroup, e.Column);
+                //    e.Column.Visibility = Visibility.Collapsed;
+                //}
+                //else if (e.PropertyName == "DispGroup")
+                //{
+                //    HardCodedColumn_SaveIndex(HardcodedColumn_DispGroup, e.Column);
+                //    e.Column.Visibility = Visibility.Collapsed;
+                //}
+                //else if (e.PropertyName == "NavimeshGroup")
+                //{
+                //    HardCodedColumn_SaveIndex(HardcodedColumn_NavimeshGroup, e.Column);
+                //    e.Column.Visibility = Visibility.Collapsed;
+                //}
+            }
+
+            
         }
     }
 }

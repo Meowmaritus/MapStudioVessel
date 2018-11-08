@@ -103,15 +103,15 @@ namespace MeowDSIO.DataTypes.MSB
         public float ScaleY { get; set; } = 0;
         public float ScaleZ { get; set; } = 0;
 
-        public int DrawGroup1 { get; set; } = 0;
-        public int DrawGroup2 { get; set; } = 0;
-        public int DrawGroup3 { get; set; } = 0;
-        public int DrawGroup4 { get; set; } = 0;
+        public int DrawGroup1 { get; set; } = -1;
+        public int DrawGroup2 { get; set; } = -1;
+        public int DrawGroup3 { get; set; } = -1;
+        public int DrawGroup4 { get; set; } = -1;
 
-        public int DispGroup1 { get; set; } = 0;
-        public int DispGroup2 { get; set; } = 0;
-        public int DispGroup3 { get; set; } = 0;
-        public int DispGroup4 { get; set; } = 0;
+        public int DispGroup1 { get; set; } = -1;
+        public int DispGroup2 { get; set; } = -1;
+        public int DispGroup3 { get; set; } = -1;
+        public int DispGroup4 { get; set; } = -1;
 
         internal int BASE_CONST_1 { get; set; } = 0;
 
@@ -136,8 +136,8 @@ namespace MeowDSIO.DataTypes.MSB
         public bool IsShadowOnly { get; set; } = false;
         public bool DrawByReflectCam { get; set; } = false;
         public bool DrawOnlyReflectCam { get; set; } = false;
-        public bool IsUseDepthBiasFloat { get; set; } = false;
-        public bool DisablePointLightEffect { get; set; } = false;
+        public sbyte IsUseDepthBiasFloat { get; set; } = 0;
+        public sbyte DisablePointLightEffect { get; set; } = 0;
 
         internal byte BASE_CONST_3 { get; set; }
         internal byte BASE_CONST_4 { get; set; }
@@ -204,8 +204,8 @@ namespace MeowDSIO.DataTypes.MSB
                 IsShadowOnly = bin.ReadBoolean();
                 DrawByReflectCam = bin.ReadBoolean();
                 DrawOnlyReflectCam = bin.ReadBoolean();
-                IsUseDepthBiasFloat = bin.ReadBoolean();
-                DisablePointLightEffect = bin.ReadBoolean();
+                IsUseDepthBiasFloat = bin.ReadSByte();
+                DisablePointLightEffect = bin.ReadSByte();
                 
                 BASE_CONST_3 = bin.ReadByte();
                 BASE_CONST_4 = bin.ReadByte();

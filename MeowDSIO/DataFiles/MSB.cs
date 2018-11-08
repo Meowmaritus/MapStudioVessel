@@ -305,6 +305,11 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             Regions = new MsbRegionList();
             Parts = new MsbPartsList();
 
+            var OriginalIndexOrder_Model = new List<MsbModelBase>();
+            var OriginalIndexOrder_Parts = new List<MsbPartsBase>();
+            var OriginalIndexOrder_Regions = new List<MsbRegionBase>();
+            var OriginalIndexOrder_Events = new List<MsbEventBase>();
+
             RegisterRegionUpdates();
 
             MsbSectorFormat currentSectorFormat = MsbSectorFormat.NONE;
@@ -345,31 +350,37 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                     case ModelParamSubtype.Character:
                                         var newMMCh = new MsbModelCharacter();
                                         newMMCh.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMCh);
                                         Models.Characters.Add(newMMCh);
                                         break;
                                     case ModelParamSubtype.Collision:
                                         var newMMCol = new MsbModelCollision();
                                         newMMCol.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMCol);
                                         Models.Collisions.Add(newMMCol);
                                         break;
                                     case ModelParamSubtype.MapPiece:
                                         var newMMMP = new MsbModelMapPiece();
                                         newMMMP.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMMP);
                                         Models.MapPieces.Add(newMMMP);
                                         break;
                                     case ModelParamSubtype.Navimesh:
                                         var newMMNVM = new MsbModelNavimesh();
                                         newMMNVM.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMNVM);
                                         Models.Navimeshes.Add(newMMNVM);
                                         break;
                                     case ModelParamSubtype.Object:
                                         var newMMO = new MsbModelObject();
                                         newMMO.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMO);
                                         Models.Objects.Add(newMMO);
                                         break;
                                     case ModelParamSubtype.Player:
                                         var newMMP = new MsbModelPlayer();
                                         newMMP.Read(bin);
+                                        OriginalIndexOrder_Model.Add(newMMP);
                                         Models.Players.Add(newMMP);
                                         break;
                                 }
@@ -387,66 +398,79 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                     case EventParamSubtype.BlackEyeOrbInvasions:
                                         var newMEBEOI = new MsbEventNpcWorldInvitation();
                                         newMEBEOI.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEBEOI);
                                         Events.NpcWorldInvitations.Add(newMEBEOI);
                                         break;
                                     case EventParamSubtype.BloodMsg:
                                         var newMEBM = new MsbEventBloodMsg();
                                         newMEBM.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEBM);
                                         Events.BloodMessages.Add(newMEBM);
                                         break;
                                     case EventParamSubtype.Environment:
                                         var newMEE = new MsbEventEnvironment();
                                         newMEE.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEE);
                                         Events.EnvLightMapSpot.Add(newMEE);
                                         break;
                                     case EventParamSubtype.Generators:
                                         var newMEG = new MsbEventGenerator();
                                         newMEG.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEG);
                                         Events.Generators.Add(newMEG);
                                         break;
                                     case EventParamSubtype.Lights:
                                         var newMEL = new MsbEventLight();
                                         newMEL.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEL);
                                         Events.Lights.Add(newMEL);
                                         break;
                                     case EventParamSubtype.MapOffset:
                                         var newMEMO = new MsbEventMapOffset();
                                         newMEMO.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEMO);
                                         Events.MapOffsets.Add(newMEMO);
                                         break;
                                     case EventParamSubtype.Navimesh:
                                         var newMEN = new MsbEventNavimesh();
                                         newMEN.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEN);
                                         Events.Navimeshes.Add(newMEN);
                                         break;
                                     case EventParamSubtype.ObjActs:
                                         var newMEOA = new MsbEventObjAct();
                                         newMEOA.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEOA);
                                         Events.ObjActs.Add(newMEOA);
                                         break;
                                     case EventParamSubtype.SFX:
                                         var newMESFX = new MsbEventSFX();
                                         newMESFX.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMESFX);
                                         Events.SFXs.Add(newMESFX);
                                         break;
                                     case EventParamSubtype.Sounds:
                                         var newMES = new MsbEventSound();
                                         newMES.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMES);
                                         Events.Sounds.Add(newMES);
                                         break;
                                     case EventParamSubtype.SpawnPoints:
                                         var newMESP = new MsbEventSpawnPoint();
                                         newMESP.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMESP);
                                         Events.SpawnPoints.Add(newMESP);
                                         break;
                                     case EventParamSubtype.Treasures:
                                         var newMET = new MsbEventTreasure();
                                         newMET.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMET);
                                         Events.Treasures.Add(newMET);
                                         break;
                                     case EventParamSubtype.WindSFX:
                                         var newMEWS = new MsbEventWindSFX();
                                         newMEWS.Read(bin);
+                                        OriginalIndexOrder_Events.Add(newMEWS);
                                         Events.WindSFXs.Add(newMEWS);
                                         break;
                                 }
@@ -464,21 +488,25 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                     case PointParamSubtype.Points:
                                         var newMRP = new MsbRegionPoint(Regions);
                                         newMRP.Read(bin);
+                                        OriginalIndexOrder_Regions.Add(newMRP);
                                         Regions.Points.Add(newMRP);
                                         break;
                                     case PointParamSubtype.Spheres:
                                         var newMRS = new MsbRegionSphere(Regions);
                                         newMRS.Read(bin);
+                                        OriginalIndexOrder_Regions.Add(newMRS);
                                         Regions.Spheres.Add(newMRS);
                                         break;
                                     case PointParamSubtype.Cylinders:
                                         var newMRC = new MsbRegionCylinder(Regions);
                                         newMRC.Read(bin);
+                                        OriginalIndexOrder_Regions.Add(newMRC);
                                         Regions.Cylinders.Add(newMRC);
                                         break;
                                     case PointParamSubtype.Boxes:
                                         var newMRB = new MsbRegionBox(Regions);
                                         newMRB.Read(bin);
+                                        OriginalIndexOrder_Regions.Add(newMRB);
                                         Regions.Boxes.Add(newMRB);
                                         break;
                                 }
@@ -497,46 +525,55 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                                     case PartsParamSubtype.Hits:
                                         var newMPC = new MsbPartsHit();
                                         newMPC.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPC);
                                         Parts.Hits.Add(newMPC);
                                         break;
                                     case PartsParamSubtype.MapPieces:
                                         var newMPMP = new MsbPartsMapPiece();
                                         newMPMP.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPMP);
                                         Parts.MapPieces.Add(newMPMP);
                                         break;
                                     case PartsParamSubtype.Navimeshes:
                                         var newMPN = new MsbPartsNavimesh();
                                         newMPN.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPN);
                                         Parts.Navimeshes.Add(newMPN);
                                         break;
                                     case PartsParamSubtype.NPCs:
                                         var newMPNPC = new MsbPartsNPC();
                                         newMPNPC.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPNPC);
                                         Parts.NPCs.Add(newMPNPC);
                                         break;
                                     case PartsParamSubtype.Objects:
                                         var newMPO = new MsbPartsObject();
                                         newMPO.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPO);
                                         Parts.Objects.Add(newMPO);
                                         break;
                                     case PartsParamSubtype.Players:
                                         var newMPP = new MsbPartsPlayer();
                                         newMPP.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPP);
                                         Parts.Players.Add(newMPP);
                                         break;
                                     case PartsParamSubtype.ConnectHits:
                                         var newMPUC = new MsbPartsConnectHit();
                                         newMPUC.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPUC);
                                         Parts.ConnectHits.Add(newMPUC);
                                         break;
                                     case PartsParamSubtype.DummyNPCs:
                                         var newMPUNPC = new MsbPartsNPCDummy();
                                         newMPUNPC.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPUNPC);
                                         Parts.DummyNPCs.Add(newMPUNPC);
                                         break;
                                     case PartsParamSubtype.DummyObjects:
                                         var newMPUO = new MsbPartsObjectDummy();
                                         newMPUO.Read(bin);
+                                        OriginalIndexOrder_Parts.Add(newMPUO);
                                         Parts.DummyObjects.Add(newMPUO);
                                         break;
                                 }
@@ -596,102 +633,133 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             }
             while (hasRegionNameConflicts);
 
+            string GetNameFromIndex_Model(int index)
+            {
+                if (index >= 0)
+                    return OriginalIndexOrder_Model[index].Name;
+
+                return "";
+            }
+
+            string GetNameFromIndex_Part(int index)
+            {
+                if (index >= 0)
+                    return OriginalIndexOrder_Parts[index].Name;
+
+                return "";
+            }
+
+            string GetNameFromIndex_Region(int index)
+            {
+                if (index >= 0)
+                    return OriginalIndexOrder_Regions[index].Name;
+
+                return "";
+            }
+
+            string GetNameFromIndex_Event(int index)
+            {
+                if (index >= 0)
+                    return OriginalIndexOrder_Events[index].Name;
+
+                return "";
+            }
 
             foreach (var part in Parts.GlobalList)
-                part.ModelName = Models.NameOf(part.i_ModelName);
+                part.ModelName = GetNameFromIndex_Model(part.i_ModelName);
 
             foreach (var ev in Events.GlobalList)
-                ev.Part = Parts.NameOf(ev.i_Part);
+                ev.Part = GetNameFromIndex_Part(ev.i_Part);
 
             foreach (var thing in Parts.NPCs)
-                thing.HitName = Parts.NameOf(thing.i_HitName);
+                thing.HitName = GetNameFromIndex_Part(thing.i_HitName);
 
             foreach (var thing in Parts.DummyNPCs)
-                thing.HitName = Parts.NameOf(thing.i_HitName);
+                thing.HitName = GetNameFromIndex_Part(thing.i_HitName);
 
             foreach (var thing in Parts.Objects)
-                thing.PartName = Parts.NameOf(thing.i_PartName);
+                thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
 
             foreach (var thing in Parts.DummyObjects)
-                thing.PartName = Parts.NameOf(thing.i_PartName);
+                thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
 
             foreach (var thing in Events.ObjActs)
-                thing.ObjName = Parts.NameOf(thing.i_ObjName);
+                thing.ObjName = GetNameFromIndex_Part(thing.i_ObjName);
 
             foreach (var thing in Events.GlobalList)
             {
                 if (thing.i_Region >= 0)
                 {
-                    thing.Region = Regions.NameOf(thing.i_Region);
+                    thing.Region = GetNameFromIndex_Region(thing.i_Region);
                 }
                 
             }
 
             foreach (var thing in Parts.NPCs)
             {
-                thing.MovePoint1 = Regions.NameOf(thing.SolvedMovePointIndex1);
-                thing.MovePoint2 = Regions.NameOf(thing.SolvedMovePointIndex2);
-                thing.MovePoint3 = Regions.NameOf(thing.SolvedMovePointIndex3);
-                thing.MovePoint4 = Regions.NameOf(thing.SolvedMovePointIndex4);
+                thing.MovePoint1 = GetNameFromIndex_Region(thing.SolvedMovePointIndex1);
+                thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
+                thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
+                thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
             }
 
             foreach (var thing in Parts.DummyNPCs)
             {
-                thing.MovePoint1 = Regions.NameOf(thing.SolvedMovePointIndex1);
-                thing.MovePoint2 = Regions.NameOf(thing.SolvedMovePointIndex2);
-                thing.MovePoint3 = Regions.NameOf(thing.SolvedMovePointIndex3);
-                thing.MovePoint4 = Regions.NameOf(thing.SolvedMovePointIndex4);
+                thing.MovePoint1 = GetNameFromIndex_Region(thing.SolvedMovePointIndex1);
+                thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
+                thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
+                thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
             }
 
             foreach (var thing in Events.Generators)
             {
-                thing.SpawnPoint1 = Regions.NameOf(thing.InternalSpawnPoint1);
-                thing.SpawnPoint2 = Regions.NameOf(thing.InternalSpawnPoint2);
-                thing.SpawnPoint3 = Regions.NameOf(thing.InternalSpawnPoint3);
-                thing.SpawnPoint4 = Regions.NameOf(thing.InternalSpawnPoint4);
+                thing.SpawnPoint1 = GetNameFromIndex_Region(thing.InternalSpawnPoint1);
+                thing.SpawnPoint2 = GetNameFromIndex_Region(thing.InternalSpawnPoint2);
+                thing.SpawnPoint3 = GetNameFromIndex_Region(thing.InternalSpawnPoint3);
+                thing.SpawnPoint4 = GetNameFromIndex_Region(thing.InternalSpawnPoint4);
 
-                thing.SpawnPart1 = Parts.NameOf(thing.InternalSpawnPart1);
-                thing.SpawnPart2 = Parts.NameOf(thing.InternalSpawnPart2);
-                thing.SpawnPart3 = Parts.NameOf(thing.InternalSpawnPart3);
-                thing.SpawnPart4 = Parts.NameOf(thing.InternalSpawnPart4);
-                thing.SpawnPart5 = Parts.NameOf(thing.InternalSpawnPart5);
-                thing.SpawnPart6 = Parts.NameOf(thing.InternalSpawnPart6);
-                thing.SpawnPart7 = Parts.NameOf(thing.InternalSpawnPart7);
-                thing.SpawnPart8 = Parts.NameOf(thing.InternalSpawnPart8);
-                thing.SpawnPart9 = Parts.NameOf(thing.InternalSpawnPart9);
-                thing.SpawnPart10 = Parts.NameOf(thing.InternalSpawnPart10);
-                thing.SpawnPart11 = Parts.NameOf(thing.InternalSpawnPart11);
-                thing.SpawnPart12 = Parts.NameOf(thing.InternalSpawnPart12);
-                thing.SpawnPart13 = Parts.NameOf(thing.InternalSpawnPart13);
-                thing.SpawnPart14 = Parts.NameOf(thing.InternalSpawnPart14);
-                thing.SpawnPart15 = Parts.NameOf(thing.InternalSpawnPart15);
-                thing.SpawnPart16 = Parts.NameOf(thing.InternalSpawnPart16);
-                thing.SpawnPart17 = Parts.NameOf(thing.InternalSpawnPart17);
-                thing.SpawnPart18 = Parts.NameOf(thing.InternalSpawnPart18);
-                thing.SpawnPart19 = Parts.NameOf(thing.InternalSpawnPart19);
-                thing.SpawnPart20 = Parts.NameOf(thing.InternalSpawnPart20);
-                thing.SpawnPart21 = Parts.NameOf(thing.InternalSpawnPart21);
-                thing.SpawnPart22 = Parts.NameOf(thing.InternalSpawnPart22);
-                thing.SpawnPart23 = Parts.NameOf(thing.InternalSpawnPart23);
-                thing.SpawnPart24 = Parts.NameOf(thing.InternalSpawnPart24);
-                thing.SpawnPart25 = Parts.NameOf(thing.InternalSpawnPart25);
-                thing.SpawnPart26 = Parts.NameOf(thing.InternalSpawnPart26);
-                thing.SpawnPart27 = Parts.NameOf(thing.InternalSpawnPart27);
-                thing.SpawnPart28 = Parts.NameOf(thing.InternalSpawnPart28);
-                thing.SpawnPart29 = Parts.NameOf(thing.InternalSpawnPart29);
-                thing.SpawnPart30 = Parts.NameOf(thing.InternalSpawnPart30);
-                thing.SpawnPart31 = Parts.NameOf(thing.InternalSpawnPart31);
-                thing.SpawnPart32 = Parts.NameOf(thing.InternalSpawnPart32);
+                thing.SpawnPart1 = GetNameFromIndex_Part(thing.InternalSpawnPart1);
+                thing.SpawnPart2 = GetNameFromIndex_Part(thing.InternalSpawnPart2);
+                thing.SpawnPart3 = GetNameFromIndex_Part(thing.InternalSpawnPart3);
+                thing.SpawnPart4 = GetNameFromIndex_Part(thing.InternalSpawnPart4);
+                thing.SpawnPart5 = GetNameFromIndex_Part(thing.InternalSpawnPart5);
+                thing.SpawnPart6 = GetNameFromIndex_Part(thing.InternalSpawnPart6);
+                thing.SpawnPart7 = GetNameFromIndex_Part(thing.InternalSpawnPart7);
+                thing.SpawnPart8 = GetNameFromIndex_Part(thing.InternalSpawnPart8);
+                thing.SpawnPart9 = GetNameFromIndex_Part(thing.InternalSpawnPart9);
+                thing.SpawnPart10 = GetNameFromIndex_Part(thing.InternalSpawnPart10);
+                thing.SpawnPart11 = GetNameFromIndex_Part(thing.InternalSpawnPart11);
+                thing.SpawnPart12 = GetNameFromIndex_Part(thing.InternalSpawnPart12);
+                thing.SpawnPart13 = GetNameFromIndex_Part(thing.InternalSpawnPart13);
+                thing.SpawnPart14 = GetNameFromIndex_Part(thing.InternalSpawnPart14);
+                thing.SpawnPart15 = GetNameFromIndex_Part(thing.InternalSpawnPart15);
+                thing.SpawnPart16 = GetNameFromIndex_Part(thing.InternalSpawnPart16);
+                thing.SpawnPart17 = GetNameFromIndex_Part(thing.InternalSpawnPart17);
+                thing.SpawnPart18 = GetNameFromIndex_Part(thing.InternalSpawnPart18);
+                thing.SpawnPart19 = GetNameFromIndex_Part(thing.InternalSpawnPart19);
+                thing.SpawnPart20 = GetNameFromIndex_Part(thing.InternalSpawnPart20);
+                thing.SpawnPart21 = GetNameFromIndex_Part(thing.InternalSpawnPart21);
+                thing.SpawnPart22 = GetNameFromIndex_Part(thing.InternalSpawnPart22);
+                thing.SpawnPart23 = GetNameFromIndex_Part(thing.InternalSpawnPart23);
+                thing.SpawnPart24 = GetNameFromIndex_Part(thing.InternalSpawnPart24);
+                thing.SpawnPart25 = GetNameFromIndex_Part(thing.InternalSpawnPart25);
+                thing.SpawnPart26 = GetNameFromIndex_Part(thing.InternalSpawnPart26);
+                thing.SpawnPart27 = GetNameFromIndex_Part(thing.InternalSpawnPart27);
+                thing.SpawnPart28 = GetNameFromIndex_Part(thing.InternalSpawnPart28);
+                thing.SpawnPart29 = GetNameFromIndex_Part(thing.InternalSpawnPart29);
+                thing.SpawnPart30 = GetNameFromIndex_Part(thing.InternalSpawnPart30);
+                thing.SpawnPart31 = GetNameFromIndex_Part(thing.InternalSpawnPart31);
+                thing.SpawnPart32 = GetNameFromIndex_Part(thing.InternalSpawnPart32);
             }
 
             foreach (var thing in Events.Treasures)
             {
-                thing.AttachObj = Parts.NameOf(thing.i_AttachObj);
+                thing.AttachObj = GetNameFromIndex_Part(thing.i_AttachObj);
             }
 
             foreach (var thing in Events.Navimeshes)
             {
-                thing.NvmRegion = Parts.NameOf(thing.i_NvmRegion);
+                thing.NvmRegion = GetNameFromIndex_Part(thing.i_NvmRegion);
             }
 
             foreach (var thing in Parts.Hits)
@@ -701,13 +769,22 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
             foreach (var thing in Events.NpcWorldInvitations)
             {
-                thing.SpawnPoint = Regions.NameOf(thing.i_SpawnPoint);
+                thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
             }
 
             foreach (var thing in Events.SpawnPoints)
             {
-                thing.SpawnPoint = Regions.NameOf(thing.i_SpawnPoint);
+                thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
             }
+
+            //TEMP_DEBUG//
+
+            //foreach (var r in Events.GlobalList)
+            //{
+            //    r.Name = $"[DBG_IDX: {Events.GlobalList.IndexOf(r)}] {r.Name}";
+            //}
+
+            //TEMP_DEBUG//
         }
 
         protected override void Write(DSBinaryWriter bin, IProgress<(int, int)> prog)

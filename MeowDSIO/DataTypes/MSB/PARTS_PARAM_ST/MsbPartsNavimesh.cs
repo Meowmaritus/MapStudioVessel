@@ -18,10 +18,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
         }
 
-        public int NaviMeshGroup1 { get; set; } = 0;
-        public int NaviMeshGroup2 { get; set; } = 0;
-        public int NaviMeshGroup3 { get; set; } = 0;
-        public int NaviMeshGroup4 { get; set; } = 0;
+        public int NavimeshGroup1 { get; set; } = -1;
+        public int NavimeshGroup2 { get; set; } = -1;
+        public int NavimeshGroup3 { get; set; } = -1;
+        public int NavimeshGroup4 { get; set; } = -1;
 
         internal int SUB_CONST_1 { get; set; } = 0;
         internal int SUB_CONST_2 { get; set; } = 0;
@@ -35,10 +35,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            NaviMeshGroup1 = bin.ReadInt32();
-            NaviMeshGroup2 = bin.ReadInt32();
-            NaviMeshGroup3 = bin.ReadInt32();
-            NaviMeshGroup4 = bin.ReadInt32();
+            NavimeshGroup1 = bin.ReadInt32();
+            NavimeshGroup2 = bin.ReadInt32();
+            NavimeshGroup3 = bin.ReadInt32();
+            NavimeshGroup4 = bin.ReadInt32();
 
             SUB_CONST_1 = bin.ReadInt32();
             SUB_CONST_2 = bin.ReadInt32();
@@ -48,10 +48,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(NaviMeshGroup1);
-            bin.Write(NaviMeshGroup2);
-            bin.Write(NaviMeshGroup3);
-            bin.Write(NaviMeshGroup4);
+            bin.Write(NavimeshGroup1);
+            bin.Write(NavimeshGroup2);
+            bin.Write(NavimeshGroup3);
+            bin.Write(NavimeshGroup4);
 
             bin.Write(SUB_CONST_1);
             bin.Write(SUB_CONST_2);
