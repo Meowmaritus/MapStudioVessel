@@ -12,10 +12,10 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             subtypeName = "Light";
 
-            dict.Add(nameof(SubUnk1), SubUnk1);
+            dict.Add(nameof(PointLightID), PointLightID);
         }
 
-        public int SubUnk1 { get; set; } = 0;
+        public int PointLightID { get; set; } = 0;
 
         protected override EventParamSubtype GetSubtypeValue()
         {
@@ -24,12 +24,12 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            SubUnk1 = bin.ReadInt32();
+            PointLightID = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(SubUnk1);
+            bin.Write(PointLightID);
         }
     }
 }

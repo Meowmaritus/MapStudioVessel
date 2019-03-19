@@ -202,7 +202,7 @@
         Margin="0,0,0,20"
         >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="110" MinWidth="110"/>
+                <ColumnDefinition Width="128" MinWidth="110"/>
                 <ColumnDefinition Width="*" MinWidth="128"/>
             </Grid.ColumnDefinitions>
 
@@ -214,10 +214,10 @@
             </Grid.RowDefinitions>
 
             <Menu 
-            Name="MainMenu"
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
+                Name="MainMenu"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 Background="{StaticResource Background}"
                 Foreground="{StaticResource Foreground}"
             >
@@ -453,6 +453,7 @@
                 CanUserSortColumns="False"
                 UseLayoutRounding="True"
                 SnapsToDevicePixels="True"
+                CanUserAddRows="True"
                 >
 
                 <DataGrid.Columns>

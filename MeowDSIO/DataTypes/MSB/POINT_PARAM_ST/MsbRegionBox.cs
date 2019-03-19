@@ -23,6 +23,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         public float Height { get; set; } = 1;
         public int EntityID { get; set; } = -1;
 
+        public MsbRegionBox()
+        {
+
+        }
+
         public MsbRegionBox(MsbRegionList parentList)
         {
             this.Index = parentList.Count;

@@ -652,7 +652,13 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             string GetNameFromIndex_Region(int index)
             {
                 if (index >= 0)
-                    return OriginalIndexOrder_Regions[index].Name;
+                {
+                    if (index < OriginalIndexOrder_Regions.Count)
+                        return OriginalIndexOrder_Regions[index].Name;
+                    else
+                        return $"[INVALID REGION INDEX: {index}]";
+                }
+                    
 
                 return "";
             }
@@ -793,8 +799,26 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             var LIST_REGION = Regions.GlobalList;
             var LIST_PARTS = Parts.GlobalList;
 
+            var partsIndexCorrectionCurIndex = 0;
+            var partsIndexCorrectionLastPartType = PartsParamSubtype.MapPieces;
             foreach (var part in Parts.GlobalList)
+            {
+                if (part.Type != partsIndexCorrectionLastPartType)
+                    partsIndexCorrectionCurIndex = 0;
                 part.i_ModelName = Models.IndexOf(part.ModelName);
+                part.Index = partsIndexCorrectionCurIndex++;
+                partsIndexCorrectionLastPartType = part.Type;
+            }
+
+            var modelIndexCorrectionCurIndex = 0;
+            var modelIndexCorrectionLastPartType = ModelParamSubtype.MapPiece;
+            foreach (var model in Models.GlobalList)
+            {
+                if (model.ModelType != modelIndexCorrectionLastPartType)
+                    modelIndexCorrectionCurIndex = 0;
+                model.Index = modelIndexCorrectionCurIndex++;
+                modelIndexCorrectionLastPartType = model.ModelType;
+            }
 
             foreach (var ev in Events.GlobalList)
                 ev.i_Part = Parts.IndexOf(ev.Part);

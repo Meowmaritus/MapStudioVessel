@@ -22,6 +22,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         public float Height { get; set; } = 2;
         public int EntityID { get; set; } = -1;
 
+        public MsbRegionCylinder()
+        {
+
+        }
+
         public MsbRegionCylinder(MsbRegionList parentList)
         {
             this.Index = parentList.Count;

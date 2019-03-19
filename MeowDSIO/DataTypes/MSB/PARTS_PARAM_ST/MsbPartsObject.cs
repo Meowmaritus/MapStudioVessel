@@ -13,11 +13,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             subtypeName = "Object";
 
             dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
-            dict.Add(nameof(SubUnk1), SubUnk1);
-            dict.Add(nameof(SubUnk2), SubUnk2);
+            dict.Add(nameof(BreakTerm), BreakTerm);
+            dict.Add(nameof(NetSyncType), NetSyncType);
             dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
             dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
-            dict.Add(nameof(SubUnk3), SubUnk3);
+            dict.Add(nameof(InitAnimID), InitAnimID);
             dict.Add(nameof(SubUnk4), SubUnk4);
             dict.Add(nameof(SubUnk5), SubUnk5);
             dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
@@ -28,12 +28,12 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         internal int i_PartName { get; set; } = 0;
         public string PartName { get; set; } = MiscUtil.BAD_REF;
 
-        public byte SubUnk1 { get; set; } = 0;
-        public byte SubUnk2 { get; set; } = 0;
+        public sbyte BreakTerm { get; set; } = 0;
+        public sbyte NetSyncType { get; set; } = 0;
         internal byte SUB_CONST_2 { get; set; } = 0;
         internal byte SUB_CONST_3 { get; set; } = 0;
 
-        public short SubUnk3 { get; set; } = 0;
+        public short InitAnimID { get; set; } = 0;
         public short SubUnk4 { get; set; } = 0;
 
         public int SubUnk5 { get; set; } = 0;
@@ -50,12 +50,12 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             SUB_CONST_1 = bin.ReadInt32();
             i_PartName = bin.ReadInt32();
 
-            SubUnk1 = bin.ReadByte();
-            SubUnk2 = bin.ReadByte();
+            BreakTerm = bin.ReadSByte();
+            NetSyncType = bin.ReadSByte();
             SUB_CONST_2 = bin.ReadByte();
             SUB_CONST_3 = bin.ReadByte();
 
-            SubUnk3 = bin.ReadInt16();
+            InitAnimID = bin.ReadInt16();
             SubUnk4 = bin.ReadInt16();
 
             SubUnk5 = bin.ReadInt32();
@@ -68,12 +68,12 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(SUB_CONST_1);
             bin.Write(i_PartName);
 
-            bin.Write(SubUnk1);
-            bin.Write(SubUnk2);
+            bin.Write(BreakTerm);
+            bin.Write(NetSyncType);
             bin.Write(SUB_CONST_2);
             bin.Write(SUB_CONST_3);
 
-            bin.Write(SubUnk3);
+            bin.Write(InitAnimID);
             bin.Write(SubUnk4);
 
             bin.Write(SubUnk5);

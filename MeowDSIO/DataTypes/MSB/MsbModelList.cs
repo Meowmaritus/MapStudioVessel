@@ -53,11 +53,11 @@ namespace MeowDSIO.DataTypes.MSB
             var matchCount = matches.Count();
             if (matchCount == 0)
             {
-                throw new Exception($"MSB Region \"{name}\" does not exist!");
+                throw new Exception($"MSB Model \"{name}\" does not exist!");
             }
             else if (matchCount > 1)
             {
-                throw new Exception($"More than one MSB Region found named \"{name}\"!");
+                throw new Exception($"More than one MSB Model found named \"{name}\"!");
             }
             return GlobalList.IndexOf(matches.First());
         }

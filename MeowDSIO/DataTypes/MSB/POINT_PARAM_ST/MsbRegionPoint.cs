@@ -20,6 +20,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         internal int SUB_CONST_2 { get; set; } = 0;
         public int EntityID { get; set; } = -1;
 
+        public MsbRegionPoint()
+        {
+
+        }
+
         public MsbRegionPoint(MsbRegionList parentList)
         {
             this.Index = parentList.Count;

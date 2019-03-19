@@ -21,6 +21,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         public float Radius { get; set; } = 1;
         public int EntityID { get; set; } = -1;
 
+        public MsbRegionSphere()
+        {
+
+        }
+
         public MsbRegionSphere(MsbRegionList parentList)
         {
             this.Index = parentList.Count;
