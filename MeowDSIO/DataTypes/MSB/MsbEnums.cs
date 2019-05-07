@@ -109,4 +109,11 @@ namespace MeowDSIO.DataTypes.MSB
         Ghost = 10, 
 
     }
+
+    public enum EventsObjActsObjActState : short
+    {
+        Default = 0,
+        Door = 1,
+        Loop = 2
+    }
 }

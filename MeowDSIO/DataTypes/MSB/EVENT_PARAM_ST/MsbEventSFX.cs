@@ -28,6 +28,10 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(SfxID);
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
         }
     }
 }

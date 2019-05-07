@@ -35,6 +35,11 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
             return (4, -1, 8);
         }
 
+        internal override (int, int, int) GetOffsetDeltas64()
+        {
+            return (8, -1, 16);
+        }
+
         internal override PointParamSubtype GetSubtypeValue()
         {
             return PointParamSubtype.Points;
@@ -43,14 +48,30 @@ namespace MeowDSIO.DataTypes.MSB.POINT_PARAM_ST
         protected override void SubtypeRead(DSBinaryReader bin)
         {
             SUB_CONST_1 = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             SUB_CONST_2 = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             EntityID = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(SUB_CONST_1);
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             bin.Write(SUB_CONST_2);
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             bin.Write(EntityID);
         }
     }

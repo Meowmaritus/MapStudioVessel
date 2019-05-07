@@ -28,6 +28,7 @@ namespace MeowDSIO
         private Dictionary<string, long> MarkerDict = new Dictionary<string, long>();
 
         public bool BigEndian = false;
+        public bool LongOffsets = false;
 
         public char StrEscapeChar = (char)0;
 

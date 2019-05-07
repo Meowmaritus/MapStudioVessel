@@ -72,8 +72,24 @@ namespace MeowDSIO.DataTypes.MSB
             bin.AssertInt32((int)Type);
             Index = bin.ReadInt32();
 
-            int baseDataOffset = bin.ReadInt32();
-            int subtypeDataOffset = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
+            long baseDataOffset;
+            long subtypeDataOffset;
+
+            if (bin.LongOffsets)
+            {
+                baseDataOffset = bin.ReadInt64();
+                subtypeDataOffset = bin.ReadInt64();
+            }
+            else
+            {
+                baseDataOffset = bin.ReadInt32();
+                subtypeDataOffset = bin.ReadInt32();
+            }
 
             BASE_CONST_1 = bin.ReadInt32();
 
@@ -96,23 +112,57 @@ namespace MeowDSIO.DataTypes.MSB
         protected override void InternalWrite(DSBinaryWriter bin)
         {
             bin.Placeholder($"EVENT_PARAM_ST|{Type}|Name");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(EventIndex);
 
             bin.Write((int)Type);
 
             bin.Write(Index);
 
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Placeholder($"EVENT_PARAM_ST|{Type}|(BASE DATA OFFSET)");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Placeholder($"EVENT_PARAM_ST|{Type}|(SUBTYPE DATA OFFSET)");
 
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(BASE_CONST_1);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
 
             //bin.StartMSBStrings();
             {
                 bin.Replace($"EVENT_PARAM_ST|{Type}|Name", bin.MsbOffset);
                 bin.WriteMsbString(Name);
 
-                bin.Pad(align: 0x04);
+                if (bin.LongOffsets)
+                {
+                    bin.Pad(align: 0x08); //'pad wider cuz 64bit LUL'
+                }
+                else
+                {
+                    bin.Pad(align: 0x04);
+                }
             }
             //bin.EndMSBStrings(blockSize: 0x10);
 
@@ -123,7 +173,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write(BASE_CONST_2);
 
             //PADDING
-            bin.Write((int)0);
+            //bin.Write((int)0);
 
             bin.Replace($"EVENT_PARAM_ST|{Type}|(SUBTYPE DATA OFFSET)", bin.MsbOffset);
             SubtypeWrite(bin);
