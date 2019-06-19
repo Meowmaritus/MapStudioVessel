@@ -99,19 +99,19 @@ namespace MeowDSIO.DataTypes.MSB
         public float RotY { get; set; } = 0;
         public float RotZ { get; set; } = 0;
 
-        public float ScaleX { get; set; } = 0;
-        public float ScaleY { get; set; } = 0;
-        public float ScaleZ { get; set; } = 0;
+        public float ScaleX { get; set; } = 1;
+        public float ScaleY { get; set; } = 1;
+        public float ScaleZ { get; set; } = 1;
 
-        public int DrawGroup1 { get; set; } = -1;
-        public int DrawGroup2 { get; set; } = -1;
-        public int DrawGroup3 { get; set; } = -1;
-        public int DrawGroup4 { get; set; } = -1;
+        public int DrawGroup1 { get; set; } = 0;
+        public int DrawGroup2 { get; set; } = 0;
+        public int DrawGroup3 { get; set; } = 0;
+        public int DrawGroup4 { get; set; } = 0;
 
-        public int DispGroup1 { get; set; } = -1;
-        public int DispGroup2 { get; set; } = -1;
-        public int DispGroup3 { get; set; } = -1;
-        public int DispGroup4 { get; set; } = -1;
+        public int DispGroup1 { get; set; } = 0;
+        public int DispGroup2 { get; set; } = 0;
+        public int DispGroup3 { get; set; } = 0;
+        public int DispGroup4 { get; set; } = 0;
 
         internal int BASE_CONST_1 { get; set; } = 0;
 
@@ -127,12 +127,12 @@ namespace MeowDSIO.DataTypes.MSB
         public sbyte ToneMapID { get; set; } = 0;
         public sbyte ToneCorrectID { get; set; } = 0;
         public sbyte LanternID { get; set; } = 0;
-        public sbyte LodParamID { get; set; } = 0;
+        public sbyte LodParamID { get; set; } = -1;
 
         internal byte BASE_CONST_2 { get; set; }
 
-        public bool IsShadowSrc { get; set; } = false;
-        public bool IsShadowDest { get; set; } = false;
+        public bool IsShadowSrc { get; set; } = true;
+        public bool IsShadowDest { get; set; } = true;
         public bool IsShadowOnly { get; set; } = false;
         public bool DrawByReflectCam { get; set; } = false;
         public bool DrawOnlyReflectCam { get; set; } = false;

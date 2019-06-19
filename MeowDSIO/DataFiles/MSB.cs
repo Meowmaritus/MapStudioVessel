@@ -716,6 +716,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
                 thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
                 thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
+                thing.MovePoint5 = GetNameFromIndex_Region(thing.SolvedMovePointIndex5);
+                thing.MovePoint6 = GetNameFromIndex_Region(thing.SolvedMovePointIndex6);
+                thing.MovePoint7 = GetNameFromIndex_Region(thing.SolvedMovePointIndex7);
+                thing.MovePoint8 = GetNameFromIndex_Region(thing.SolvedMovePointIndex8);
             }
 
             foreach (var thing in Parts.DummyNPCs)
@@ -724,6 +728,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
                 thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
                 thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
+                thing.MovePoint5 = GetNameFromIndex_Region(thing.SolvedMovePointIndex5);
+                thing.MovePoint6 = GetNameFromIndex_Region(thing.SolvedMovePointIndex6);
+                thing.MovePoint7 = GetNameFromIndex_Region(thing.SolvedMovePointIndex7);
+                thing.MovePoint8 = GetNameFromIndex_Region(thing.SolvedMovePointIndex8);
             }
 
             foreach (var thing in Events.Generators)
@@ -1217,6 +1225,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
                 thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
                 thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
+                thing.MovePoint5 = GetNameFromIndex_Region(thing.SolvedMovePointIndex5);
+                thing.MovePoint6 = GetNameFromIndex_Region(thing.SolvedMovePointIndex6);
+                thing.MovePoint7 = GetNameFromIndex_Region(thing.SolvedMovePointIndex7);
+                thing.MovePoint8 = GetNameFromIndex_Region(thing.SolvedMovePointIndex8);
             }
 
             foreach (var thing in Parts.DummyNPCs)
@@ -1225,6 +1237,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.MovePoint2 = GetNameFromIndex_Region(thing.SolvedMovePointIndex2);
                 thing.MovePoint3 = GetNameFromIndex_Region(thing.SolvedMovePointIndex3);
                 thing.MovePoint4 = GetNameFromIndex_Region(thing.SolvedMovePointIndex4);
+                thing.MovePoint5 = GetNameFromIndex_Region(thing.SolvedMovePointIndex5);
+                thing.MovePoint6 = GetNameFromIndex_Region(thing.SolvedMovePointIndex6);
+                thing.MovePoint7 = GetNameFromIndex_Region(thing.SolvedMovePointIndex7);
+                thing.MovePoint8 = GetNameFromIndex_Region(thing.SolvedMovePointIndex8);
             }
 
             foreach (var thing in Events.Generators)
@@ -1349,6 +1365,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.SolvedMovePointIndex2 = (short)Regions.IndexOf(thing.MovePoint2);
                 thing.SolvedMovePointIndex3 = (short)Regions.IndexOf(thing.MovePoint3);
                 thing.SolvedMovePointIndex4 = (short)Regions.IndexOf(thing.MovePoint4);
+                thing.SolvedMovePointIndex5 = (short)Regions.IndexOf(thing.MovePoint5);
+                thing.SolvedMovePointIndex6 = (short)Regions.IndexOf(thing.MovePoint6);
+                thing.SolvedMovePointIndex7 = (short)Regions.IndexOf(thing.MovePoint7);
+                thing.SolvedMovePointIndex8 = (short)Regions.IndexOf(thing.MovePoint8);
             }
 
             foreach (var thing in Parts.DummyNPCs)
@@ -1357,6 +1377,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.SolvedMovePointIndex2 = (short)Regions.IndexOf(thing.MovePoint2);
                 thing.SolvedMovePointIndex3 = (short)Regions.IndexOf(thing.MovePoint3);
                 thing.SolvedMovePointIndex4 = (short)Regions.IndexOf(thing.MovePoint4);
+                thing.SolvedMovePointIndex5 = (short)Regions.IndexOf(thing.MovePoint5);
+                thing.SolvedMovePointIndex6 = (short)Regions.IndexOf(thing.MovePoint6);
+                thing.SolvedMovePointIndex7 = (short)Regions.IndexOf(thing.MovePoint7);
+                thing.SolvedMovePointIndex8 = (short)Regions.IndexOf(thing.MovePoint8);
             }
 
             foreach (var thing in Events.Generators)
