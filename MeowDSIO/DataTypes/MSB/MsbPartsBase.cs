@@ -99,19 +99,19 @@ namespace MeowDSIO.DataTypes.MSB
         public float RotY { get; set; } = 0;
         public float RotZ { get; set; } = 0;
 
-        public float ScaleX { get; set; } = 0;
-        public float ScaleY { get; set; } = 0;
-        public float ScaleZ { get; set; } = 0;
+        public float ScaleX { get; set; } = 1;
+        public float ScaleY { get; set; } = 1;
+        public float ScaleZ { get; set; } = 1;
 
-        public int DrawGroup1 { get; set; } = -1;
-        public int DrawGroup2 { get; set; } = -1;
-        public int DrawGroup3 { get; set; } = -1;
-        public int DrawGroup4 { get; set; } = -1;
+        public int DrawGroup1 { get; set; } = 0;
+        public int DrawGroup2 { get; set; } = 0;
+        public int DrawGroup3 { get; set; } = 0;
+        public int DrawGroup4 { get; set; } = 0;
 
-        public int DispGroup1 { get; set; } = -1;
-        public int DispGroup2 { get; set; } = -1;
-        public int DispGroup3 { get; set; } = -1;
-        public int DispGroup4 { get; set; } = -1;
+        public int DispGroup1 { get; set; } = 0;
+        public int DispGroup2 { get; set; } = 0;
+        public int DispGroup3 { get; set; } = 0;
+        public int DispGroup4 { get; set; } = 0;
 
         internal int BASE_CONST_1 { get; set; } = 0;
 
@@ -127,12 +127,12 @@ namespace MeowDSIO.DataTypes.MSB
         public sbyte ToneMapID { get; set; } = 0;
         public sbyte ToneCorrectID { get; set; } = 0;
         public sbyte LanternID { get; set; } = 0;
-        public sbyte LodParamID { get; set; } = 0;
+        public sbyte LodParamID { get; set; } = -1;
 
         internal byte BASE_CONST_2 { get; set; }
 
-        public bool IsShadowSrc { get; set; } = false;
-        public bool IsShadowDest { get; set; } = false;
+        public bool IsShadowSrc { get; set; } = true;
+        public bool IsShadowDest { get; set; } = true;
         public bool IsShadowOnly { get; set; } = false;
         public bool DrawByReflectCam { get; set; } = false;
         public bool DrawOnlyReflectCam { get; set; } = false;
@@ -155,6 +155,11 @@ namespace MeowDSIO.DataTypes.MSB
 
             Index = bin.ReadInt32();
             i_ModelName = bin.ReadInt32();
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
 
             PlaceholderModel = bin.ReadMsbString();
 
@@ -180,8 +185,20 @@ namespace MeowDSIO.DataTypes.MSB
             DispGroup3 = bin.ReadInt32();
             DispGroup4 = bin.ReadInt32();
 
-            int baseDataOffset = bin.ReadInt32();
-            int subtypeDataOffset = bin.ReadInt32();
+            long baseDataOffset;
+            long subtypeDataOffset;
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+                baseDataOffset = bin.ReadInt64();
+                subtypeDataOffset = bin.ReadInt64();
+            }
+            else
+            {
+                baseDataOffset = bin.ReadInt32();
+                subtypeDataOffset = bin.ReadInt32();
+            }
 
             BASE_CONST_1 = bin.ReadInt32();
 
@@ -224,12 +241,27 @@ namespace MeowDSIO.DataTypes.MSB
         {
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(Name)}");
 
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write((int)Type);
 
             bin.Write(Index);
             bin.Write(i_ModelName);
 
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(PlaceholderModel)}");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
 
             bin.Write(PosX);
             bin.Write(PosY);
@@ -253,13 +285,33 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write(DispGroup3);
             bin.Write(DispGroup4);
 
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|(BASE DATA OFFSET)");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Placeholder($"PARTS_PARAM_ST|{Type}|{Index}|(SUBTYPE DATA OFFSET)");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
 
             bin.Write(BASE_CONST_1);
 
             int nameByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(Name);
             int placeholderModelByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(PlaceholderModel);
+
+            if (bin.LongOffsets) {
+                bin.Jump(0x34);
+            }
 
             int blockSize = (nameByteCount + 1) + (placeholderModelByteCount + 1);
 
@@ -270,15 +322,47 @@ namespace MeowDSIO.DataTypes.MSB
 
             blockSize = (blockSize + 3) & (-0x4);
 
-            bin.StartMSBStrings();
+            if (placeholderModelByteCount == 0 && bin.LongOffsets)
             {
                 bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(Name)}", bin.MsbOffset);
                 bin.WriteMsbString(Name, terminate: true);
 
                 bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(PlaceholderModel)}", bin.MsbOffset);
                 bin.WriteMsbString(PlaceholderModel, terminate: true);
+
+                bin.Pad(align: 0x08);
             }
-            bin.EndMSBStrings(blockSize);
+            else if (bin.LongOffsets)
+            {
+                bin.StartMSBStrings();
+                {
+                    bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(Name)}", bin.MsbOffset);
+                    bin.WriteMsbString(Name, terminate: true);
+
+                    bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(PlaceholderModel)}", bin.MsbOffset);
+                    bin.WriteMsbString(PlaceholderModel, terminate: true);
+                }
+                bin.EndMSBStrings(blockSize);
+
+                bin.Pad(align: 0x08);
+
+                //if (bin.LongOffsets)
+                //{
+                //    bin.Jump(4);
+                //}
+            }
+            else
+            {
+                bin.StartMSBStrings();
+                {
+                    bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(Name)}", bin.MsbOffset);
+                    bin.WriteMsbString(Name, terminate: true);
+
+                    bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|{nameof(PlaceholderModel)}", bin.MsbOffset);
+                    bin.WriteMsbString(PlaceholderModel, terminate: true);
+                }
+                bin.EndMSBStrings(blockSize);
+            }
 
             bin.Replace($"PARTS_PARAM_ST|{Type}|{Index}|(BASE DATA OFFSET)", bin.MsbOffset);
 

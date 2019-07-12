@@ -12,7 +12,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             subtypeName = "ObjAct";
 
-            dict.Add(nameof(SubUnk1), SubUnk1);
+            dict.Add(nameof(ObjActState), ObjActState);
         }
 
         public int ObjActEntityID { get; set; } = 0;
@@ -22,7 +22,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         public short ObjActParamEntryID { get; set; } = 0;
 
-        public short SubUnk1 { get; set; } = 0;
+        public EventsObjActsObjActState ObjActState { get; set; } = 0;
 
         public int EventFlagID { get; set; } = 0;
 
@@ -36,7 +36,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             ObjActEntityID = bin.ReadInt32();
             i_ObjName = bin.ReadInt32();
             ObjActParamEntryID = bin.ReadInt16();
-            SubUnk1 = bin.ReadInt16();
+            ObjActState = (EventsObjActsObjActState)bin.ReadInt16();
             EventFlagID = bin.ReadInt32();
         }
 
@@ -45,7 +45,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(ObjActEntityID);
             bin.Write(i_ObjName);
             bin.Write(ObjActParamEntryID);
-            bin.Write(SubUnk1);
+            bin.Write((short)ObjActState);
             bin.Write(EventFlagID);
         }
     }

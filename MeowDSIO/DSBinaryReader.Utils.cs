@@ -25,8 +25,9 @@ namespace MeowDSIO
         private Stack<PaddedRegion> PaddedRegionStack = new Stack<PaddedRegion>();
 
         public bool BigEndian = false;
+        public bool LongOffsets = false;
 
-        public void StepInMSB(int offset)
+        public void StepInMSB(long offset)
         {
             if (currentMsbStructOffset >= 0)
             {

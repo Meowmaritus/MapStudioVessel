@@ -418,8 +418,17 @@ namespace MeowDSIO
         public string ReadMsbString()
         {
             string result = null;
+            long msbStringOffset;
 
-            int msbStringOffset = ReadInt32();
+            if (LongOffsets)
+            {
+                msbStringOffset = ReadInt64();
+            }
+            else
+            {
+                msbStringOffset = ReadInt32();
+            }
+           
             if (msbStringOffset > 0)
             {
                 StepInMSB(msbStringOffset);

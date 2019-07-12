@@ -55,9 +55,21 @@ namespace MeowDSIO.DataTypes.MSB.MODEL_PARAM_ST
         protected override void InternalWrite(DSBinaryWriter bin)
         {
             bin.Placeholder($"MODEL_PARAM_ST|0|{nameof(Name)}");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write((int)ModelType);
             bin.Write(Index);
             bin.Placeholder($"MODEL_PARAM_ST|0|{nameof(PlaceholderModel)}");
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(InstanceCount);
             bin.Write(BASE_CONST_1);
             bin.Write(BASE_CONST_2);
@@ -70,6 +82,11 @@ namespace MeowDSIO.DataTypes.MSB.MODEL_PARAM_ST
             bin.WriteMsbString(PlaceholderModel, terminate: true);
 
             bin.Pad(align: 0x04);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
         }
 
         public override string ToString()

@@ -62,7 +62,15 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             //SUx00 = bin.ReadInt32();
             SUB_CONST_1 = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             i_AttachObj = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             ItemLot1 = bin.ReadInt32();
             SUB_CONST_2 = bin.ReadInt32();
             ItemLot2 = bin.ReadInt32();
@@ -83,7 +91,19 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         {
             //bin.Write(SUx00);
             bin.Write(SUB_CONST_1);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(i_AttachObj);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(ItemLot1);
             bin.Write(SUB_CONST_2);
             bin.Write(ItemLot2);
@@ -98,6 +118,11 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(StartDisabled);
             bin.Write(SUB_CONST_7);
             bin.Write(SUB_CONST_8);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
         }
     }
 }

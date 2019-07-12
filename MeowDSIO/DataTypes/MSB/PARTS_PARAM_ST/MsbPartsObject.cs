@@ -48,6 +48,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         protected override void SubtypeRead(DSBinaryReader bin)
         {
             SUB_CONST_1 = bin.ReadInt32();
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
             i_PartName = bin.ReadInt32();
 
             BreakTerm = bin.ReadSByte();
@@ -66,6 +70,12 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(SUB_CONST_1);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
+
             bin.Write(i_PartName);
 
             bin.Write(BreakTerm);
@@ -78,6 +88,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
             bin.Write(SubUnk5);
             bin.Write(SUB_CONST_4);
+
+            if (bin.LongOffsets)
+            {
+                bin.Jump(4);
+            }
         }
     }
 }
