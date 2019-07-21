@@ -23,12 +23,29 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
+            if (bin.IsDeS)
+            {
+                SubtypeReadDeS(bin);
+            }
+            else
+            {
+                SoundType = (MsbSoundType)bin.ReadInt32();
+                SoundID = bin.ReadInt32();
+            }
+        }
+
+        private void SubtypeReadDeS(DSBinaryReader bin)
+        {
+            bin.Jump(4); //skip region index(?), since it seems to be duplicate
             SoundType = (MsbSoundType)bin.ReadInt32();
             SoundID = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
+            if (bin.IsDeS)
+                bin.Write(i_Region);
+
             bin.Write((int)SoundType);
             bin.Write(SoundID);
         }

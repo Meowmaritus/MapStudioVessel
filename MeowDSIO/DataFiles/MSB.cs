@@ -299,12 +299,11 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
         {
             Unknown1 = bin.ReadInt32();
 
-            if (bin.ReadInt32() == 0)
+            if (bin.LongOffsets)
             {
                 Read64(bin, prog);
                 return;
             }
-            bin.Goto(4);
             LongOffsets = false;
 
             UnregisterRegionUpdates();
@@ -645,7 +644,12 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             string GetNameFromIndex_Model(int index)
             {
                 if (index >= 0)
-                    return OriginalIndexOrder_Model[index].Name;
+                {
+                    if (index < OriginalIndexOrder_Model.Count)
+                        return OriginalIndexOrder_Model[index].Name;
+                    else
+                        return $"[INVALID MODEL INDEX: {index}]";
+                }
 
                 return "";
             }
@@ -653,7 +657,12 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             string GetNameFromIndex_Part(int index)
             {
                 if (index >= 0)
-                    return OriginalIndexOrder_Parts[index].Name;
+                {
+                    if (index < OriginalIndexOrder_Parts.Count)
+                        return OriginalIndexOrder_Parts[index].Name;
+                    else
+                        return $"[INVALID REGION INDEX: {index}]";
+                }
 
                 return "";
             }
@@ -667,7 +676,6 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                     else
                         return $"[INVALID REGION INDEX: {index}]";
                 }
-                    
 
                 return "";
             }
@@ -692,11 +700,15 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             foreach (var thing in Parts.DummyNPCs)
                 thing.HitName = GetNameFromIndex_Part(thing.i_HitName);
 
-            foreach (var thing in Parts.Objects)
-                thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
 
-            foreach (var thing in Parts.DummyObjects)
-                thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
+            if (!bin.IsDeS)
+            {
+                foreach (var thing in Parts.Objects)
+                    thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
+
+                foreach (var thing in Parts.DummyObjects)
+                    thing.PartName = GetNameFromIndex_Part(thing.i_PartName);
+            }
 
             foreach (var thing in Events.ObjActs)
                 thing.ObjName = GetNameFromIndex_Part(thing.i_ObjName);
@@ -785,19 +797,22 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.NvmRegion = GetNameFromIndex_Part(thing.i_NvmRegion);
             }
 
-            foreach (var thing in Parts.Hits)
+            if (!bin.IsDeS)
             {
-                thing.EnvLightMapSpot = Events.EnvLightMapSpotNameOf(thing.i_EnvLightMapSpot);
-            }
+                foreach (var thing in Parts.Hits)
+                {
+                    thing.EnvLightMapSpot = Events.EnvLightMapSpotNameOf(thing.i_EnvLightMapSpot);
+                }
 
-            foreach (var thing in Events.NpcWorldInvitations)
-            {
-                thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
-            }
+                foreach (var thing in Events.NpcWorldInvitations)
+                {
+                    thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
+                }
 
-            foreach (var thing in Events.SpawnPoints)
-            {
-                thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
+                foreach (var thing in Events.SpawnPoints)
+                {
+                    thing.SpawnPoint = GetNameFromIndex_Region(thing.i_SpawnPoint);
+                }
             }
 
             //TEMP_DEBUG//
@@ -812,9 +827,10 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
 
         private void Read64(DSBinaryReader bin, IProgress<(int, int)> prog)
         {
-            bin.LongOffsets = true;
             LongOffsets = true;
             UnregisterRegionUpdates();
+
+            bin.Jump(4);
 
             Models = new MsbModelList();
             Events = new MsbEventList();
@@ -1346,12 +1362,15 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
             foreach (var thing in Parts.DummyNPCs)
                 thing.i_HitName = Parts.IndexOf(thing.HitName);
 
-            foreach (var thing in Parts.Objects)
-                thing.i_PartName = Parts.IndexOf(thing.PartName);
+            if (!bin.IsDeS)
+            {
+                foreach (var thing in Parts.Objects)
+                    thing.i_PartName = Parts.IndexOf(thing.PartName);
 
-            foreach (var thing in Parts.DummyObjects)
-                thing.i_PartName = Parts.IndexOf(thing.PartName);
-
+                foreach (var thing in Parts.DummyObjects)
+                    thing.i_PartName = Parts.IndexOf(thing.PartName);
+            }
+            
             foreach (var thing in Events.ObjActs)
                 thing.i_ObjName = Parts.IndexOf(thing.ObjName);
 
@@ -1434,19 +1453,22 @@ int[] PARTS_PARAM_Pointers[PARTS_PARAM_Count];
                 thing.i_NvmRegion = Parts.IndexOf(thing.NvmRegion);
             }
 
-            foreach (var thing in Parts.Hits)
+            if (!bin.IsDeS)
             {
-                thing.i_EnvLightMapSpot = (short)Events.EnvLightMapSpotIndexOf(thing.EnvLightMapSpot);
-            }
+                foreach (var thing in Parts.Hits)
+                {
+                    thing.i_EnvLightMapSpot = (short)Events.EnvLightMapSpotIndexOf(thing.EnvLightMapSpot);
+                }
 
-            foreach (var thing in Events.NpcWorldInvitations)
-            {
-                thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
-            }
+                foreach (var thing in Events.NpcWorldInvitations)
+                {
+                    thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
+                }
 
-            foreach (var thing in Events.SpawnPoints)
-            {
-                thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
+                foreach (var thing in Events.SpawnPoints)
+                {
+                    thing.i_SpawnPoint = Regions.IndexOf(thing.SpawnPoint);
+                }
             }
 
             bin.Write(Unknown1);

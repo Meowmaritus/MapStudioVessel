@@ -38,7 +38,8 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             dict.Add(nameof(SUB_CONST_23), SUB_CONST_23);
         }
 
-        public short MaxNum { get; set; } = 0;
+        public byte MaxNum { get; set; } = 0;
+        public byte GenType { get; set; } = 1;
         public short LimitNum { get; set; } = 0;
         public short MinGenNum { get; set; } = 0;
         public short MaxGenNum { get; set; } = 0;
@@ -152,7 +153,8 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            MaxNum = bin.ReadInt16();
+            MaxNum = bin.ReadByte();
+            GenType = bin.ReadByte();
             LimitNum = bin.ReadInt16();
             MinGenNum = bin.ReadInt16();
             MaxGenNum = bin.ReadInt16();
@@ -225,6 +227,7 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(MaxNum);
+            bin.Write(GenType);
             bin.Write(LimitNum);
             bin.Write(MinGenNum);
             bin.Write(MaxGenNum);

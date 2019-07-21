@@ -1,0 +1,162 @@
+﻿<Window x:Class="MeowsBetterParamEditor.SelectGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeowsBetterParamEditor"
+        mc:Ignorable="d"
+        Background="#1C1C1C" 
+        Title="MapVessel Setup" Height="450" Width="588.405">
+    <Grid Margin="0,0,3.6,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Label 
+            x:Name="LabelGameSelectHeader"
+            FontWeight="Bold"
+            Content="Choose Game and Platform:"
+            HorizontalAlignment="Left" 
+            Margin="10,10,-174.8,0" 
+            VerticalAlignment="Top" 
+            Height="16"
+            Padding="0"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center" 
+            Width="488"
+            Foreground="White" Grid.ColumnSpan="2"
+            />
+        <Label 
+            x:Name="LabelGameSelectDS1"
+            FontWeight="Bold"
+            Content="Dark Souls I"
+            HorizontalAlignment="Left" 
+            Margin="10,47,-174.8,0" 
+            VerticalAlignment="Top" 
+            Height="16"
+            Padding="0"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center" 
+            Width="488"
+            Foreground="White" Grid.ColumnSpan="2"
+            />
+        <RadioButton 
+            x:Name="DS1PS3"
+            Content="PS3/Xbox360" 
+            GroupName="RadioGroupGameSelect"
+            HorizontalAlignment="Left" 
+            Margin="10,88,0,0" 
+            VerticalAlignment="Top"
+            IsThreeState="False"
+            IsChecked="True"
+            Checked="ChangeGameAndPlatform"
+            Foreground="White" Height="15" Width="90"
+            />
+        <RadioButton 
+            x:Name="DS1PC"
+            Content="PC" 
+            GroupName="RadioGroupGameSelect"
+            HorizontalAlignment="Left" 
+            Margin="10,68,0,0" 
+            VerticalAlignment="Top"
+            IsThreeState="False"
+            IsChecked="True"
+            Checked="ChangeGameAndPlatform"
+            Foreground="White" Height="15" Width="34"
+            />
+        <RadioButton 
+            x:Name="DS1NSW"
+            Content="Nintendo Switch" 
+            GroupName="RadioGroupGameSelect"
+            HorizontalAlignment="Left" 
+            Margin="10,108,0,0" 
+            VerticalAlignment="Top"
+            IsThreeState="False"
+            IsChecked="True"
+            Checked="ChangeGameAndPlatform"
+            Foreground="White" Height="15" Width="107"
+            />
+        <Label 
+            x:Name="LabelGameSelectDeS"
+            FontWeight="Bold"
+            Content="Demon's Souls"
+            HorizontalAlignment="Left" 
+            Margin="10,128,-174.8,0" 
+            VerticalAlignment="Top" 
+            Height="16"
+            Padding="0"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center" 
+            Width="488"
+            Foreground="White" Grid.ColumnSpan="2"
+            />
+        <RadioButton 
+            x:Name="DeSPS3"
+            Content="PS3" 
+            GroupName="RadioGroupGameSelect"
+            HorizontalAlignment="Left" 
+            Margin="10,149,0,0" 
+            VerticalAlignment="Top"
+            IsThreeState="False"
+            IsChecked="True"
+            Checked="ChangeGameAndPlatform"
+            Foreground="White" Height="15" Width="38"
+            />
+        <Label 
+            x:Name="LabelMapPathHeader"
+            FontWeight="Bold"
+            Content="Path to 'map' Folder:"
+            HorizontalAlignment="Left" 
+            Margin="10,188,-174.8,0" 
+            VerticalAlignment="Top" 
+            Height="16"
+            Padding="0"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center" 
+            Width="488"
+            Foreground="White" Grid.ColumnSpan="2"
+            />
+        <TextBox 
+            x:Name="TextBoxMapPath"
+            HorizontalAlignment="Stretch" 
+            Height="23" 
+            Margin="10,209,10.2,0" 
+            TextWrapping="Wrap" 
+            Text="" 
+            VerticalAlignment="Top"
+            Foreground="White"
+            />
+        <Button 
+            x:Name="ButtonBrowse"
+            Content="Browse" 
+            HorizontalAlignment="Right"
+            Margin="0,237,10.2,0"
+            VerticalAlignment="Top" 
+            Width="75"
+            Click="ButtonBrowse_Click"
+            Foreground="{StaticResource Foreground}" Height="19"
+            />
+        <Button 
+            x:Name="ButtonOpenMaps"
+            Content="Confirm" 
+            HorizontalAlignment="Right"
+            Margin="0,391,192.2,0"
+            VerticalAlignment="Top" 
+            Width="75"
+            IsDefault="True"
+            Click="ButtonConfirm_Click"
+            Foreground="{StaticResource Foreground}" Height="19"
+            />
+        <Button 
+            x:Name="ButtonCancel"
+            Content="Cancel" 
+            HorizontalAlignment="Right"
+            Margin="0,391,322.2,0"
+            VerticalAlignment="Top" 
+            Width="75"
+            Click="ButtonCancel_Click"
+            IsCancel="True"
+            Foreground="{StaticResource Foreground}" Height="19"
+            />
+    </Grid>
+</Window>

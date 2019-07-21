@@ -27,6 +27,9 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         internal short SUB_CONST_3 { get; set; } = 0;
 
+        //DeS only
+        public int MsgParam { get; set; } = 0;
+
         protected override EventParamSubtype GetSubtypeValue()
         {
             return EventParamSubtype.BloodMsg;
@@ -34,20 +37,48 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            MsgID = bin.ReadInt16();
+            if (bin.IsDeS)
+            {
+                SubtypeReadDeS(bin);
+            }
+            else
+            {
+                MsgID = bin.ReadInt16();
+                SUB_CONST_1 = bin.ReadInt16();
+                SeekGuidanceOnly = bin.ReadBoolean();
+                SUB_CONST_2 = bin.ReadByte();
+                SUB_CONST_3 = bin.ReadInt16();
+            }
+        }
+
+        private void SubtypeReadDeS(DSBinaryReader bin)
+        {
             SUB_CONST_1 = bin.ReadInt16();
-            SeekGuidanceOnly = bin.ReadBoolean();
-            SUB_CONST_2 = bin.ReadByte();
-            SUB_CONST_3 = bin.ReadInt16();
+            MsgID = bin.ReadInt16();
+            MsgParam = bin.ReadInt32();
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(MsgID);
+            if (bin.IsDeS)
+            {
+                SubtypeWriteDeS(bin);
+            }
+            else
+            {
+                bin.Write(MsgID);
+                bin.Write(SUB_CONST_1);
+                bin.Write(SeekGuidanceOnly);
+                bin.Write(SUB_CONST_2);
+                bin.Write(SUB_CONST_3);
+            }   
+        }
+
+        private void SubtypeWriteDeS(DSBinaryWriter bin)
+        {
             bin.Write(SUB_CONST_1);
-            bin.Write(SeekGuidanceOnly);
-            bin.Write(SUB_CONST_2);
-            bin.Write(SUB_CONST_3);
+            bin.Write(MsgID);
+            bin.Write(MsgParam);
         }
     }
 }

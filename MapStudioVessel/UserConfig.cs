@@ -10,9 +10,12 @@ namespace MeowsBetterParamEditor
 {
     public class UserConfig : INotifyPropertyChanged
     {
-        [JsonIgnore]
+        
         private string _interrootPath = null;
+        private string _mapFolder = null;
+        private string _game = null;
 
+        [JsonIgnore]
         public string InterrootPath
         {
             get => _interrootPath;
@@ -26,7 +29,30 @@ namespace MeowsBetterParamEditor
 
         [JsonIgnore]
         public string MSBFolder
-            => IOHelper.Frankenpath(InterrootPath, "map\\MapStudio\\");
+           => IOHelper.Frankenpath(MapFolder, "MapStudio\\");
+
+        public string MapFolder
+        {
+            get => _mapFolder;
+            set
+            {
+                _mapFolder = value;
+                //NotifyPropertyChanged(nameof(InterrootPath));
+                NotifyPropertyChanged(nameof(MapFolder));
+                NotifyPropertyChanged(nameof(MSBFolder));
+            }
+        }
+
+        public string Game
+        {
+            get => _game;
+            set
+            {
+                _game = value;
+                //NotifyPropertyChanged(nameof(InterrootPath));
+                NotifyPropertyChanged(nameof(Game));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

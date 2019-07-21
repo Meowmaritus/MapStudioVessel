@@ -53,6 +53,9 @@ namespace MeowsBetterParamEditor
         private Dictionary<IEnumerable, double> TAB_SCROLLS_H = new Dictionary<IEnumerable, double>();
         private Dictionary<IEnumerable, double> TAB_SCROLLS_V = new Dictionary<IEnumerable, double>();
 
+        private List<string> DeSOnlyFields = new List<string>() { "SfxUnkIndex", "MsgParam", "NpcSubUnk0", "PlayerSubUnk" };
+        private List<string> DS1OnlyFields = new List<string>() { "InChest", "StartDisabled", "SeekGuidanceOnly", "PartName", "ThinkParamID", "VagrantID1", "VagrantID2", "VagrantID3", "DisableStart", "DisableBonfireID", "PlayRegionID", "LockCamID1", "LockCamID2" };
+        
         private void SetLoadingMode(bool isLoading)
         {
             MainGrid.Opacity = isLoading ? 0.25 : 1;
@@ -72,7 +75,7 @@ namespace MeowsBetterParamEditor
 
             Mouse.OverrideCursor = isLoading ? Cursors.Wait : null;
         }
-
+        
         private async Task BrowseForInterrootDialog(Action<bool> setIsLoading)
         {
             var browseDialog = new OpenFileDialog()
@@ -154,6 +157,17 @@ namespace MeowsBetterParamEditor
                 Directory.Exists(IOHelper.Frankenpath(dir, @"map\MapStudio"));
         }
 
+        public bool CheckMapDirValid(string dir)
+        {
+            return
+                System.IO.Directory.Exists(IOHelper.Frankenpath(dir, @"MapStudio"));
+        }
+
+        //private bool CheckMapDirValid(string dir)
+        //{
+        //    return
+        //        Directory.Exists(IOHelper.Frankenpath(dir, @"MapStudio"));
+        //}
         //private void RANDOM_DEBUG_TESTING()
         //{
         //    //var uniqueInternalDataTypes = new List<string>();
@@ -235,34 +249,78 @@ namespace MeowsBetterParamEditor
 
         private async void MenuSelectDarkSoulsDirectory_Click(object sender, RoutedEventArgs e)
         {
-            await BrowseForInterrootDialog(SetLoadingMode);
+            var setup = new SelectGameWindow()
+            {
+                Owner = this
+            };
+            if (setup.ShowDialog() ?? false)
+            {
+                await PARAMDATA.LoadParamsInOtherThread(SetLoadingMode);
+                PARAMDATA.SaveConfig();
+                AdjustVisibilitySettings();
+            }
+            
+        }
+
+        private void AdjustVisibilitySettings()
+        {
+            if (PARAMDATA.Config.Game == "DeSPS3")
+            {
+                TabEventsObjActs.Visibility = Visibility.Collapsed;
+                TabEventsSpawnPoints.Visibility = Visibility.Collapsed;
+                TabEventsEnvironmentEvents.Visibility = Visibility.Collapsed;
+                TabEventsMapOffsets.Visibility = Visibility.Collapsed;
+                TabEventsNavimeshes.Visibility = Visibility.Collapsed;
+                TabEventsEnvironmentEvents.Visibility = Visibility.Collapsed;
+                TabEventsBlackEyeOrbInvasions.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                TabEventsObjActs.Visibility = Visibility.Visible;
+                TabEventsSpawnPoints.Visibility = Visibility.Visible;
+                TabEventsEnvironmentEvents.Visibility = Visibility.Visible;
+                TabEventsMapOffsets.Visibility = Visibility.Visible;
+                TabEventsNavimeshes.Visibility = Visibility.Visible;
+                TabEventsEnvironmentEvents.Visibility = Visibility.Visible;
+                TabEventsBlackEyeOrbInvasions.Visibility = Visibility.Visible;
+            }
         }
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             PARAMDATA.LoadConfig();
 
-            if (!string.IsNullOrWhiteSpace(PARAMDATA.Config?.InterrootPath) && CheckInterrootDirValid(PARAMDATA.Config?.InterrootPath))
+            if (!string.IsNullOrWhiteSpace(PARAMDATA.Config?.MapFolder) && CheckMapDirValid(PARAMDATA.Config?.MapFolder))
             {
                 await PARAMDATA.LoadParamsInOtherThread(SetLoadingMode);
             }
             else
             {
-                if (MessageBox.Show(
-                    //"Note: A Dark Souls installation unpacked by the mod " +
-                    //"'UnpackDarkSoulsForModding' by HotPocketRemix is >>>REQUIRED<<<." +
-                    //"\n" +
-                    @"Please navigate to your 'DARKSOULS.exe' or 'DarkSoulsRemastered.exe' file." +
-                    "Once the inital setup is performed, the path will be saved." +
-                    "\nYou may press cancel to continue without selecting the path but the GUI will " +
-                    "be blank until you go to 'File -> Select Dark Souls Directory...'",
-                    "Initial Setup", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+                //if (MessageBox.Show(
+                //    //"note: a dark souls installation unpacked by the mod " +
+                //    //"'unpackdarksoulsformodding' by hotpocketremix is >>>required<<<." +
+                //    //"\n" +
+                //    @"please navigate to your 'darksouls.exe' or 'darksoulsremastered.exe' file." +
+                //    "once the inital setup is performed, the path will be saved." +
+                //    "\nyou may press cancel to continue without selecting the path but the gui will " +
+                //    "be blank until you go to 'file -> select dark souls directory...'",
+                //    "initial setup", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+                //{
+                //    await BrowseForInterrootDialog(SetLoadingMode);
+                //}
+                var setup = new SelectGameWindow()
                 {
-                    await BrowseForInterrootDialog(SetLoadingMode);
+                    Owner = this
+                };
+                if (setup.ShowDialog() ?? false)
+                {
+                    await PARAMDATA.LoadParamsInOtherThread(SetLoadingMode);
+                    PARAMDATA.SaveConfig();
                 }
             }
 
             MainTabs.Items.Refresh();
+            AdjustVisibilitySettings();
 
             //TOP_SECRET_DEBUG_REPORT_FUNCTION();
         }
@@ -398,8 +456,10 @@ namespace MeowsBetterParamEditor
 
         private void MenuAbout_Click(object sender, RoutedEventArgs e)
         {
-            var about = new About();
-            about.Owner = this;
+            var about = new About
+            {
+                Owner = this
+            };
             about.ShowDialog();
         }
 
@@ -857,9 +917,11 @@ namespace MeowsBetterParamEditor
         {
             if (FIND == null || !FIND.IsVisible)
             {
-                FIND = new FindWindow();
-                FIND.Owner = this;
-                FIND.MsbDataContext = PARAMDATA;
+                FIND = new FindWindow
+                {
+                    Owner = this,
+                    MsbDataContext = PARAMDATA
+                };
 
                 if (MainTabs.SelectedValue != null)
                     FIND.CurrentMsb = (MainTabs.SelectedItem as MSBRef);
@@ -1124,7 +1186,7 @@ namespace MeowsBetterParamEditor
         {
             if (e.PropertyName == "Name")
             {
-                e.Column = null;
+               e.Column = null;
             }
             else
             {
@@ -1145,7 +1207,29 @@ namespace MeowsBetterParamEditor
                 //}
             }
 
-            
+            if (PARAMDATA.Config.Game == "DeSPS3")
+            {
+                if (e.PropertyName.Contains("RefTexID") || DeSOnlyFields.Contains(e.PropertyName))
+                {
+                    e.Column.Visibility = Visibility.Visible;
+                }
+                else if (DS1OnlyFields.Contains(e.PropertyName))
+                {
+                    e.Column.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                if (e.PropertyName.Contains("RefTexID") || DeSOnlyFields.Contains(e.PropertyName))
+                {
+                    e.Column.Visibility = Visibility.Collapsed;
+                }
+                else if (DS1OnlyFields.Contains(e.PropertyName))
+                {
+                    e.Column.Visibility = Visibility.Visible;
+                }
+            }
+
         }
     }
 }
