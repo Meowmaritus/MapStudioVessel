@@ -26,6 +26,7 @@ namespace MeowDSIO
 
         public bool BigEndian = false;
         public bool LongOffsets = false;
+        public bool IsDeS = false;
 
         public void StepInMSB(long offset)
         {

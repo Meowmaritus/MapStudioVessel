@@ -74,7 +74,6 @@ namespace MeowDSIO.DataTypes.MSB
         public void DebugPushUnknownFieldReport(out string basetypeName, out string subtypeName, Dictionary<string, object> dict, Dictionary<string, object> dict_Subtype)
         {
             dict.Add(nameof(BASE_CONST_1), BASE_CONST_1);
-            dict.Add(nameof(BASE_CONST_2), BASE_CONST_2);
             dict.Add(nameof(BASE_CONST_3), BASE_CONST_3);
             dict.Add(nameof(BASE_CONST_4), BASE_CONST_4);
 
@@ -126,10 +125,10 @@ namespace MeowDSIO.DataTypes.MSB
         public sbyte DofID { get; set; } = 0;
         public sbyte ToneMapID { get; set; } = 0;
         public sbyte ToneCorrectID { get; set; } = 0;
-        public sbyte LanternID { get; set; } = 0;
+        public sbyte LanternID { get; set; } = 0; //starting here, idk if any of this also applies to DeS
         public sbyte LodParamID { get; set; } = -1;
 
-        internal byte BASE_CONST_2 { get; set; }
+        public byte PartsBaseUnk0 { get; set; } = 1;
 
         public bool IsShadowSrc { get; set; } = true;
         public bool IsShadowDest { get; set; } = true;
@@ -215,7 +214,7 @@ namespace MeowDSIO.DataTypes.MSB
                 ToneCorrectID = bin.ReadSByte();
                 LanternID = bin.ReadSByte();
                 LodParamID = bin.ReadSByte();
-                BASE_CONST_2 = bin.ReadByte();
+                PartsBaseUnk0 = bin.ReadByte();
                 IsShadowSrc = bin.ReadBoolean();
                 IsShadowDest = bin.ReadBoolean();
                 IsShadowOnly = bin.ReadBoolean();
@@ -306,6 +305,9 @@ namespace MeowDSIO.DataTypes.MSB
 
             bin.Write(BASE_CONST_1);
 
+            if (bin.IsDeS)
+                bin.Jump(4);
+
             int nameByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(Name);
             int placeholderModelByteCount = DSBinaryWriter.ShiftJISEncoding.GetByteCount(PlaceholderModel);
 
@@ -377,7 +379,7 @@ namespace MeowDSIO.DataTypes.MSB
             bin.Write(ToneCorrectID);
             bin.Write(LanternID);
             bin.Write(LodParamID);
-            bin.Write(BASE_CONST_2);
+            bin.Write(PartsBaseUnk0);
             bin.Write(IsShadowSrc);
             bin.Write(IsShadowDest);
             bin.Write(IsShadowOnly);

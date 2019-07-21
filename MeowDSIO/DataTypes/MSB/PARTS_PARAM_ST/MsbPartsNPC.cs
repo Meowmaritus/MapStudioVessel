@@ -24,6 +24,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         internal int SUB_CONST_1 { get; set; } = 0;
         internal int SUB_CONST_2 { get; set; } = 0;
+        
+        public float NpcSubUnk0 { get; set; } = 3; //DeS only
 
         public int ThinkParamID { get; set; } = 0;
         public int NPCParamID { get; set; } = 0;
@@ -59,12 +61,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         public string MovePoint7 { get; set; } = "";
         public string MovePoint8 { get; set; } = "";
 
-        public int InitAnimID { get; set; } = -1;
+        public int SpStayAnimID { get; set; } = -1;
+        public int SpStayDamageAnimID { get; set; } = -1;
 
-        public int m17_Butterfly_Anim_Unk { get; set; } = -1;
-
-
-
+        
         internal override PartsParamSubtype GetSubtypeValue()
         {
             return PartsParamSubtype.NPCs;
@@ -75,7 +75,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             SUB_CONST_1 = bin.ReadInt32();
             SUB_CONST_2 = bin.ReadInt32();
 
-            ThinkParamID = bin.ReadInt32();
+            if (bin.IsDeS)
+                NpcSubUnk0 = bin.ReadSingle();
+            else
+                ThinkParamID = bin.ReadInt32();
+            
             NPCParamID = bin.ReadInt32();
             TalkID = bin.ReadInt32();
 
@@ -98,9 +102,13 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             SolvedMovePointIndex7 = bin.ReadInt16();
             SolvedMovePointIndex8 = bin.ReadInt16();
 
-            InitAnimID = bin.ReadInt32();
+            SpStayAnimID = bin.ReadInt32();
+            SpStayDamageAnimID = bin.ReadInt32();
+        }
 
-            m17_Butterfly_Anim_Unk = bin.ReadInt32();
+        private void SubtypeReadDeS(DSBinaryReader bin)
+        {
+
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -108,7 +116,11 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(SUB_CONST_1);
             bin.Write(SUB_CONST_2);
 
-            bin.Write(ThinkParamID);
+            if (bin.IsDeS)
+                bin.Write(NpcSubUnk0);
+            else
+                bin.Write(ThinkParamID);
+
             bin.Write(NPCParamID);
             bin.Write(TalkID);
 
@@ -131,9 +143,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             bin.Write(SolvedMovePointIndex7);
             bin.Write(SolvedMovePointIndex8);
 
-            bin.Write(InitAnimID);
-
-            bin.Write(m17_Butterfly_Anim_Unk);
+            bin.Write(SpStayAnimID);
+            bin.Write(SpStayDamageAnimID);
         }
     }
 }

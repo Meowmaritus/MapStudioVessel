@@ -52,7 +52,9 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             {
                 bin.Jump(4);
             }
-            i_PartName = bin.ReadInt32();
+
+            if (!bin.IsDeS)
+                i_PartName = bin.ReadInt32();
 
             BreakTerm = bin.ReadSByte();
             NetSyncType = bin.ReadSByte();
@@ -76,7 +78,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
                 bin.Jump(4);
             }
 
-            bin.Write(i_PartName);
+            if (!bin.IsDeS)
+                bin.Write(i_PartName);
 
             bin.Write(BreakTerm);
             bin.Write(NetSyncType);

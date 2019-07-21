@@ -67,6 +67,7 @@ namespace MeowDSIO.DataTypes.MSB
 
         protected override void InternalRead(DSBinaryReader bin)
         {
+
             Name = bin.ReadMsbString();
             EventIndex = bin.ReadInt32();
             bin.AssertInt32((int)Type);
@@ -145,7 +146,7 @@ namespace MeowDSIO.DataTypes.MSB
 
             bin.Write(BASE_CONST_1);
 
-            if (bin.LongOffsets)
+            if (bin.LongOffsets || bin.IsDeS)
             {
                 bin.Jump(4);
             }

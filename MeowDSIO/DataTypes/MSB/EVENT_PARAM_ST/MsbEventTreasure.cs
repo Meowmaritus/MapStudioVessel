@@ -81,10 +81,14 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             SUB_CONST_5 = bin.ReadInt32();
             ItemLot5 = bin.ReadInt32();
             SUB_CONST_6 = bin.ReadInt32();
-            InChest = bin.ReadBoolean();
-            StartDisabled = bin.ReadBoolean();
-            SUB_CONST_7 = bin.ReadByte();
-            SUB_CONST_8 = bin.ReadByte();
+
+            if (!bin.IsDeS)
+            {
+                InChest = bin.ReadBoolean();
+                StartDisabled = bin.ReadBoolean();
+                SUB_CONST_7 = bin.ReadByte();
+                SUB_CONST_8 = bin.ReadByte();
+            }
         }
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
@@ -114,10 +118,14 @@ namespace MeowDSIO.DataTypes.MSB.EVENT_PARAM_ST
             bin.Write(SUB_CONST_5);
             bin.Write(ItemLot5);
             bin.Write(SUB_CONST_6);
-            bin.Write(InChest);
-            bin.Write(StartDisabled);
-            bin.Write(SUB_CONST_7);
-            bin.Write(SUB_CONST_8);
+
+            if (!bin.IsDeS)
+            {
+                bin.Write(InChest);
+                bin.Write(StartDisabled);
+                bin.Write(SUB_CONST_7);
+                bin.Write(SUB_CONST_8);
+            }
 
             if (bin.LongOffsets)
             {

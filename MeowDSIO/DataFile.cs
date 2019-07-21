@@ -185,7 +185,7 @@ namespace MeowDSIO
             }
         }
 
-        public static void ResaveDcx<T>(T data, IProgress<(int, int)> prog = null)
+        public static void ResaveDcx<T>(T data, string game, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
             var dcx = new DCX()
@@ -194,10 +194,10 @@ namespace MeowDSIO
                 FilePath = data.FilePath,
                 VirtualUri = data.VirtualUri
             };
-            Resave<DCX>(dcx, prog);
+            Resave<DCX>(dcx, game, prog);
         }
 
-        public static void Resave<T>(T data, IProgress<(int, int)> prog = null)
+        public static void Resave<T>(T data, string game, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
             if (data.FilePath == null)
@@ -207,7 +207,7 @@ namespace MeowDSIO
             }
 
             //Should no longer save a file with 0 bytes in it if it gets an exception during write oops
-            var newBytes = DataFile.SaveAsBytes(data, data.FilePath, prog);
+            var newBytes = DataFile.SaveAsBytesForGame(data, data.FilePath, game, prog);
 
             using (var fileStream = File.Open(data.FilePath, FileMode.OpenOrCreate))
             {
@@ -223,18 +223,31 @@ namespace MeowDSIO
         public static T LoadFromDcxFile<T>(string filePath, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
-            var dcx = LoadFromFile<DCX>(filePath);
+            var dcx = LoadFromFile<DCX>(filePath, "");
             return LoadFromBytes<T>(dcx.Data, filePath, prog);
         }
 
 
-        public static T LoadFromFile<T>(string filePath, IProgress<(int, int)> prog = null)
+        public static T LoadFromFile<T>(string filePath, string game, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
             using (var fileStream = File.Open(filePath, FileMode.Open))
             {
                 using (var binaryReader = new DSBinaryReader(filePath, fileStream))
                 {
+                    if (game == "DeSPS3") {
+                        binaryReader.BigEndian = true;
+                        binaryReader.IsDeS = true;
+                    }
+                    else if (game == "DS1PS3")
+                    {
+                        binaryReader.BigEndian = true;
+                    }
+                    else if (game == "DS1NSW")
+                    {
+                        binaryReader.LongOffsets = true;
+                    }
+
                     T result = new T();
                     result.FilePath = filePath;
                     result.Read(binaryReader, prog);
@@ -244,7 +257,7 @@ namespace MeowDSIO
             }
         }
 
-        public static void SaveToDcxFile<T>(T data, string filePath, IProgress<(int, int)> prog = null)
+        public static void SaveToDcxFile<T>(T data, string filePath, string game, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
             var bytes = SaveAsBytes<T>(data, filePath, prog);
@@ -253,14 +266,14 @@ namespace MeowDSIO
                 Data = bytes,
                 FilePath = data.FilePath,
                 VirtualUri = data.VirtualUri
-            }, filePath, prog);
+            }, filePath, game, prog);
         }
 
-        public static void SaveToFile<T>(T data, string filePath, IProgress<(int, int)> prog = null)
+        public static void SaveToFile<T>(T data, string filePath, string game, IProgress<(int, int)> prog = null)
             where T : DataFile, new()
         {
             //Should no longer save a file with 0 bytes in it if it gets an exception during write oops
-            var newBytes = DataFile.SaveAsBytes(data, data.FilePath, prog);
+            var newBytes = DataFile.SaveAsBytesForGame(data, data.FilePath, game, prog);
 
             using (var fileStream = File.Open(filePath, FileMode.OpenOrCreate))
             {
@@ -318,6 +331,39 @@ namespace MeowDSIO
 
                 using (var binaryWriter = new DSBinaryWriter(null, tempStream))
                 {
+                    data.VirtualUri = virtualUri;
+                    data.Write(binaryWriter, prog);
+                    var result = tempStream.ToArray();
+                    data.IsModified = false;
+                    return result;
+                }
+            }
+        }
+
+        public static byte[] SaveAsBytesForGame<T>(T data, string virtualUri, string game, IProgress<(int, int)> prog = null)
+            where T : DataFile, new()
+        {
+            using (var tempStream = new MemoryStream())
+            {
+                tempStream.Position = 0;
+                tempStream.SetLength(0);
+
+                using (var binaryWriter = new DSBinaryWriter(null, tempStream))
+                {
+                    if (game == "DeSPS3")
+                    {
+                        binaryWriter.BigEndian = true;
+                        binaryWriter.IsDeS = true;
+                    }
+                    else if (game == "DS1PS3")
+                    {
+                        binaryWriter.BigEndian = true;
+                    }
+                    else if (game == "DS1NSW")
+                    {
+                        binaryWriter.LongOffsets = true;
+                    }
+
                     data.VirtualUri = virtualUri;
                     data.Write(binaryWriter, prog);
                     var result = tempStream.ToArray();

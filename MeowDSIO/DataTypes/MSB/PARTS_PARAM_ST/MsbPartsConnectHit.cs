@@ -14,18 +14,18 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             subtypeName = "ConnectHit";
 
             dict.Add(nameof(HitName), HitName);
-            dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
-            dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
-            dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
+            //dict.Add(nameof(SUB_CONST_1), SUB_CONST_1);
+            //dict.Add(nameof(SUB_CONST_2), SUB_CONST_2);
+            //dict.Add(nameof(SUB_CONST_3), SUB_CONST_3);
             dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
             dict.Add(nameof(SUB_CONST_5), SUB_CONST_5);
         }
 
-        public byte HitName { get; set; } = 0;
+        public int HitName { get; set; } = 0;
 
-        internal byte SUB_CONST_1 { get; set; } = 0;
-        internal byte SUB_CONST_2 { get; set; } = 0;
-        internal byte SUB_CONST_3 { get; set; } = 0;
+        //internal byte SUB_CONST_1 { get; set; } = 0;
+        //internal byte SUB_CONST_2 { get; set; } = 0;
+        //internal byte SUB_CONST_3 { get; set; } = 0;
 
         public string MapName { get; set; } = "?MeowDSIO_MsbPartsConnectHit_MapName?";
 
@@ -39,10 +39,10 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            HitName = bin.ReadByte();
-            SUB_CONST_1 = bin.ReadByte();
-            SUB_CONST_2 = bin.ReadByte();
-            SUB_CONST_3 = bin.ReadByte();
+            HitName = bin.ReadInt32();
+            //SUB_CONST_1 = bin.ReadByte();
+            //SUB_CONST_2 = bin.ReadByte();
+            //SUB_CONST_3 = bin.ReadByte();
 
             sbyte mapId1 = bin.ReadSByte();
             sbyte mapId2 = bin.ReadSByte();
@@ -93,9 +93,9 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
             bin.Write(HitName);
-            bin.Write(SUB_CONST_1);
-            bin.Write(SUB_CONST_2);
-            bin.Write(SUB_CONST_3);
+            //bin.Write(SUB_CONST_1);
+            //bin.Write(SUB_CONST_2);
+            //bin.Write(SUB_CONST_3);
 
             Match match = Regex.Match(MapName.ToLower(), @"^m(\d\d|xx)_(\d\d|xx)_(\d\d|xx)_(\d\d|xx)$");
             if (!match.Success)

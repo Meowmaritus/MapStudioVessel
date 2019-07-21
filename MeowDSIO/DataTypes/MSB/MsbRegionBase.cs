@@ -183,6 +183,10 @@ namespace MeowDSIO.DataTypes.MSB
             {
                 bin.Jump((int)0x0C);
             }
+            else if (bin.IsDeS)
+            {
+                bin.Jump(8);
+            }
             else
             {
                 //PADDING?
@@ -234,6 +238,9 @@ namespace MeowDSIO.DataTypes.MSB
             }
 
             SubtypeWrite(bin);
+
+            if (bin.IsDeS)
+                bin.Jump(12);
         }
 
         public override string ToString()

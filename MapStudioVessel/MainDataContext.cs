@@ -232,7 +232,7 @@ namespace MeowsBetterParamEditor
 
         private void LoadAllPARAMs()
         {
-            if (Config?.InterrootPath == null)
+            if (Config?.MapFolder == null)
                 return;
 
             var UPCOMING_MSBs = new ObservableCollection<MSBRef>();
@@ -247,7 +247,7 @@ namespace MeowsBetterParamEditor
                 if (!match.Success)
                     continue;
 
-                var newMsb = DataFile.LoadFromFile<MSB>(msbFile);
+                var newMsb = DataFile.LoadFromFile<MSB>(msbFile, Config.Game);
                 UPCOMING_MSBs.Add(new MSBRef(new FileInfo(msbFile).Name, newMsb));
             }
 
@@ -278,7 +278,7 @@ namespace MeowsBetterParamEditor
 
                     foreach (var b in backupsCreated)
                     {
-                        sb.AppendLine($"\t'{b.Replace(Config.InterrootPath, ".")}'");
+                        sb.AppendLine($"\t'{b.Replace(Config.MapFolder, ".")}'");
                     }
 
                     sb.AppendLine();
@@ -337,7 +337,7 @@ namespace MeowsBetterParamEditor
 
                 try
                 {
-                    DataFile.Resave(msb.Value);
+                    DataFile.Resave(msb.Value, Config.Game);
                 }
                 catch (Exception e)
                 {

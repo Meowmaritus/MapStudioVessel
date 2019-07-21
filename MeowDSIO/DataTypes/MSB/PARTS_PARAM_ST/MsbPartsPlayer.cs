@@ -18,6 +18,8 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
             dict.Add(nameof(SUB_CONST_4), SUB_CONST_4);
         }
 
+        public byte PlayerSubUnk { get; set; } = 1;
+
         internal int SUB_CONST_1 { get; set; } = 0;
         internal int SUB_CONST_2 { get; set; } = 0;
         internal int SUB_CONST_3 { get; set; } = 0;
@@ -30,7 +32,16 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeRead(DSBinaryReader bin)
         {
-            SUB_CONST_1 = bin.ReadInt32();
+            if (bin.IsDeS)
+            {
+                PlayerSubUnk = bin.ReadByte();
+                bin.Jump(3);
+            } 
+            else
+            {
+                SUB_CONST_1 = bin.ReadInt32();
+            }
+            
             SUB_CONST_2 = bin.ReadInt32();
             SUB_CONST_3 = bin.ReadInt32();
             SUB_CONST_4 = bin.ReadInt32();
@@ -38,7 +49,15 @@ namespace MeowDSIO.DataTypes.MSB.PARTS_PARAM_ST
 
         protected override void SubtypeWrite(DSBinaryWriter bin)
         {
-            bin.Write(SUB_CONST_1);
+            if (bin.IsDeS)
+            {
+                bin.Write(PlayerSubUnk);
+                bin.Jump(3);
+            }
+            else
+            {
+                bin.Write(SUB_CONST_1);
+            }
             bin.Write(SUB_CONST_2);
             bin.Write(SUB_CONST_3);
             bin.Write(SUB_CONST_4);
